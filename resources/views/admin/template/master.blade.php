@@ -17,6 +17,7 @@
 
   <!-- Main Sidebar Container -->
   @include('admin.template.sidebar')
+  <h1>test</h1>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
