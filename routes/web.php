@@ -39,6 +39,7 @@ Route::prefix('/')->group(function () {
     Route::get('/form-login', [UserController::class, 'form_login'])->name('login_client');
 
     Route::post('/register', [UserController::class, 'register'])->name('user.register');
+    Route::post('/login', [UserController::class, 'login'])->name('user.login');
 });
 //****************************User********************//
 

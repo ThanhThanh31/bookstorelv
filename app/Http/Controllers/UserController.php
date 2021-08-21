@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use DB;
+use Hash;
+use Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -24,17 +26,31 @@ class UserController extends Controller
         $password = $request->password;
         $reset_password = $request->reset_password;
         if($password == $reset_password){
+            $hashPassword = Hash::make($password);
             $insert = DB::table('nguoi_dung')->insert(
                 [
                     'username' => $name,
                     'nd_email' => $email,
                     'nd_sdt' => $phone,
-                    'password' => $password,
+                    'password' => $hashPassword,
                 ]
                 );
                 return redirect()->back();
         }else{
             dd('Mật khẩu không trùng khớp');
+        }
+    }
+
+    public function login(Request $request){
+        $arr = [
+            'username' => $request->username,
+            'password' => $request->password,
+        ];
+        // dd($arr);
+        if(Auth::guard('nguoi_dung')->attempt($arr)){
+            return redirect()->back();
+        }else {
+            dd('Đăng nhập thất bại');
         }
     }
 

@@ -14,6 +14,14 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
+    @if(Auth::guard('nguoi_dung')->check())
+Đã login,
+<br>
+<p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
+<a href="#">Đăng xuất</a>
+@else
+Đăng nhập k thành công
+@endif
     <!-- main-content-wrap start -->
     <div class="main-content-wrap pt-100">
         <div class="container">
@@ -22,10 +30,11 @@
                     <div class="customer-login-register">
                         <h3>Đăng nhập</h3>
                         <div class="login-Register-info">
-                            <form action="#">
+                            <form method="POST" action="{{ route('user.login') }}">
+                                @csrf
                                 <p class="coupon-input form-row-first">
                                     <label>Tên đăng nhập <span class="required">*</span></label>
-                                    <input type="text" name="email">
+                                    <input type="text" name="username">
                                 </p>
                                 <p class="coupon-input form-row-last">
                                     <label>Mật khẩu <span class="required">*</span></label>

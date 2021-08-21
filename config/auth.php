@@ -46,6 +46,16 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        // dùng để login cho bảng người dùng
+        'nguoi_dung' => [
+            'driver' => 'session',
+            'provider' => 'nguoi_dung',
+        ],
+
+        'nguoi_dung-api' => [
+            'driver' => 'token',
+            'provider' => 'nguoi_dung',
+        ],
     ],
 
     /*
@@ -70,6 +80,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        'nguoi_dung' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\NguoiDung::class,
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',
