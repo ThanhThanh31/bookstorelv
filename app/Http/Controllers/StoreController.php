@@ -30,6 +30,21 @@ class StoreController extends Controller
         return redirect()->back();
     }
 
+    public function edit($id){
+        $category = DB::table('loai_sanpham')->where('l_id', $id)->first();
+        return view('admin.loai_sp.edit', compact('category'));
+    }
+
+    public function update(Request $request, $id){
+        $Loaisp = $request->Loaisp;
+        $update = DB::table('loai_sanpham')->where('l_id', $id)->update(
+            [
+                'l_ten' => $Loaisp,
+            ]
+            );
+            return redirect()->route('loaisp.index');
+    }
+
     // public function DSLoaisp(){
     //     $danhSachLoai = DB::table('loai_sanpham')->get();
     //     // view thuộc file blade

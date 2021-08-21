@@ -15,18 +15,17 @@ class CreateNguoiDungTable extends Migration
     {
         Schema::create('nguoi_dung', function (Blueprint $table) {
             $table->id('nd_id');
-            $table->string('nd_ten');
+            $table->string('username');
             $table->string('nd_email');
-            $table->boolean('nd_gioitinh');
+            // $table->boolean('nd_gioitinh');
             $table->integer('nd_sdt');
-            $table->string('nd_username');
-            $table->string('nd_password');
+            $table->string('password');
 
-            $table->bigInteger('q_id')->unsigned();
+            $table->bigInteger('q_id')->unsigned()->default('1');
             $table->foreign('q_id')->references('q_id')->on('quyen')->onDelete('cascade');
 
-            $table->bigInteger('dc_id')->unsigned();
-            $table->foreign('dc_id')->references('dc_id')->on('dia_chi')->onDelete('cascade');
+            // $table->bigInteger('dc_id')->unsigned();
+            // $table->foreign('dc_id')->references('dc_id')->on('dia_chi')->onDelete('cascade');
             $table->timestamps();
         });
     }

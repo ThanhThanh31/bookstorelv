@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,41 +28,54 @@ Route::get('/', function () {
 Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
 //****************************Admin********************//
 
-//****************************Cient********************//
+//****************************Client********************//
 Route::get('/client', function () {
     return view('client.index');
 });
-//****************************Cient********************//
+//****************************Client********************//
+
+//****************************User********************//
+Route::prefix('/')->group(function () {
+    Route::get('/form-login', [UserController::class, 'form_login'])->name('login_client');
+
+    Route::post('/register', [UserController::class, 'register'])->name('user.register');
+});
+//****************************User********************//
 
 //****************************Loai sản phẩm********************//
-// file index
-Route::get('/loaisp', [StoreController::class, 'index'])->name('loaisp.index');
-// giao diện thêm
-Route::get('/themloai', [StoreController::class, 'them'])->name('loaisp.them');
-// hàm nhận dữ liệu khi thêm
-Route::post('/loai-sp/them', [StoreController::class, 'themLoai'])->name('loaisanpham.them');
-// xoa
-Route::get('loaisp/{id}/xoa', [StoreController::class, 'xoaLoai'])->name('loaisp.xoa');
-// Route::get('/loaisp-list', [StoreController::class, 'DSLoaisp'])->name('loaisanpham.list');
+Route::prefix('/')->group(function () {
+    Route::get('/category', [StoreController::class, 'index'])->name('loaisp.index');
+    // giao diện thêm
+    Route::get('/cate-template-add', [StoreController::class, 'them'])->name('loaisp.them');
+    // hàm nhận dữ liệu khi thêm
+    Route::post('/cate-add', [StoreController::class, 'themLoai'])->name('loaisanpham.them');
+    // xoa
+    Route::get('/{id}/del', [StoreController::class, 'xoaLoai'])->name('loaisp.xoa');
+    // sua
+    Route::get('/{id}/update', [StoreController::class, 'edit'])->name('loaisp.edit');
+    // hàm nhận dữ liệu khi sua
+    Route::post('/{id}/up', [StoreController::class, 'update'])->name('loaisp.update');
+});
 //****************************Loai sản phẩm********************//
 
 //****************************Sản phẩm********************//
-Route::get('/sanpham', [SanPhamController::class, 'index'])->name('sanpham.index');
-// giao diện thêm
-Route::get('/themsp', [SanPhamController::class, 'themSP'])->name('sp.them');
-// hàm nhận dữ liệu khi thêm
-Route::post('/sanpham/them', [SanPhamController::class, 'themSanPham'])->name('sanpham.add');
-// xoa
-Route::get('sanpham/{id}/xoa', [SanPhamController::class, 'xoaSanPham'])->name('sanpham.xoa');
-// Route::get('/sanpham-list', [SanPhamController::class, 'Listsp'])->name('sanpham.list');
+Route::prefix('/')->group(function () {
+    Route::get('/product', [SanPhamController::class, 'index'])->name('sanpham.index');
+    // giao diện thêm
+    Route::get('/pro-template-add', [SanPhamController::class, 'themSP'])->name('sp.them');
+    // hàm nhận dữ liệu khi thêm
+    Route::post('/pro-add', [SanPhamController::class, 'themSanPham'])->name('sanpham.add');
+    // xoa
+    Route::get('/{id}/dell', [SanPhamController::class, 'xoaSanPham'])->name('sanpham.xoa');
+    // sua
+    Route::get('/{id}/upda', [SanPhamController::class, 'editP'])->name('sp.edit');
+    // hàm nhận dữ liệu khi sua
+    Route::post('/{id}/upp', [SanPhamController::class, 'updateP'])->name('sp.update');
+});
 //****************************Sản phẩm********************//
 
-// Route::post('/them-tinh', [StoreController::class, 'store'])->name('tinh_thanhpho.store');
-// Route::get('/cua-hang/danh-sach', [StoreController::class, 'danhSach'])->name('cua-hang.danh-sach');
-// Route::post('/store/add', [StoreController::class, 'store'])->name('cat.store');
 Route::get('/test', function(){
     $danhSach = DB::table('loai_sanpham')
     ->get();
     dd($danhSach);
 });
-

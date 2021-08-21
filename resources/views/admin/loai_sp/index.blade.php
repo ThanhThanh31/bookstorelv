@@ -26,7 +26,7 @@
                                 <td>{{ $stt ++ }}</td>
                                 <td>{{ $item->l_ten }}</td>
                                 <td>
-                                   <a href="#" class="btn btn-warning">Chỉnh sửa</a>
+                                   <a href="{{route('loaisp.edit', ['id'=> $item->l_id])}}" class="btn btn-warning">Chỉnh sửa</a>
                                    <a href="{{route('loaisp.xoa', ['id'=> $item->l_id])}}" class="btn btn-danger">Xóa</a>
                                 </td>
                            </tr>

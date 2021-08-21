@@ -45,6 +45,35 @@ class SanPhamController extends Controller
         return redirect()->back();
     }
 
+    public function editP($id){
+        // $edit_product = DB::table('san_pham1')->where('sp1_id', $id)->first();
+         $edit_product = DB::table('san_pham1')
+        ->join('loai_sanpham', 'loai_sanpham.l_id', 'san_pham1.l_id')
+        ->where('san_pham1.sp1_id', $id)
+        ->first();
+
+        $list_cate = DB::table('loai_sanpham')->get();
+        return view('admin.sanpham.editsp', compact('edit_product', 'list_cate'));
+    }
+
+    public function updateP(Request $request, $id){
+        $tensp = $request->tensp;
+        $LoaiSanPham = $request->LoaiSanPham;
+        $trangthai = $request->trangthai;
+        $mota = $request->mota;
+        $cachdung = $request->cachdung;
+        $update = DB::table('san_pham1')->where('sp1_id', $id)->update(
+            [
+                'sp1_ten' => $tensp,
+                'l_id' => $LoaiSanPham,
+                'sp1_trangthai' => $trangthai,
+                'sp1_mota' => $mota,
+                'sp1_cachdung' => $cachdung,
+            ]
+            );
+            return redirect()->route('sanpham.index');
+    }
+
     // public function Listsp(){
     //     $danhSachSP = DB::table('san_pham1')
     //     ->join('loai_sanpham', 'loai_sanpham.l_id', 'san_pham1.l_id')
