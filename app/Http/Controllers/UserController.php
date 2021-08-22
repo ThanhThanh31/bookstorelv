@@ -30,7 +30,7 @@ class UserController extends Controller
             $insert = DB::table('nguoi_dung')->insert(
                 [
                     'username' => $name,
-                    'nd_email' => $email,
+                    'email' => $email,
                     'nd_sdt' => $phone,
                     'password' => $hashPassword,
                 ]
@@ -43,7 +43,7 @@ class UserController extends Controller
 
     public function login(Request $request){
         $arr = [
-            'username' => $request->username,
+            'email' => $request->email,
             'password' => $request->password,
         ];
         // dd($arr);

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
+use Hash;
+use Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -21,9 +23,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function form_login()
     {
-        //
+        return view('admin.login_admin');
     }
 
     /**
@@ -32,9 +34,17 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function login(Request $request){
+        $arrr = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        // dd($arr);
+        if(Auth::guard('quan_tri')->attempt($arrr)){
+            return view('admin.index');
+        }else {
+            dd('Đăng nhập thất bại');
+        }
     }
 
     /**

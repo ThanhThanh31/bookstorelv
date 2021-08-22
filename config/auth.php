@@ -56,6 +56,16 @@ return [
             'driver' => 'token',
             'provider' => 'nguoi_dung',
         ],
+        //  dùng để login cho bảng quản trị
+        'quan_tri' => [
+            'driver' => 'session',
+            'provider' => 'quan_tri',
+        ],
+
+        'quan_tri-api' => [
+            'driver' => 'token',
+            'provider' => 'quan_tri',
+        ],
     ],
 
     /*
@@ -84,6 +94,11 @@ return [
         'nguoi_dung' => [
             'driver' => 'eloquent',
             'model' => App\Models\NguoiDung::class,
+        ],
+
+        'quan_tri' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\QuanTri::class,
         ],
 
 

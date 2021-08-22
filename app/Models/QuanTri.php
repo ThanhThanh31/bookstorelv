@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class NguoiDung extends Authenticatable
+class QuanTri extends Authenticatable
 {
     use HasFactory;
-    protected $table = 'nguoi_dung';
-    protected $primaryKey = 'nd_id';
-    protected $fillable = ['username', 'email', 'nd_sdt', 'password'];
+    protected $table = 'quan_tri';
+    protected $primaryKey = 'qt_id';
+    protected $fillable = ['username', 'password', 'email'];
     protected $hidden = ['password'];
 }

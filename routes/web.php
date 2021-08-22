@@ -21,25 +21,23 @@ use App\Http\Controllers\UserController;
 // route get => route này trả về giao diện thêm
 
 //****************************Admin********************//
-Route::get('/', function () {
-    return view('admin.index');
-});
-//index - Admin
-Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
+// Route::get('/', function () {
+//     return view('admin.index');
+// });
+   Route::get('/', [AuthController::class, 'form_login'])->name('admin.form');
+   Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
+   Route::post('/admin-login', [AuthController::class, 'login'])->name('admin.login');
+
 //****************************Admin********************//
 
-//****************************Client********************//
+//****************************User********************//
 Route::get('/client', function () {
     return view('client.index');
 });
-//****************************Client********************//
-
-//****************************User********************//
 Route::prefix('/')->group(function () {
-    Route::get('/form-login', [UserController::class, 'form_login'])->name('login_client');
-
+    Route::get('/form-login-client', [UserController::class, 'form_login'])->name('client.form');
     Route::post('/register', [UserController::class, 'register'])->name('user.register');
-    Route::post('/login', [UserController::class, 'login'])->name('user.login');
+    Route::post('/client-login', [UserController::class, 'login'])->name('user.login');
 });
 //****************************User********************//
 

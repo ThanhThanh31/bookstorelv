@@ -14,14 +14,12 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
-    @if(Auth::guard('nguoi_dung')->check())
-Đã login,
-<br>
-<p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
-<a href="#">Đăng xuất</a>
-@else
-Đăng nhập k thành công
-@endif
+    @if (Auth::guard('nguoi_dung')->check())
+        Đã login,
+        <br>
+        <p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
+        <a href="#">Đăng xuất</a>
+    @endif
     <!-- main-content-wrap start -->
     <div class="main-content-wrap pt-100">
         <div class="container">
@@ -33,8 +31,8 @@
                             <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
                                 <p class="coupon-input form-row-first">
-                                    <label>Tên đăng nhập <span class="required">*</span></label>
-                                    <input type="text" name="username">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" name="email">
                                 </p>
                                 <p class="coupon-input form-row-last">
                                     <label>Mật khẩu <span class="required">*</span></label>

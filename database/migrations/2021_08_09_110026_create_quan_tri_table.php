@@ -15,8 +15,9 @@ class CreateQuanTriTable extends Migration
     {
         Schema::create('quan_tri', function (Blueprint $table) {
             $table->id('qt_id');
-            $table->string('qt_username');
-            $table->string('qt_password');
+            $table->string('username');
+            $table->string('password');
+            $table->string('email');
             $table->timestamps();
         });
     }

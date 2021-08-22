@@ -16,7 +16,7 @@ class CreateNguoiDungTable extends Migration
         Schema::create('nguoi_dung', function (Blueprint $table) {
             $table->id('nd_id');
             $table->string('username');
-            $table->string('nd_email');
+            $table->string('email');
             // $table->boolean('nd_gioitinh');
             $table->integer('nd_sdt');
             $table->string('password');
