@@ -1,40 +1,41 @@
 <header>
-    <!-- slider-main-area start -->
-    <div class="slider-main-area">
-        <div class="slider-active owl-carousel">
-            <div class="slider-wrapper" style="background-image:url(template_client/img/slider/home-01-1.jpg)">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <div class="slider-text-info style-1 slider-text-animation">
-                                <h2 class="title1">SPRING for men’s 2018</h2>
-                                <h1 class="sub-title">ADRIEN SAHORES MODELS SUMMER 2018</h1>
-                                <div class="slider-1-des">
-                                    <p>Mens Spring Fashion Scarves Infinity Eternity Cowl Neck Scarves Men
-                                        Fashion Scarf Men.</p>
-                                </div>
-                                <div class="slier-btn-1">
-                                    <a title="shop now" href="#" class="btn">shop now</a>
-                                </div>
+
+{{-- @if (Request::segment(1) == '/') --}}
+<!-- slider-main-area start -->
+<div class="slider-main-area">
+    <div class="slider-active owl-carousel">
+        <div class="slider-wrapper" style="background-image:url(template_client/img/slider/home-01-1.jpg)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="slider-text-info style-1 slider-text-animation">
+                            <h2 class="title1">SPRING for men’s 2018</h2>
+                            <h1 class="sub-title">ADRIEN SAHORES MODELS SUMMER 2018</h1>
+                            <div class="slider-1-des">
+                                <p>Mens Spring Fashion Scarves Infinity Eternity Cowl Neck Scarves Men
+                                    Fashion Scarf Men.</p>
+                            </div>
+                            <div class="slier-btn-1">
+                                <a title="shop now" href="#" class="btn">shop now</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="slider-wrapper" style="background-image:url(template_client/img/slider/home-01-2.jpg)">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-9">
-                            <div class="slider-text-info style-1  slider-text-animation">
-                                <h2 class="title1">SPRING for men’s 2018</h2>
-                                <h1 class="sub-title">Opening Ceremony Men's.</h1>
-                                <div class="slider-1-des">
-                                    <p>Mens Spring Fashion Scarves Infinity Eternity Cowl Neck Scarves Men
-                                        Fashion Scarf Men. </p>
-                                </div>
-                                <div class="slier-btn-1">
-                                    <a title="shop now" href="#" class="btn">shop now</a>
-                                </div>
+        </div>
+        <div class="slider-wrapper" style="background-image:url(template_client/img/slider/home-01-2.jpg)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="slider-text-info style-1  slider-text-animation">
+                            <h2 class="title1">SPRING for men’s 2018</h2>
+                            <h1 class="sub-title">Opening Ceremony Men's.</h1>
+                            <div class="slider-1-des">
+                                <p>Mens Spring Fashion Scarves Infinity Eternity Cowl Neck Scarves Men
+                                    Fashion Scarf Men. </p>
+                            </div>
+                            <div class="slier-btn-1">
+                                <a title="shop now" href="#" class="btn">shop now</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +43,8 @@
             </div>
         </div>
     </div>
-    <!-- slider-main-area start -->
+</div>
+{{-- @endif --}}
 
     <!-- header-top-area start -->
     <div id="stickymenu" class="header-inner clearfix bg-white solidblockmenu">

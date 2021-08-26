@@ -11,8 +11,8 @@ class SanPhamController extends Controller
     //     return view('admin.sanpham.index', compact('danhSach'));
     // }
     public function index(){
-        $danhSachSP = DB::table('san_pham1')
-        ->join('loai_sanpham', 'loai_sanpham.l_id', 'san_pham1.l_id')
+        $danhSachSP = DB::table('loai_sanpham')
+        ->join('san_pham1', 'san_pham1.l_id', 'loai_sanpham.l_id')
         ->get();
         return view('admin.sanpham.index', compact('danhSachSP'));
     }
@@ -46,8 +46,8 @@ class SanPhamController extends Controller
     }
 
     public function editP($id){
-        $edit_product = DB::table('san_pham1')
-        ->join('loai_sanpham', 'loai_sanpham.l_id', 'san_pham1.l_id')
+        $edit_product = DB::table('loai_sanpham')
+        ->join('san_pham1', 'san_pham1.l_id', 'loai_sanpham.l_id')
         ->where('san_pham1.sp1_id', $id)
         ->first();
 

@@ -1,5 +1,7 @@
 @extends('client.template.master')
 @section('content')
+<!-- slider-main-area start -->
+
     <!-- breadcrumb-area start -->
     <div class="breadcrumb-area ptb-30 bg-gray">
         <div class="container">

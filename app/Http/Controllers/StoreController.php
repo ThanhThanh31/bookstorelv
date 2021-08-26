@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 class StoreController extends Controller
 {
     public function list(){
-        $quantri = DB::table('cua_hang')
-        ->join('quan_tri', 'quan_tri.qt_id', 'cua_hang.ch_id')
+        $quantri = DB::table('quan_tri')
+        ->join('cua_hang', 'cua_hang.ch_id', 'quan_tri.qt_id')
         ->get();
 
-        $listStore = DB::table('cua_hang')
-        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'cua_hang.ch_id')
+        $listStore = DB::table('nguoi_dung')
+        ->join('cua_hang', 'cua_hang.nd_id', 'nguoi_dung.nd_id')
         ->get();
         return view('admin.cuahang.list', compact('quantri', 'listStore'));
     }
