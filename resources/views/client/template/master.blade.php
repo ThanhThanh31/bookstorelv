@@ -27,6 +27,24 @@
 
         @include('client.template.header')
 
+        <!-- main-search start -->
+        <div class="main-search-active">
+            <div class="sidebar-search-icon">
+                <button class="search-close"><span class="icon-close"></span></button>
+            </div>
+            <div class="sidebar-search-input">
+                <form>
+                    <div class="form-search">
+                        <input id="search" class="input-text" value="" placeholder="Search entire store here ..." type="search">
+                        <button class="search-btn" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- main-search start -->
+
         @yield('content')
 
         <!-- footer -->

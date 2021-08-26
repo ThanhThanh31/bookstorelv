@@ -14,11 +14,17 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
-    @if (Auth::guard('nguoi_dung')->check())
-        Đã login,
+    @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 1)
+        <p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
+        <li><a href="{{ route('user.reStore') }}">Đăng ký cửa hàng</a></li>
+        <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
+    @elseif (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 2)
         <br>
         <p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
-        <a href="#">Đăng xuất</a>
+        <li><a href="{{ route('user.store') }}">Quản lý cửa hàng</a></li>
+        <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
+    @else
+        <a href="{{ route('client.form') }}"></a>
     @endif
     <!-- main-content-wrap start -->
     <div class="main-content-wrap pt-100">

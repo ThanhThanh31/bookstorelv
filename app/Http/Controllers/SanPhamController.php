@@ -46,8 +46,7 @@ class SanPhamController extends Controller
     }
 
     public function editP($id){
-        // $edit_product = DB::table('san_pham1')->where('sp1_id', $id)->first();
-         $edit_product = DB::table('san_pham1')
+        $edit_product = DB::table('san_pham1')
         ->join('loai_sanpham', 'loai_sanpham.l_id', 'san_pham1.l_id')
         ->where('san_pham1.sp1_id', $id)
         ->first();

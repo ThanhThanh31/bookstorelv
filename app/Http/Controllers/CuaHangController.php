@@ -6,16 +6,16 @@ use Hash;
 use Auth;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class CuaHangController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function registerStore()
     {
-        return view('admin.index');
+        return view('client.store.create');
     }
 
     /**
@@ -23,9 +23,20 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function form_login()
+    public function addStore(Request $request)
     {
-        return view('admin.login_admin');
+        if (Auth::guard('nguoi_dung')->check()){
+            $idUser = Auth::guard('nguoi_dung')->user()->nd_id;
+            $insert = DB::table('cua_hang')->insert([
+                'ch_diachi' => $request->diaChi,
+                'ch_tencuahang' => $request-> tenCuaHang,
+                'ch_trangthai' => 0,
+                'nd_id' => $idUser,
+            ]);
+            dd('Đã đăng ký thành công. Chờ duyệt');
+        }else{
+            return view('client.store.create');
+        }
     }
 
     /**
@@ -34,17 +45,9 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request){
-        $arrr = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-        // dd($arr);
-        if(Auth::guard('quan_tri')->attempt($arrr)){
-            return view('admin.index');
-        }else {
-            return view('admin.login_admin');
-        }
+    public function pageStore()
+    {
+        return view('client.store.index');
     }
 
     /**
@@ -53,10 +56,9 @@ class AuthController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function logout()
+    public function show($id)
     {
-        Auth::guard('quan_tri')->logout();
-        return redirect()->route('admin.form');
+        //
     }
 
     /**

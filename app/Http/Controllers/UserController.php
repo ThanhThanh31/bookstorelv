@@ -59,9 +59,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function logout()
     {
-        //
+        Auth::guard('nguoi_dung')->logout();
+        return redirect()->route('client.form');
     }
 
     /**

@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('admin.index') }}" class="brand-link">
-        <img src="{{ asset('template_admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+    <a href="{{ route('user.store') }}" class="brand-link">
+        <img src="{{ asset('template_admin/dist/img/AdminLTELogo.png') }}" alt="Cửa hàng Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Cửa hàng</span>
     </a>
 
     <!-- Sidebar -->
@@ -16,9 +16,9 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block">Alexander Pierce</a>
-                @if (Auth::guard('quan_tri')->check())
+                {{-- @if (Auth::guard('quan_tri')->check())
                     <a href="{{ route('admin.logout') }}">Đăng xuất</a>
-                @endif
+                @endif --}}
             </div>
         </div>
 
@@ -28,10 +28,10 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('loaisp.index') }}" class="nav-link">
+                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Loại sản phẩm
+                            Nội dung bán
                         </p>
                     </a>
                 </li>
@@ -44,26 +44,10 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('sanpham.index') }}" class="nav-link">
+                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Sản phẩm
-                        </p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{ route('admin.listStore') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Cửa hàng
+                            Nội dung bán
                         </p>
                     </a>
                 </li>

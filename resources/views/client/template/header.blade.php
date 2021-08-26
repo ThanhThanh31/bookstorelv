@@ -50,7 +50,7 @@
             <!-- logo-container start -->
             <div class="logo-container">
                 <div class="logo">
-                    <a href="index.html"><img src="img/logo/logo.png" alt=""></a>
+                    <a href="index.html"><img src="{{asset('template_client/img/logo/logo.png')}}" alt=""></a>
                 </div>
             </div>
             <!-- logo-container end -->
@@ -76,7 +76,7 @@
                                         <li><a href="frequently-question.html">FAQ</a></li>
                                         <li><a href="login-register.html">Login &amp; Register</a></li>
                                         <li><a href="error404.html">Error 404</a></li>
-                                        <li class="menu-image"><a href="shop.html"><img src="img/banner/menu-1.jpg"
+                                        <li class="menu-image"><a href="shop.html"><img src="{{asset('template_client/img/banner/menu-1.jpg')}}"
                                                     alt=""></a></li>
                                     </ul>
                                 </li>
@@ -86,7 +86,7 @@
                                         <li><a href="blog.html">Blog Right</a></li>
                                         <li><a href="blog-fullwidth.html">Blog Full Width</a></li>
                                         <li><a href="blog-details.html">Blog Details</a></li>
-                                        <li class="menu-image"><a href="shop.html"><img src="img/banner/menu-2.jpg"
+                                        <li class="menu-image"><a href="shop.html"><img src="{{asset('template_client/img/banner/menu-2.jpg')}}"
                                                     alt=""></a></li>
                                     </ul>
                                 </li>
@@ -96,7 +96,7 @@
                                         <li><a href="shop-right.html">Shop Right</a></li>
                                         <li><a href="shop-fullwidth.html">Shop Full Width</a></li>
                                         <li><a href="wishlist.html">Wish List</a></li>
-                                        <li class="menu-image"><a href="shop.html"><img src="img/banner/menu-3.jpg"
+                                        <li class="menu-image"><a href="shop.html"><img src="{{asset('template_client/img/banner/menu-3.jpg')}}"
                                                     alt=""></a></li>
                                     </ul>
                                 </li>
@@ -154,10 +154,10 @@
                                     <button class="setting-btn">Language: en-gb<i class="icon-arrow-down"></i> </button>
                                     <ul class="setting-list">
                                         <li>
-                                            <a href="#"><img src="img/icon/de-de.png" alt=""> English</a>
+                                            <a href="#"><img src="{{asset('template_client/img/icon/de-de.png')}}" alt=""> English</a>
                                         </li>
                                         <li>
-                                            <a href="#"><img src="img/icon/en-gb.png" alt=""> Germany</a>
+                                            <a href="#"><img src="{{asset('template_client/img/icon/en-gb.png')}}" alt=""> Germany</a>
                                         </li>
                                     </ul>
                                 </form>
@@ -179,7 +179,7 @@
                         <ul class="mini-cart-sub">
                             <li class="single-cart">
                                 <div class="cart-img">
-                                    <a href="single-product.html"><img src="img/cart/1.jpg" alt=""></a>
+                                    <a href="single-product.html"><img src="{{asset('template_client/img/cart/1.jpg')}}" alt=""></a>
                                 </div>
                                 <div class="cart-info">
                                     <a href="single-product.html">Acer Aspire E 15</a>
@@ -190,7 +190,7 @@
                             </li>
                             <li class="single-cart">
                                 <div class="cart-img">
-                                    <a href="single-product.html"><img src="img/cart/1.jpg" alt=""></a>
+                                    <a href="single-product.html"><img src="{{asset('template_client/img/cart/1.jpg')}}" alt=""></a>
                                 </div>
                                 <div class="cart-info">
                                     <a href="single-product.html">Acer Aspire E 15</a>

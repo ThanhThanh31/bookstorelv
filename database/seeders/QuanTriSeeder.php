@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 use DB;
 use Illuminate\Database\Seeder;
-
+use Hash;
 class QuanTriSeeder extends Seeder
 {
     /**
@@ -16,7 +16,7 @@ class QuanTriSeeder extends Seeder
         $quantri = [
             [
                 'username' => 'Admin',
-                'password' => '123',
+                'password' => Hash::make('123'),
                 'email' => 'admin@gmail.com',
             ],
         ];

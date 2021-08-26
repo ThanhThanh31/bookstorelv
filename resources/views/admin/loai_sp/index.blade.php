@@ -23,7 +23,7 @@
                         <?php $stt =1; ?>
                         @foreach ($danhSachLoai as $item)
                             <tr>
-                                <td>{{ $stt ++ }}</td>
+                                <td>{{ $stt ++ }}</td> 
                                 <td>{{ $item->l_ten }}</td>
                                 <td>
                                    <a href="{{route('loaisp.edit', ['id'=> $item->l_id])}}" class="btn btn-warning">Chỉnh sửa</a>

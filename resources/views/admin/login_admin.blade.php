@@ -28,7 +28,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Đăng nhập để bắt đầu quản lý hệ thống</p>
+                <p class="login-box-msg">Đăng nhập để quản lý hệ thống</p>
 
                 <form method="POST" action="{{ route('admin.login') }}">
                     @csrf
