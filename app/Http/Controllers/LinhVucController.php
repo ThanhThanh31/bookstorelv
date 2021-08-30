@@ -19,8 +19,8 @@ class LinhVucController extends Controller
         $iidd = DB::table('cua_hang')->where('nd_id', $idi)->first();
 
         $showfield = DB::table('linh_vuc')
-        ->join('theloai_cuahang', 'theloai_cuahang.tl_id', '=', 'linh_vuc.tl_id')
-        ->where('theloai_cuahang.ch_id', $iidd->ch_id)
+        ->join('the_loai', 'the_loai.tl_id', '=', 'linh_vuc.tl_id')
+        ->where('linh_vuc.ch_id', $iidd->ch_id)
         ->get();
         return view('client.store.field.index', compact('showfield'));
         // dd($showfield);
@@ -86,7 +86,20 @@ class LinhVucController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ii = Auth::guard('nguoi_dung')->user()->nd_id;
+        $dd = DB::table('cua_hang')->where('nd_id', $ii)->first();
+
+        $list_category = DB::table('theloai_cuahang')
+        ->join('the_loai', 'theloai_cuahang.tl_id', '=', 'the_loai.tl_id')
+        ->join('cua_hang', 'theloai_cuahang.ch_id', '=', 'cua_hang.ch_id')
+        ->where('theloai_cuahang.ch_id', $dd->ch_id)
+        ->get();
+
+        $edit_field = DB::table('linh_vuc')
+        ->join('the_loai', 'the_loai.tl_id', '=', 'linh_vuc.tl_id')
+        ->where('linh_vuc.lv_id', $id)
+        ->first();
+        return view('client.store.field.edit', compact('edit_field', 'list_category'));
     }
 
     /**
@@ -98,7 +111,20 @@ class LinhVucController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tenLinhvuc = $request->tenLinhvuc;
+        $theLoai = $request->theLoai;
+
+        $di = Auth::guard('nguoi_dung')->user()->nd_id;
+        $dii = DB::table('cua_hang')->where('nd_id', $di)->first();
+
+        $update = DB::table('linh_vuc')->where('lv_id', $id)->update(
+            [
+                'lv_ten' => $tenLinhvuc,
+                'tl_id' => $theLoai,
+                'ch_id' => $dii->ch_id,
+            ]
+            );
+            return redirect()->route('store.field');
     }
 
     /**

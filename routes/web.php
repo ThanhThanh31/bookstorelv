@@ -56,6 +56,9 @@ Route::middleware(['checkCuaHang'])->group(function () {
     Route::post('/cate-add', [LinhVucController::class, 'add'])->name('store.showcate');
     // xoa
     Route::get('/{id}/dell', [LinhVucController::class, 'destroy'])->name('store.destroy');
+    // sua
+    Route::get('/{id}/edit', [LinhVucController::class, 'edit'])->name('store.edit');
+    Route::post('/{id}/update', [LinhVucController::class, 'update'])->name('store.updatee');
   });
 });
 

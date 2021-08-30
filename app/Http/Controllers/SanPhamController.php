@@ -44,7 +44,7 @@ class SanPhamController extends Controller
     public function editPro($id){
         $edit_product = DB::table('the_loai')
         ->join('san_pham', 'san_pham.tl_id', 'the_loai.tl_id')
-        ->where('san_pham.sp_id', $id)
+        ->where('san_pham.sp_id', $id) 
         ->first();
 
         $list_cate = DB::table('the_loai')->get();

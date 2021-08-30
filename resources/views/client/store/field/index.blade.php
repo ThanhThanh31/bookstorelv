@@ -28,8 +28,10 @@
                         <tr style="text-align: center">
                             <td>{{ $stt ++ }}</td>
                             <td>{{ $item->lv_ten }}</td>
-                            <td>{{ $item->tl_id }}</td>
+                            <td>{{ $item->tl_ten }}</td>
                             <td>
+                                <a href="{{ route('store.edit', ['id'=> $item->lv_id]) }}"
+                                    class="btn btn-warning">Chỉnh sửa</a>
                                 <a href="{{ route('store.destroy', ['id'=> $item->lv_id]) }}"
                                     class="btn btn-danger">Xóa
                                 </a>
