@@ -13,7 +13,7 @@ class CreateChitietGiohangTable extends Migration
      */
     public function up()
     {
-        Schema::create('chitiet_giohang', function (Blueprint $table) {
+        Schema::create('sanpham_giohang', function (Blueprint $table) {
             $table->bigInteger('gh_id')->unsigned();
             $table->foreign('gh_id')->references('gh_id')->on('gio_hang')->onDelete('cascade');
 

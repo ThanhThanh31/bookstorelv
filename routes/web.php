@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CuaHangController;
 use App\Http\Controllers\TheLoaiController;
+use App\Http\Controllers\LinhVucController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +22,6 @@ use App\Http\Controllers\TheLoaiController;
 
 // route post => route này thực hiện xử lý việc thêm, gắn name vào action
 // route get => route này trả về giao diện thêm
-
-
-// Route::get('/', function () {
-//     return view('admin.index');
-// });
 Route::prefix('/')->group(function () {
    Route::get('/form-admin', [AuthController::class, 'form_login'])->name('admin.form');
    Route::post('/admin-login', [AuthController::class, 'login'])->name('admin.login');
@@ -33,10 +29,8 @@ Route::prefix('/')->group(function () {
 
 
 //****************************User********************//
-Route::get('/', function () {
-    return view('client.index');
-});
 Route::prefix('/')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('client.index');
     Route::get('/form-client', [UserController::class, 'form_login'])->name('client.form');
     Route::post('/register', [UserController::class, 'register'])->name('user.register');
     Route::post('/client-login', [UserController::class, 'login'])->name('user.login');
@@ -45,57 +39,68 @@ Route::prefix('/')->group(function () {
 //****************************User********************//
 
 Route::middleware(['checkCuaHang'])->group(function () {
-  Route::prefix('/')->group(function () {
+  Route::prefix('/store')->group(function () {
     //****************************CuaHang********************//
-    Route::get('/re-store', [CuaHangController::class, 'registerStore'])->name('user.reStore');
-    Route::post('/addStore', [CuaHangController::class, 'addStore'])->name('user.addStore');
-    Route::get('/page-store', [CuaHangController::class, 'pageStore'])->name('user.store');
+    Route::get('/register', [CuaHangController::class, 'registerStore'])->name('store.reStore');
+    Route::post('/add', [CuaHangController::class, 'addStore'])->name('store.addStore');
+    Route::get('/manage', [CuaHangController::class, 'pageStore'])->name('store.manage');
+    Route::get('/logout', [CuaHangController::class, 'logout'])->name('store.logout');
+    Route::get('/list', [CuaHangController::class, 'listCate'])->name('store.list');
+    Route::get('/show', [CuaHangController::class, 'show'])->name('store.show');
+    Route::post('/choose', [CuaHangController::class, 'choose'])->name('store.choose');
+    // xoa the loai
+    Route::get('/{idstore}/{idCat}/del', [CuaHangController::class, 'dele'])->name('store.dele');
     //****************************CuaHang********************//
+    Route::get('/field', [LinhVucController::class, 'index'])->name('store.field');
+    Route::get('/form-fie', [LinhVucController::class, 'formfield'])->name('store.formfie');
+    Route::post('/cate-add', [LinhVucController::class, 'add'])->name('store.showcate');
+    // xoa
+    Route::get('/{id}/dell', [LinhVucController::class, 'destroy'])->name('store.destroy');
   });
 });
 
 
 Route::middleware(['checkQuanTri'])->group(function () {
-  Route::prefix('/')->group(function () {
-    Route::get('/admin', [AuthController::class, 'index'])->name('admin.index');
-    Route::get('/admin-logout', [AuthController::class, 'logout'])->name('admin.logout');
-   //****************************Loai sản phẩm********************//
-    Route::get('/category', [TheLoaiController::class, 'index'])->name('loaisp.index');
+  Route::prefix('/admin')->group(function () {
+    Route::get('/home', [AuthController::class, 'index'])->name('admin.index');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+   //****************************Thể loại********************//
+    Route::get('/category', [TheLoaiController::class, 'index'])->name('cate.index');
     // giao diện thêm
-    Route::get('/cate-template-add', [TheLoaiController::class, 'them'])->name('loaisp.them');
+    Route::get('/form-add', [TheLoaiController::class, 'addform'])->name('cate.addform');
     // hàm nhận dữ liệu khi thêm
-    Route::post('/cate-add', [TheLoaiController::class, 'themLoai'])->name('loaisanpham.them');
+    Route::post('/cate-add', [TheLoaiController::class, 'add'])->name('cate.add');
     // xoa
-    Route::get('/{id}/del', [TheLoaiController::class, 'xoaLoai'])->name('loaisp.xoa');
+    Route::get('/{id}/del', [TheLoaiController::class, 'delete'])->name('cate.delete');
     // sua
-    Route::get('/{id}/update', [TheLoaiController::class, 'edit'])->name('loaisp.edit');
+    Route::get('/{id}/edit', [TheLoaiController::class, 'edit'])->name('cate.edit');
     // hàm nhận dữ liệu khi sua
-    Route::post('/{id}/up', [TheLoaiController::class, 'update'])->name('loaisp.update');
-   //****************************Loai sản phẩm********************//
+    Route::post('/{id}/update', [TheLoaiController::class, 'update'])->name('cate.update');
+   //****************************Thể loại********************//
 
    //****************************Store- Admin********************//
     //list cua hang
-    Route::get('/list', [StoreController::class, 'list'])->name('admin.listStore');
+    Route::get('/store', [StoreController::class, 'list'])->name('admin.list');
     // duyet
-    Route::get('/{id}/duyet', [StoreController::class, 'duyet'])->name('admin.duyet');
+    Route::get('/{id}/browse', [StoreController::class, 'browse'])->name('admin.browse');
     // khoa
-    Route::get('/{id}/khoa', [StoreController::class, 'khoa'])->name('admin.khoa');
+    Route::get('/{id}/lock', [StoreController::class, 'lock'])->name('admin.lock');
     // mo
-    Route::get('/{id}/mo', [StoreController::class, 'mo'])->name('admin.mo');
+    Route::get('/{id}/open', [StoreController::class, 'open'])->name('admin.open');
     //****************************Store- Admin********************//
 
     //****************************Sản phẩm********************//
-    Route::get('/product', [SanPhamController::class, 'index'])->name('sanpham.index');
+    Route::get('/product', [SanPhamController::class, 'index'])->name('pro.index');
     // giao diện thêm
-    Route::get('/pro-template-add', [SanPhamController::class, 'themSP'])->name('sp.them');
+    Route::get('/form-pro', [SanPhamController::class, 'addForm'])->name('pro.addForm');
     // hàm nhận dữ liệu khi thêm
-    Route::post('/pro-add', [SanPhamController::class, 'themSanPham'])->name('sanpham.add');
+    Route::post('/pro-add', [SanPhamController::class, 'addPro'])->name('pro.add');
     // xoa
-    Route::get('/{id}/dell', [SanPhamController::class, 'xoaSanPham'])->name('sanpham.xoa');
+    Route::get('/{id}/dele', [SanPhamController::class, 'deletePro'])->name('pro.delete');
     // sua
-    Route::get('/{id}/upda', [SanPhamController::class, 'editP'])->name('sp.edit');
+    Route::get('/{id}/editt', [SanPhamController::class, 'editPro'])->name('pro.edit');
     // hàm nhận dữ liệu khi sua
-    Route::post('/{id}/upp', [SanPhamController::class, 'updateP'])->name('sp.update');
+    Route::post('/{id}/upda', [SanPhamController::class, 'updatePro'])->name('pro.update');
     //****************************Sản phẩm********************//
   });
 });
@@ -106,3 +111,6 @@ Route::get('/test', function(){
     ->get();
     dd($danhSach);
 });
+
+
+

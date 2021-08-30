@@ -16,9 +16,9 @@ class CreateHoaDonTable extends Migration
         Schema::create('hoa_don', function (Blueprint $table) {
             $table->id('hd_id');
             $table->float('hd_tongtien');
-            $table->date('dc_ngaytao');
-            $table->string('dc_tennguoinhan');
-            $table->text('dc_noidung');
+            $table->date('hd_ngaytao');
+            $table->string('hd_tennguoinhan');
+            $table->text('hd_noidung');
 
             $table->bigInteger('sp_id')->unsigned();
             $table->foreign('sp_id')->references('sp_id')->on('san_pham')->onDelete('cascade');

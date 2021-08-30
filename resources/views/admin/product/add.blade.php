@@ -12,7 +12,7 @@ Thêm sản phẩm
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-md-10">
-                <form method="POST" action="{{ route('sanpham.add') }}">
+                <form method="POST" action="{{ route('pro.add') }}">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-5">
@@ -20,27 +20,27 @@ Thêm sản phẩm
                             <input type="text" name="tensp" class="form-control" id="">
                         </div>
                         <div class="form-group col-md-5">
-                            <lable for="">Loại sản phẩm</lable>
-                            <select name="LoaiSanPham" class="form-control">
-                                @foreach($danhSach as $item => $key)
-                                    <option value="{{ $key->l_id }}">{{ $key->l_ten }}</option>
+                            <lable for="">Thể loại</lable>
+                            <select name="theloai" class="form-control">
+                                @foreach($add as $item => $key)
+                                    <option value="{{ $key->tl_id }}">{{ $key->tl_ten }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
-                            <lable for="">Trạng thái</lable>
-                            <input type="text" name="trangthai" class="form-control" id="">
+                            <lable for="">Số lượng</lable>
+                            <input type="text" name="soluong" class="form-control" id="">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <lable for="">Mô tả</lable>
+                            <lable for="">Mô tả sản phẩm</lable>
                             <textarea name="mota" id="" cols="30" rows="5" class="form-control"
                                 placeholder="Nhập vào mô tả sản phẩm"></textarea>
                         </div>
                         <div class="form-group col-md-6">
-                            <lable for="">Cách dùng</lable>
-                            <textarea name="cachdung" id="" cols="30" rows="5" class="form-control"
+                            <lable for="">Chi tiết sản phẩm</lable>
+                            <textarea name="chitiet" id="" cols="30" rows="5" class="form-control"
                                 placeholder="Nhập vào cách sử dụng sản phẩm"></textarea>
                         </div>
                     </div>

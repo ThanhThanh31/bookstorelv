@@ -8,17 +8,13 @@ use Illuminate\Http\Request;
 class StoreController extends Controller
 {
     public function list(){
-        $quantri = DB::table('quan_tri')
-        ->join('cua_hang', 'cua_hang.ch_id', 'quan_tri.qt_id')
-        ->get();
-
         $listStore = DB::table('nguoi_dung')
         ->join('cua_hang', 'cua_hang.nd_id', 'nguoi_dung.nd_id')
         ->get();
-        return view('admin.cuahang.list', compact('quantri', 'listStore'));
+        return view('admin.store.list', compact('listStore'));
     }
 
-    public function duyet($id)
+    public function browse($id)
     {
             $upQuyen = DB::table('nguoi_dung')
             ->join('cua_hang', 'cua_hang.nd_id', 'nguoi_dung.nd_id')
@@ -34,7 +30,7 @@ class StoreController extends Controller
             return redirect()->back();
     }
 
-    public function khoa($id)
+    public function lock($id)
     {
             $khoaQuyen = DB::table('nguoi_dung')
             ->join('cua_hang', 'cua_hang.nd_id', 'nguoi_dung.nd_id')
@@ -50,8 +46,13 @@ class StoreController extends Controller
             return redirect()->back();
     }
 
-    public function mo($id)
+    public function open($id)
     {
+            $upQuyen = DB::table('nguoi_dung')
+            ->join('cua_hang', 'cua_hang.nd_id', 'nguoi_dung.nd_id')
+            ->where('cua_hang.ch_id', $id)->update([
+                'q_id' => 2, // chu cua hang
+            ]);
             $idQuanTri = Auth::guard('quan_tri')->user()->qt_id;
             $update = DB::table('cua_hang')->where('ch_id', $id)->update([
                 'ch_trangthai' => 1, // chu cua hang

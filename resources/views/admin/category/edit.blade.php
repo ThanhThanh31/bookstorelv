@@ -1,9 +1,9 @@
 @extends('admin.template.master')
 @section('title-page')
-    Thêm loại sản phẩm
+    Chỉnh sửa thể loại sản phẩm
 @endsection
 @section('title-page-detail')
-    Thêm loại sản phẩm
+    Chỉnh sửa thể loại sản phẩm
 @endsection
 @section('content')
     <!-- Main content -->
@@ -12,14 +12,14 @@
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <div class="col-md-6">
-                    <form method="POST" action="{{ route('loaisanpham.them') }}">
+                    <form method="POST" action="{{ route('cate.update', ['id'=>$category->tl_id]) }}">
                         @csrf
                         <div class="form-group">
-                            <label for="">Tên loại</label>
-                            <input type="text" name="Loaisp" class="form-control" id="">
+                            <label for="">Tên thể loại</label>
+                            <input type="text" value="{{$category->tl_ten}}" name="theloai" class="form-control" id="">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Thêm</button>
+                            <button type="submit" class="btn btn-success">Chỉnh sửa</button>
                         </div>
                     </form>
                 </div>

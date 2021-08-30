@@ -15,7 +15,11 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">
+                    @if (Auth::guard('quan_tri')->check())
+                      <span>Quản trị viên:&ensp;{{ Auth::guard('quan_tri')->user()->username }}</span>
+                    @endif
+                </a>
                 @if (Auth::guard('quan_tri')->check())
                     <a href="{{ route('admin.logout') }}">Đăng xuất</a>
                 @endif
@@ -28,10 +32,10 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('loaisp.index') }}" class="nav-link">
+                    <a href="{{ route('cate.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Loại sản phẩm
+                            Thể loại
                         </p>
                     </a>
                 </li>
@@ -44,7 +48,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('sanpham.index') }}" class="nav-link">
+                    <a href="{{ route('pro.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Sản phẩm
@@ -60,7 +64,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('admin.listStore') }}" class="nav-link">
+                    <a href="{{ route('admin.list') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Cửa hàng

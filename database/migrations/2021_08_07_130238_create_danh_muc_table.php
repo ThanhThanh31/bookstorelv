@@ -18,7 +18,6 @@ class CreateDanhMucTable extends Migration
             $table->string('dm_name');
             $table->text('dm_desc');
             $table->integer('dm_status');
-            // timestamps: Thêm thời gian khi tạo table
             $table->timestamps();
         });
     }

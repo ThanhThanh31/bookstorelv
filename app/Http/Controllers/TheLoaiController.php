@@ -13,41 +13,41 @@ class TheLoaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $danhSachLoai = DB::table('loai_sanpham')->get();
-        return view('admin.loai_sp.index', compact('danhSachLoai'));
+        $listCate = DB::table('the_loai')->get();
+        return view('admin.category.index', compact('listCate'));  
     }
 
-    public function them(){
-        return view('admin.loai_sp.them');
+    public function addform(){
+        return view('admin.category.add');
     }
 
-    public function themLoai(Request $request){
-        $Loaisp = $request->Loaisp;
-        $insert = DB::table('loai_sanpham')->insert(
+    public function add(Request $request){
+        $theloai = $request->theloai;
+        $insert = DB::table('the_loai')->insert(
             [
-                'l_ten' => $Loaisp,
+                'tl_ten' => $theloai,
             ]
             );
-            return redirect()->route('loaisp.index');
+            return redirect()->route('cate.index');
     }
 
-    public function xoaLoai($id){
-        $del = DB::table('loai_sanpham')->where('l_id',$id)->delete();
+    public function delete($id){
+        $del = DB::table('the_loai')->where('tl_id',$id)->delete();
         return redirect()->back();
     }
 
     public function edit($id){
-        $category = DB::table('loai_sanpham')->where('l_id', $id)->first();
-        return view('admin.loai_sp.edit', compact('category'));
+        $category = DB::table('the_loai')->where('tl_id', $id)->first();
+        return view('admin.category.edit', compact('category'));
     }
 
     public function update(Request $request, $id){
-        $Loaisp = $request->Loaisp;
-        $update = DB::table('loai_sanpham')->where('l_id', $id)->update(
+        $theloai = $request->theloai;
+        $update = DB::table('the_loai')->where('tl_id', $id)->update(
             [
-                'l_ten' => $Loaisp,
+                'tl_ten' => $theloai,
             ]
             );
-            return redirect()->route('loaisp.index');
+            return redirect()->route('cate.index');
     }
 }

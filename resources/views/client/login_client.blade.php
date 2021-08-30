@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col">
                     <ul class="breadcrumb-list">
-                        <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Trang chủ</a></li>
                         <li class="breadcrumb-item active">Đăng nhập &amp; Đăng ký</li>
                     </ul>
                 </div>
@@ -16,18 +16,7 @@
         </div>
     </div>
     <!-- breadcrumb-area end -->
-    @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 1)
-        <p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
-        <li><a href="{{ route('user.reStore') }}">Đăng ký cửa hàng</a></li>
-        <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
-    @elseif (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 2)
-        <br>
-        <p>Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</p>
-        <li><a href="{{ route('user.store') }}">Quản lý cửa hàng</a></li>
-        <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
-    @else
-        <a href="{{ route('client.form') }}"></a>
-    @endif
+
     <!-- main-content-wrap start -->
     <div class="main-content-wrap pt-100">
         <div class="container">
@@ -35,6 +24,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="customer-login-register">
                         <h3>Đăng nhập</h3>
+                        @if (Session::has("failure"))
+                            <p>{{ Session::get("failure") }}</p>
+                        @endif
+                        @if (Session::has("prosper"))
+                            <p>{{ Session::get("prosper") }}</p>
+                        @endif
+                        @if (Session::has("accomplish"))
+                            <p>{{ Session::get("accomplish") }}</p>
+                        @endif
                         <div class="login-Register-info">
                             <form method="POST" action="{{ route('user.login') }}">
                                 @csrf
@@ -59,6 +57,12 @@
                 <div class="col-lg-6  col-md-6 col-sm-12">
                     <div class="customer-login-register">
                         <h3>Đăng ký</h3>
+                        @if (Session::has("error"))
+                            <p>{{ Session::get("error") }}</p>
+                        @endif
+                        @if (Session::has("success"))
+                            <p>{{ Session::get("success") }}</p>
+                        @endif
                         <div class="login-Register-info">
                             <form method="POST" action="{{ route('user.register') }}">
                                 @csrf

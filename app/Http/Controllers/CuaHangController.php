@@ -56,9 +56,25 @@ class CuaHangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function listCate()
     {
-        //
+        $id = Auth::guard('nguoi_dung')->user()->nd_id;
+        $idd = DB::table('cua_hang')->where('nd_id', $id)->first();
+
+
+        $listt = DB::table('theloai_cuahang')
+        ->join('the_loai', 'theloai_cuahang.tl_id', '=', 'the_loai.tl_id')
+        ->join('cua_hang', 'theloai_cuahang.ch_id', '=', 'cua_hang.ch_id')
+        ->where('theloai_cuahang.ch_id', $idd->ch_id)
+        // ->select('theloai_cuahang.tl_id', 'the_loai.tl_ten', 'cua_hang.ch_tencuahang')
+        ->get();
+        return view('client.store.category.index', compact('listt'));
+    }
+
+    public function show()
+    {
+        $checkCate = DB::table('the_loai')->get();
+        return view('client.store.category.add', compact('checkCate'));
     }
 
     /**
@@ -67,9 +83,20 @@ class CuaHangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function choose(Request $request)
     {
-        //
+        $checkloai = $request->checkloai; //lấy list category vừa check vào checkbox có tên = checkloai []
+        $idUser = Auth::guard('nguoi_dung')->user()->nd_id; //lấy id user login store
+        $idStore = DB::table('cua_hang')->where('nd_id', $idUser)->first(); //lấy id store theo id user
+
+        // vòng lặp mảng thể loại mỗi lần thêm vào
+        foreach ($checkloai as $item){
+            DB::table('theloai_cuahang')->insert([
+                'tl_id' => $item,
+                'ch_id' => $idStore->ch_id,
+            ]);
+        }
+        return redirect()->route('store.list');
     }
 
     /**
@@ -79,9 +106,10 @@ class CuaHangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function dele($idstore, $idCat)
     {
-        //
+        $dele = DB::table('theloai_cuahang')->where('ch_id', $idstore)->where('tl_id', $idCat)->delete();
+        return redirect()->back();
     }
 
     /**
@@ -90,8 +118,10 @@ class CuaHangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function logout()
     {
-        //
+        Auth::guard('nguoi_dung')->logout();
+        return redirect()->route('client.form');
     }
+
 }

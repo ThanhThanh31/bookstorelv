@@ -16,8 +16,6 @@ class CreateTheLoaiTable extends Migration
         Schema::create('the_loai', function (Blueprint $table) {
             $table->id('tl_id');
             $table->string('tl_ten');
-            $table->bigInteger('ch_id')->unsigned();
-            $table->foreign('ch_id')->references('ch_id')->on('cua_hang')->onDelete('cascade');
             $table->timestamps();
         });
     }

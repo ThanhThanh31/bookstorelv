@@ -15,18 +15,18 @@ class CategorySeeder extends Seeder
     {
         $category = [
             [
-                'l_ten' => 'Văn phòng phẩm',
+                'tl_ten' => 'Giày dép',
             ],
             [
-                'l_ten' => 'Quần áo',
+                'tl_ten' => 'Nội thất',
             ],
             [
-                'l_ten' => 'Gia dụng',
+                'tl_ten' => 'Gia dụng',
             ],
             [
-                'l_ten' => 'Thiết bị điện tử',
+                'tl_ten' => 'Mỹ phẩm',
             ],
         ];
-        $insert = DB::table('loai_sanpham')->insert($category);
+        $insert = DB::table('the_loai')->insert($category);
     }
 }

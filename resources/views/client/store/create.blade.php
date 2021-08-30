@@ -23,7 +23,7 @@
                     <div class="customer-login-register">
                         <h3>Thông tin cửa hàng</h3>
                         <div class="login-Register-info">
-                            <form method="POST" action="{{ route('user.addStore') }}">
+                            <form method="POST" action="{{ route('store.addStore') }}">
                                 @csrf
                                 <p class="coupon-input form-row-first">
                                     <label>Tên cửa hàng <span class="required">*</span></label>

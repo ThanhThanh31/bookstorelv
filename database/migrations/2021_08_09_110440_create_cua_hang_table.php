@@ -16,7 +16,7 @@ class CreateCuaHangTable extends Migration
         Schema::create('cua_hang', function (Blueprint $table) {
             $table->id('ch_id');
             $table->string('ch_diachi');
-            $table->string('ch_chucuahang');
+            $table->string('ch_tencuahang');
             $table->integer('ch_trangthai');
 
             $table->bigInteger('nd_id')->unsigned();
