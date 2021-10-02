@@ -22,7 +22,7 @@ class CreateTinTucTable extends Migration
             $table->bigInteger('nd_id')->unsigned();
             $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');
 
-            $table->bigInteger('qt_id')->unsigned();
+            $table->bigInteger('qt_id')->unsigned()->nullable();;
             $table->foreign('qt_id')->references('qt_id')->on('quan_tri')->onDelete('cascade');
             $table->timestamps();
         });

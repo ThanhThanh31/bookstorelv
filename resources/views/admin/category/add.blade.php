@@ -11,15 +11,23 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <form method="POST" action="{{ route('cate.add') }}">
                         @csrf
-                        <div class="form-group">
-                            <label for="">Tên thể loại</label>
-                            <input type="text" name="theloai" class="form-control" id="">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Thêm</button>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Tên thể loại</label>
+                                            <input type="text" name="theloai" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success">Thêm</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -43,7 +43,7 @@ class StoreController extends Controller
                 'ch_trangthai' => 2, // khoa
                 'qt_id' => $idQuanTri,
             ]);
-            return redirect()->back();
+            return redirect()->back(); 
     }
 
     public function open($id)

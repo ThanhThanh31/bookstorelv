@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use Auth;
+use Session;
 use Illuminate\Http\Request;
 
 class TheLoaiController extends Controller
@@ -14,11 +15,11 @@ class TheLoaiController extends Controller
      */
     public function index(){
         $listCate = DB::table('the_loai')->get();
-        return view('admin.category.index', compact('listCate'));  
+        return view('admin.category.index', compact('listCate'));
     }
 
     public function addform(){
-        return view('admin.category.add');
+        return view('admin.category.add'); 
     }
 
     public function add(Request $request){
@@ -28,11 +29,13 @@ class TheLoaiController extends Controller
                 'tl_ten' => $theloai,
             ]
             );
+            Session::flash("get", "Thêm thể loại thành công !");
             return redirect()->route('cate.index');
     }
 
     public function delete($id){
         $del = DB::table('the_loai')->where('tl_id',$id)->delete();
+        Session::flash("get", "Xóa thể loại thành công !");
         return redirect()->back();
     }
 
@@ -48,6 +51,7 @@ class TheLoaiController extends Controller
                 'tl_ten' => $theloai,
             ]
             );
+            Session::flash("get", "Chỉnh sửa thể loại thành công !");
             return redirect()->route('cate.index');
     }
 }

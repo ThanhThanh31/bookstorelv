@@ -9,3 +9,5 @@
 <script src="{{asset('template_client/js/plugins.js')}}"></script>
 <!-- main JS -->
 <script src="{{asset('template_client/js/main.js')}}"></script>
+
+

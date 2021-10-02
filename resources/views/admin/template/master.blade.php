@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>AdminLTE 3 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template_client/img/icon.ico') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   @include('admin.template.css')
 </head>
@@ -12,7 +13,7 @@
 <div class="wrapper">
 
   <!-- Navbar -->
-  @include('admin.template.header')
+  @include('admin.template.header') 
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -27,7 +28,7 @@
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">@yield('title-page')</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6">
+          <div class="col-sm-6"> 
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
               <li class="breadcrumb-item active">@yield('title-page-detail')</li>

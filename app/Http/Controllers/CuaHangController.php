@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use DB;
 use Hash;
+use Session;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CuaHangController extends Controller
      */
     public function registerStore()
     {
-        return view('client.store.create');
+        return view('client.store.user.create');
     }
 
     /**
@@ -31,11 +32,14 @@ class CuaHangController extends Controller
                 'ch_diachi' => $request->diaChi,
                 'ch_tencuahang' => $request-> tenCuaHang,
                 'ch_trangthai' => 0,
-                'nd_id' => $idUser,
+                'nd_id' => $idUser,  
             ]);
-            dd('Đã đăng ký thành công. Chờ duyệt');
+            Session::flash("fine", "Đăng ký cửa hàng thành công. Chờ duyệt !");
+                return redirect()->back();
         }else{
-            return view('client.store.create');
+            Session::flash("un", "Đăng ký cửa hàng thất bại !");
+            return redirect()->back();
+            // return view('client.store.create');
         }
     }
 
@@ -95,8 +99,9 @@ class CuaHangController extends Controller
                 'tl_id' => $item,
                 'ch_id' => $idStore->ch_id,
             ]);
-        }
-        return redirect()->route('store.list');
+        } 
+        Session::flash("succ", "Thêm thể loại thành công !");
+        return redirect()->route('store.category');
     }
 
     /**
@@ -109,6 +114,7 @@ class CuaHangController extends Controller
     public function dele($idstore, $idCat)
     {
         $dele = DB::table('theloai_cuahang')->where('ch_id', $idstore)->where('tl_id', $idCat)->delete();
+        Session::flash("succ", "Xóa thể loại thành công !"); 
         return redirect()->back();
     }
 
@@ -122,6 +128,26 @@ class CuaHangController extends Controller
     {
         Auth::guard('nguoi_dung')->logout();
         return redirect()->route('client.form');
+    }
+
+    public function info(){
+        $nd = Auth::guard('nguoi_dung')->user()->nd_id;
+        $st = DB::table('cua_hang')->where('nd_id', $nd)->first();
+        return view('client.store.user.edit', compact('st'));
+    }
+
+    public function refresh(Request $request, $id) 
+    {
+        $tenCuaHang = $request->tenCuaHang;
+        $diaChi = $request->diaChi;
+        $update = DB::table('cua_hang')->where('ch_id', $id)->update(
+            [
+                'ch_tencuahang' => $tenCuaHang,
+                'ch_diachi' => $diaChi,
+            ]
+            );
+            Session::flash("yeah", "Chỉnh sửa thông tin người dùng thành công !");
+            return redirect()->route('store.info');
     }
 
 }

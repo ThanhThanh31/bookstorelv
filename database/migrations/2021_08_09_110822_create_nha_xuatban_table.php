@@ -16,12 +16,10 @@ class CreateNhaXuatbanTable extends Migration
         Schema::create('nha_xuatban', function (Blueprint $table) {
             $table->id('nxb_id');
             $table->string('nxb_ten');
-            $table->integer('nxb_sdt');
-            $table->string('nxb_email');
-            $table->string('nxb_diachi');
+            $table->integer('nxb_sdt')->nullable();
+            $table->string('nxb_email')->nullable();
+            $table->string('nxb_diachi')->nullable();
 
-            $table->bigInteger('ch_id')->unsigned();
-            $table->foreign('ch_id')->references('ch_id')->on('cua_hang')->onDelete('cascade');
             $table->timestamps();
         });
     }

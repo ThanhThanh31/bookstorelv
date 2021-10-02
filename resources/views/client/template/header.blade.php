@@ -126,10 +126,15 @@
                                     @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 1)
                                     <li><span style="color: white">Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</span></li>
                                     <li><a href="{{ route('store.reStore') }}">Đăng ký cửa hàng</a></li>
+                                    <li><a href="{{ route('user.edit') }}">Thông tin người dùng</a></li>
+                                    <li><a href="{{ route('user.pass') }}">Thay đổi mật khẩu</a></li>
                                     <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
                                     @elseif (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 2)
                                     <li><span style="color: white">Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</span></li>
                                     <li><a href="{{ route('store.manage') }}">Quản lý cửa hàng</a></li>
+                                    <li><a href="{{ route('store.info') }}">Thông tin cửa hàng</a></li>
+                                    <li><a href="{{ route('user.edit') }}">Thông tin người dùng</a></li>
+                                    <li><a href="{{ route('user.pass') }}">Thay đổi mật khẩu</a></li>
                                     <li><a href="{{ route('user.logout') }}">Đăng xuất</a></li>
                                     @else
                                     <li><a href="{{ route('client.form') }}">Đăng ký</a></li>

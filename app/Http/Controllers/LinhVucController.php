@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use Hash;
 use Auth;
+use Session;
 use Illuminate\Http\Request;
 
 class LinhVucController extends Controller
@@ -23,7 +24,6 @@ class LinhVucController extends Controller
         ->where('linh_vuc.ch_id', $iidd->ch_id)
         ->get();
         return view('client.store.field.index', compact('showfield'));
-        // dd($showfield);
     }
 
     /**
@@ -64,6 +64,7 @@ class LinhVucController extends Controller
                 'ch_id' => $iidd->ch_id,
             ]
             );
+            Session::flash("prosperous", "Thêm lĩnh vực thành công !");
             return redirect()->route('store.field');
     }
 
@@ -124,6 +125,7 @@ class LinhVucController extends Controller
                 'ch_id' => $dii->ch_id,
             ]
             );
+            Session::flash("prosperous", "Chỉnh sửa lĩnh vực thành công !");
             return redirect()->route('store.field');
     }
 
@@ -136,6 +138,7 @@ class LinhVucController extends Controller
     public function destroy($id)
     {
         $dele = DB::table('linh_vuc')->where('lv_id', $id)->delete();
+        Session::flash("prosperous", "Xóa lĩnh vực thành công !");
         return redirect()->back();
     }
 }

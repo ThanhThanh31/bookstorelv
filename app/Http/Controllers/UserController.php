@@ -16,12 +16,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('client.index');
+        $show = DB::table('san_pham')
+        // ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
+        // ->join('the_loai', 'the_loai.tl_id', 'san_pham.tl_id')
+        // ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
+        ->get();
+        return view('client.index', compact('show'));
     }
 
     public function form_login()
     {
-        return view('client.login_client');
+        return view('client.user.account.login_client');
     }
 
     public function register(Request $request)
@@ -110,9 +115,59 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function edit(){
+        $id = Auth::guard('nguoi_dung')->user()->nd_id;
+        $user = DB::table('nguoi_dung')->where('nd_id', $id)->first();
+        return view('client.user.account.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
     {
-        //
+        $name = $request->name;
+        $email = $request->email;
+        $phone = $request->phone;
+        $update = DB::table('nguoi_dung')->where('nd_id', $id)->update(
+            [
+                'username' => $name,
+                'email' => $email,
+                'nd_sdt' => $phone,
+            ]
+            );
+            Session::flash("great", "Chỉnh sửa thông tin người dùng thành công !");
+            return redirect()->route('user.edit');
+    }
+
+    public function pass(){
+        return view('client.user.account.pass');
+    }
+
+    public function change(Request $request, $id){
+        $current_password = $request->current_password;
+        $new_password = $request->new_password;
+        $password_confirmation = $request->password_confirmation;
+
+        if (!(Hash::check($current_password, Auth::guard('nguoi_dung')->user()->password))) {
+            return redirect()->back()->with("no","Mật khẩu người dùng không đúng. Vui lòng nhập lại !");
+        }
+
+        if(Hash::check($new_password, Auth::guard('nguoi_dung')->user()->password)){
+            return redirect()->back()->with("no","Mật khẩu mới không được giống với mật khẩu hiện tại. Vui lòng chọn một mật khẩu mới !");
+        }
+
+        if($new_password == $password_confirmation){
+            $Password = Hash::make($new_password);
+            $update = DB::table('nguoi_dung')->where('nd_id', $id)->update(
+                [
+                    'password' => $Password,
+                ]
+                );
+                Session::flash("yes","Thay đổi mật khẩu thành công !");
+                return redirect()->back();
+        }else{
+            Session::flash("no", "Mật khẩu xác nhận lại không trùng với mật khẩu mới. Vui lòng nhập lại !");
+            return redirect()->back();
+        }
     }
 
     /**
@@ -121,10 +176,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -132,10 +183,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -144,10 +191,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

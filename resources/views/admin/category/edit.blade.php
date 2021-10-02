@@ -11,15 +11,24 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-6">
-                    <form method="POST" action="{{ route('cate.update', ['id'=>$category->tl_id]) }}">
+                <div class="col-md-12">
+                    <form method="POST" action="{{ route('cate.update', ['id' => $category->tl_id]) }}">
                         @csrf
-                        <div class="form-group">
-                            <label for="">Tên thể loại</label>
-                            <input type="text" value="{{$category->tl_ten}}" name="theloai" class="form-control" id="">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Chỉnh sửa</button>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Tên thể loại</label>
+                                            <input type="text" value="{{ $category->tl_ten }}" name="theloai"
+                                                class="form-control" id="">
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success">Chỉnh sửa</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -17,13 +17,13 @@
                         @foreach ($checkCate as $item)
                             <div class="form-check-inline">
                                     <input name="checkloai[]" style="margin-left: 20px" class="form-check-input" type="checkbox" id="" value="{{ $item->tl_id }}">
-                                    <label style="margin-right: 90px" class="form-check-label" for=""> {{ $item->tl_ten }}</label>
+                                    <label class="form-check-label" for=""> {{ $item->tl_ten }}</label>
                             </div>
                             <br>
                         @endforeach
                         <br>
                         <div class="form-group">
-                            <button style="margin-top: 20px" type="submit" class="btn btn-success">Thêm</button>
+                            <button type="submit" class="btn btn-success">Thêm</button>
                         </div>
                     </form>
                 </div>

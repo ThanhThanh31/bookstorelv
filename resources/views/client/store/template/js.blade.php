@@ -32,3 +32,17 @@
 <script src="{{asset('template_admin/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('template_admin/dist/js/demo.js')}}"></script>
+<!-- ckeditor -->
+<script src="{{asset('template_admin/ckeditor/ckeditor.js')}}"></script>
+<script>
+	CKEDITOR.replace('ckeditor1');
+	CKEDITOR.replace('ckeditor2');
+	CKEDITOR.replace('ckeditor3');
+	CKEDITOR.replace('ckeditor4');
+	CKEDITOR.replace('ckeditor5');
+	CKEDITOR.replace('ckeditor6');
+	CKEDITOR.replace('ckeditor7');
+	CKEDITOR.replace('ckeditor8');
+</script>
+<script src="{{asset('template_admin/ckeditor/adapters/jquery.js')}}"></script>
+
