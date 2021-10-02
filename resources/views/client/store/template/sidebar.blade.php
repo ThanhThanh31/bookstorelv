@@ -126,14 +126,14 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('image.link') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Hình ảnh
                         </p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

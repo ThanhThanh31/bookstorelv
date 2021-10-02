@@ -14,6 +14,7 @@
                 <div class="col-md-12">
                     <form method="POST" action="{{ route('pro.amend', ['id' => $product->sp_id]) }}"
                         enctype="multipart/form-data">
+                        { !! $mota !!}
                         @csrf
                         <div class="card">
                             <div class="card-body">
