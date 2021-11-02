@@ -24,6 +24,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="">Mô tả thể loại</label>
+                                            <textarea class="textarea" placeholder="Nhập vào mô tả thể loại" name="moTa"
+                                            class="form-control" rows="8" cols="50">
+                                            </textarea> 
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-success">Thêm</button>

@@ -15,18 +15,6 @@ class CongTyPhatHanhSeeder extends Seeder
     {
         $issuer = [
             [
-                'cty_ten' => 'Cẩm Phong Books',
-            ],
-            [
-                'cty_ten' => 'Nhã Nam',
-            ],
-            [
-                'cty_ten' => 'Phương Nam Book',
-            ],
-            [
-                'cty_ten' => 'Pandabooks',
-            ],
-            [
                 'cty_ten' => 'Nhà Sách Minh Lâm',
             ],
             [
@@ -34,9 +22,6 @@ class CongTyPhatHanhSeeder extends Seeder
             ],
             [
                 'cty_ten' => 'Văn Việt',
-            ],
-            [
-                'cty_ten' => 'AMUN',
             ],
             [
                 'cty_ten' => 'Nhà Sách Minh Thắng',
@@ -75,9 +60,6 @@ class CongTyPhatHanhSeeder extends Seeder
                 'cty_ten' => 'Thái Hà',
             ],
             [
-                'cty_ten' => 'Alphabooks',
-            ],
-            [
                 'cty_ten' => 'Công Ty CP Truyền Thông Sáo Diều',
             ],
             [
@@ -94,6 +76,24 @@ class CongTyPhatHanhSeeder extends Seeder
             ],
             [
                 'cty_ten' => 'TT Giới Thiệu Sách TP.HCM',
+            ],
+            [
+                'cty_ten' => 'AMUN',
+            ],
+            [
+                'cty_ten' => 'Nhã Nam',
+            ],
+            [
+                'cty_ten' => 'Phương Nam Book',
+            ],
+            [
+                'cty_ten' => 'Alphabooks',
+            ],
+            [
+                'cty_ten' => 'Pandabooks',
+            ],
+            [
+                'cty_ten' => 'Cẩm Phong Books',
             ],
         ];
         $insert = DB::table('congty_phathanh')->insert($issuer);

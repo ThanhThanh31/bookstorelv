@@ -16,8 +16,11 @@ class CreateXaPhuongTable extends Migration
         Schema::create('xa_phuong', function (Blueprint $table) {
             $table->id('xp_id');
             $table->string('xp_ten');
+            $table->string('xp_cap'); 
+
             $table->bigInteger('qh_id')->unsigned();
             $table->foreign('qh_id')->references('qh_id')->on('quan_huyen')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

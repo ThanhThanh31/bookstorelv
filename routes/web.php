@@ -7,16 +7,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CuaHangController;
 use App\Http\Controllers\TheLoaiController;
-use App\Http\Controllers\LinhVucController;
 use App\Http\Controllers\DetailProductController;
 use App\Http\Controllers\LoaiBiaController;
 use App\Http\Controllers\TacGiaController;
 use App\Http\Controllers\CongTyPhatHanhController;
 use App\Http\Controllers\NhaXuatBanController;
 use App\Http\Controllers\BookJacketController;
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\PublisherController;
-use App\Http\Controllers\IssuerCompanyController;
+use App\Http\Controllers\FieldController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,32 +43,19 @@ Route::prefix('/client')->group(function () {
     Route::post('/{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::get('/pass', [UserController::class, 'pass'])->name('user.pass');
     Route::post('/{id}/change', [UserController::class, 'change'])->name('user.change');
+    Route::get('/search', [UserController::class, 'search'])->name('user.search');
+    Route::get('/{id}/detail-field', [UserController::class, 'proField'])->name('detail.field');
 
-    Route::get('/{id}/detail-info', [DetailProductController::class, 'pro'])->name('detail.pro');
+    Route::get('/all-product', [DetailProductController::class, 'index'])->name('detail.index');
+    Route::get('/{id}/detail-pro', [DetailProductController::class, 'pro'])->name('detail.pro');
+    Route::get('/{id}/detail-cate', [DetailProductController::class, 'cate'])->name('detail.cate');
+
 });
 
 
-Route::middleware(['checkCuaHang'])->group(function () {
-  Route::prefix('/store')->group(function () {
-
-    Route::get('/information', [CuaHangController::class, 'info'])->name('store.info');
-    Route::post('/{id}/refresh', [CuaHangController::class, 'refresh'])->name('store.refresh');
-    Route::get('/register', [CuaHangController::class, 'registerStore'])->name('store.reStore');
-    Route::post('/add', [CuaHangController::class, 'addStore'])->name('store.addStore');
-    Route::get('/manage', [CuaHangController::class, 'pageStore'])->name('store.manage');
-    Route::get('/logout', [CuaHangController::class, 'logout'])->name('store.logout');
-
-    Route::get('/category', [CuaHangController::class, 'listCate'])->name('store.category');
-    Route::get('/show', [CuaHangController::class, 'show'])->name('store.show');
-    Route::post('/choose', [CuaHangController::class, 'choose'])->name('store.choose');
-    Route::get('/{idstore}/{idCat}/del', [CuaHangController::class, 'dele'])->name('store.dele');
-
-    Route::get('/field', [LinhVucController::class, 'index'])->name('store.field');
-    Route::get('/form-fie', [LinhVucController::class, 'formfield'])->name('store.formfie');
-    Route::post('/cate-add', [LinhVucController::class, 'add'])->name('store.showcate');
-    Route::get('/{id}/dell', [LinhVucController::class, 'destroy'])->name('store.destroy');
-    Route::get('/{id}/edit', [LinhVucController::class, 'edit'])->name('store.edit');
-    Route::post('/{id}/update', [LinhVucController::class, 'update'])->name('store.updatee');
+  Route::prefix('/page')->group(function () {
+    Route::get('/manage', [CuaHangController::class, 'page'])->name('page.manage');
+    Route::get('/logout', [CuaHangController::class, 'logout'])->name('page.logout');
 
     Route::get('/product', [SanPhamController::class, 'index'])->name('pro.index');
     Route::get('/form-pro', [SanPhamController::class, 'addForm'])->name('pro.addForm');
@@ -81,7 +65,6 @@ Route::middleware(['checkCuaHang'])->group(function () {
     Route::post('/{id}/amend', [SanPhamController::class, 'amend'])->name('pro.amend');
     Route::get('/{id}/get', [SanPhamController::class, 'getProductTypeByCat'])->name('pro.get');
     // Hình ảnh lien quan
-    Route::get('/image-link', [SanPhamController::class, 'link'])->name('image.link');
     Route::get('/{id}/erase', [SanPhamController::class, 'erase'])->name('image.erase');
 
     Route::get('/type', [BookJacketController::class, 'index'])->name('book.index');
@@ -89,22 +72,8 @@ Route::middleware(['checkCuaHang'])->group(function () {
     Route::post('/adoption', [BookJacketController::class, 'adoption'])->name('book.adoption');
     Route::get('/{idshop}/{idcover}/erased', [BookJacketController::class, 'erased'])->name('book.erased');
 
-    Route::get('/writer', [AuthorController::class, 'index'])->name('writer.index');
-    Route::get('/roster', [AuthorController::class, 'roster'])->name('writer.roster');
-    Route::post('/choice', [AuthorController::class, 'choice'])->name('writer.choice');
-    Route::get('/{idmall}/{idwriter}/confounded', [AuthorController::class, 'confounded'])->name('writer.confounded');
-
-    Route::get('/editor', [PublisherController::class, 'index'])->name('editor.index');
-    Route::get('/roll', [PublisherController::class, 'roll'])->name('editor.roll');
-    Route::post('/select', [PublisherController::class, 'select'])->name('editor.select');
-    Route::get('/{idstorefront}/{ideditor}/eliminate', [PublisherController::class, ' eliminate'])->name('editor.eliminate');
-
-    Route::get('/issuer', [IssuerCompanyController::class, 'index'])->name('issuer.index');
-    Route::get('/namlist', [IssuerCompanyController::class, 'namlist'])->name('issuer.namlist');
-    Route::post('/pick', [IssuerCompanyController::class, 'pick'])->name('issuer.pick');
-    Route::get('/{iddepartment}/{idissuer}/berlin', [IssuerCompanyController::class, 'berlin'])->name('issuer.berlin');
   });
-});
+
 
 
 Route::middleware(['checkQuanTri'])->group(function () {
@@ -119,8 +88,14 @@ Route::middleware(['checkQuanTri'])->group(function () {
     Route::get('/{id}/edit', [TheLoaiController::class, 'edit'])->name('cate.edit');
     Route::post('/{id}/update', [TheLoaiController::class, 'update'])->name('cate.update');
 
+    Route::get('/field', [FieldController::class, 'index'])->name('field.index');
+    Route::get('/create-field', [FieldController::class, 'create'])->name('field.create');
+    Route::post('/field-season', [FieldController::class, 'season'])->name('field.season');
+    Route::get('/{id}/efface', [FieldController::class, 'efface'])->name('field.efface');
+    Route::get('/{id}/wipe', [FieldController::class, 'wipe'])->name('field.wipe');
+    Route::post('/{id}/uphold', [FieldController::class, 'uphold'])->name('field.uphold');
+
     Route::get('/store', [StoreController::class, 'list'])->name('admin.list');
-    Route::get('/{id}/browse', [StoreController::class, 'browse'])->name('admin.browse');
     Route::get('/{id}/lock', [StoreController::class, 'lock'])->name('admin.lock');
     Route::get('/{id}/open', [StoreController::class, 'open'])->name('admin.open');
 
@@ -155,11 +130,7 @@ Route::middleware(['checkQuanTri'])->group(function () {
 });
 
 
-Route::get('/test', function(){
-    $danhSach = DB::table('loai_sanpham')
-    ->get();
-    dd($danhSach);
-});
+
 
 
 

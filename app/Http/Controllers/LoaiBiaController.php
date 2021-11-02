@@ -15,7 +15,7 @@ class LoaiBiaController extends Controller
      */
     public function index()
     {
-        $type = DB::table('loai_bia')->get();
+        $type = DB::table('loai_bia')->orderby('lb_id','desc')->paginate(6);
         return view('admin.cover.index', compact('type'));
     }
 
@@ -26,7 +26,7 @@ class LoaiBiaController extends Controller
      */
     public function create()
     {
-        return view('admin.cover.add'); 
+        return view('admin.cover.add');
     }
 
     /**

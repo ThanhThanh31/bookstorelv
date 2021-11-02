@@ -14,14 +14,37 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request){
+        $search_product = DB::table('san_pham')
+        ->where('sp_ten','like','%'.$request->key.'%')
+        ->orWhere('sp_gia',$request->key)->orderby('sp_id','desc')->paginate(6);
+        $list_category = DB::table('the_loai')->orderby('tl_id','desc')->get();
+        return view('client.user.search.index', compact('search_product', 'list_category'));
+    }
+
+    public function proField(Request $request, $id)
+    {
+        $product_field = DB::table('linh_vuc')
+        ->join('san_pham', 'san_pham.lv_id', 'linh_vuc.lv_id')
+        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
+        ->where('linh_vuc.lv_id', $id)
+        ->orderby('sp_id','desc')->paginate(6);
+        $array_field = DB::table('linh_vuc')
+        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
+        ->where('linh_vuc.lv_id', $id)
+        ->get();
+        return view('client.user.product_field.index', compact('product_field', 'array_field'));
+
+    }
+
     public function index()
     {
-        $show = DB::table('san_pham')
-        // ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
-        // ->join('the_loai', 'the_loai.tl_id', 'san_pham.tl_id')
-        // ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
-        ->get();
-        return view('client.index', compact('show'));
+        $showPro = DB::table('san_pham')
+        ->orderby('sp_id','desc')->get();
+
+        $showCate = DB::table('the_loai')->orderby('tl_id','desc')->get();
+        return view('client.index', compact('showPro', 'showCate'));
+
     }
 
     public function form_login()
@@ -34,6 +57,7 @@ class UserController extends Controller
         $name = $request->name;
         $email = $request->email;
         $phone = $request->phone;
+        $diachi = $request->diachi;
         $password = $request->password;
         $reset_password = $request->reset_password;
 
@@ -43,6 +67,10 @@ class UserController extends Controller
         }
         if($email == "" || $email == null){
             Session::flash("error", "Email không được để trống !");
+            return redirect()->back();
+        }
+        if($diachi == "" || $diachi == null){
+            Session::flash("error", "Địa chỉ không được để trống !");
             return redirect()->back();
         }
         if($phone == "" || $phone == null){
@@ -70,6 +98,7 @@ class UserController extends Controller
                 [
                     'username' => $name,
                     'email' => $email,
+                    'nd_diachi' => $diachi,
                     'nd_sdt' => $phone,
                     'password' => $hashPassword,
                 ]
@@ -90,7 +119,7 @@ class UserController extends Controller
         // dd($arr);
         if(Auth::guard('nguoi_dung')->attempt($arr)){
             Session::flash("prosper", "Đăng nhập tài khoản thành công !");
-            return redirect()->back();
+            return redirect()->route('user.edit');
         }else {
             Session::flash("failure", "Đăng nhập tài khoản thất bại !");
             return redirect()->back();
@@ -127,10 +156,12 @@ class UserController extends Controller
         $name = $request->name;
         $email = $request->email;
         $phone = $request->phone;
+        $diachi = $request->diachi;
         $update = DB::table('nguoi_dung')->where('nd_id', $id)->update(
             [
                 'username' => $name,
                 'email' => $email,
+                'nd_diachi' => $diachi,
                 'nd_sdt' => $phone,
             ]
             );
@@ -146,6 +177,21 @@ class UserController extends Controller
         $current_password = $request->current_password;
         $new_password = $request->new_password;
         $password_confirmation = $request->password_confirmation;
+
+        // if($current_password == "" || $current_password == null){
+        //     Session::flash("no", "Mật khẩu không được để trống !");
+        //     return redirect()->back();
+        // }
+
+        // if($new_password == "" || $new_password == null){
+        //     Session::flash("no", "Mật khẩu mới không được để trống !");
+        //     return redirect()->back();
+        // }
+
+        // if($password_confirmation == "" || $password_confirmation == null){
+        //     Session::flash("no", "Xác nhận lại mật khẩu mới không được để trống !");
+        //     return redirect()->back();
+        // }
 
         if (!(Hash::check($current_password, Auth::guard('nguoi_dung')->user()->password))) {
             return redirect()->back()->with("no","Mật khẩu người dùng không đúng. Vui lòng nhập lại !");

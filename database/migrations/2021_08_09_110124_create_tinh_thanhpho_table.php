@@ -16,6 +16,7 @@ class CreateTinhThanhphoTable extends Migration
         Schema::create('tinh_thanhpho', function (Blueprint $table) {
             $table->id('ttp_id');
             $table->string('ttp_ten');
+            $table->string('ttp_cap');
             $table->timestamps();
         });
     }

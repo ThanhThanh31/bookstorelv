@@ -15,19 +15,7 @@ class NhaXuatBanSeeder extends Seeder
     {
         $publisher = [
             [
-                'nxb_ten' => 'Nhà Xuất Bản Hà Nội',
-            ],
-            [
-                'nxb_ten' => 'Nhà Xuất Bản Thế Giới',
-            ],
-            [
-                'nxb_ten' => 'Nhà Xuất Bản Trẻ',
-            ],
-            [
                 'nxb_ten' => 'Nhà Xuất Bản Khoa Học Xã Hội',
-            ],
-            [
-                'nxb_ten' => 'Nhà Xuất Bản Kim Đồng',
             ],
             [
                 'nxb_ten' => 'Nhà Xuất Bản Dân Trí',
@@ -54,9 +42,6 @@ class NhaXuatBanSeeder extends Seeder
                 'nxb_ten' => 'Nhà Xuất Bản Tri Thức',
             ],
             [
-                'nxb_ten' => 'Nhà Xuất Bản Văn Học',
-            ],
-            [
                 'nxb_ten' => 'Nhà Xuất Bản Hàng Hải',
             ],
             [
@@ -76,6 +61,21 @@ class NhaXuatBanSeeder extends Seeder
             ],
             [
                 'nxb_ten' => 'Nhà Xuất Bản Thông Tin & Truyền Thông',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Thế Giới',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Trẻ',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Kim Đồng',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Văn Học',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Hà Nội',
             ],
         ];
         $insert = DB::table('nha_xuatban')->insert($publisher);

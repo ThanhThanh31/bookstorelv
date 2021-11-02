@@ -15,7 +15,7 @@ class TacGiaController extends Controller
      */
     public function index()
     {
-        $author = DB::table('tac_gia')->get();
+        $author = DB::table('tac_gia')->orderby('tg_id','desc')->paginate(6);
         return view('admin.author.index', compact('author'));
     }
 

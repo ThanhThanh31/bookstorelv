@@ -22,17 +22,35 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-10  col-md-10 col-sm-12">
+                    @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 2)
+                    <div style="font-size: 15px" class="alert alert-danger"><i>Tài khoản của bạn đã bị khóa !</i></div>
+                    @endif
+                    @if (session()->has('prosper'))
+                    <i>
+                    <div style="font-size: 15px" class="alert alert-success">
+                        {{ session()->get('prosper') }}
+                    </div>
+                    </i>
+                    @endif
+                    @if (session()->has('great'))
+                    <i>
+                    <div style="font-size: 15px" class="alert alert-success">
+                        {{ session()->get('great') }}
+                    </div> 
+                    </i>
+                    @endif
                     <div class="customer-login-register">
                         <h3>Thông tin người dùng</h3>
-                        @if (Session::has("great"))
-                            <p>{{ Session::get("great") }}</p> 
-                        @endif
                         <div class="login-Register-info">
                             <form method="POST" action="{{ route('user.update', ['id' => $user->nd_id]) }}">
                                 @csrf
-                                <p class="coupon-input form-row-first"> 
+                                <p class="coupon-input form-row-first">
                                     <label>Tên đăng nhập <span class="required">*</span></label>
                                     <input type="text" name="name" value="{{ $user->username }}">
+                                </p>
+                                <p class="coupon-input form-row-first">
+                                    <label>Địa chỉ <span class="required">*</span></label>
+                                    <input type="text" name="diachi" value="{{ $user->nd_diachi }}">
                                 </p>
                                 <p class="coupon-input form-row-first">
                                     <label>Email <span class="required">*</span></label>

@@ -16,69 +16,53 @@ class SanPhamController extends Controller
 {
     public function index(){
         $n = Auth::guard('nguoi_dung')->user()->nd_id;
-        $h = DB::table('cua_hang')->where('nd_id', $n)->first();
+        $h = DB::table('nguoi_dung')->where('nd_id', $n)->first();
 
         $show = DB::table('san_pham')
         ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
-        ->join('the_loai', 'the_loai.tl_id', 'san_pham.tl_id')
-        ->where('san_pham.ch_id', $h->ch_id)
-        ->get();
-        return view('client.store.product.index', compact('show'));
+        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
+        ->where('nd_id', $h->nd_id)
+        ->orderby('sp_id','desc')->paginate(3);
+        return view('client.page.product.index', compact('show'));
     }
 
     public function addForm(){
-        $id = Auth::guard('nguoi_dung')->user()->nd_id;
-        $idd = DB::table('cua_hang')->where('nd_id', $id)->first();
 
-        $tg = DB::table('tacgia_cuahang')
-        ->join('tac_gia', 'tacgia_cuahang.tg_id', 'tac_gia.tg_id')
-        ->join('cua_hang', 'tacgia_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('tacgia_cuahang.ch_id', $idd->ch_id)
-        ->get();
+        $tg = DB::table('tac_gia')
+        ->orderby('tg_id','desc')->get();
 
-        $cty = DB::table('congty_cuahang')
-        ->join('congty_phathanh', 'congty_cuahang.cty_id', 'congty_phathanh.cty_id')
-        ->join('cua_hang', 'congty_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('congty_cuahang.ch_id', $idd->ch_id)
-        ->get();
+        $cty = DB::table('congty_phathanh')
+        ->orderby('cty_id','desc')->get();
 
-        $lb = DB::table('loaibia_cuahang')
-        ->join('loai_bia', 'loaibia_cuahang.lb_id', 'loai_bia.lb_id')
-        ->join('cua_hang', 'loaibia_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('loaibia_cuahang.ch_id', $idd->ch_id)
-        ->get();
+        $lb = DB::table('loai_bia')
+        ->orderby('lb_id','desc')->get();
 
-        $nxb = DB::table('nhaxuatban_cuahang')
-        ->join('nha_xuatban', 'nhaxuatban_cuahang.nxb_id', 'nha_xuatban.nxb_id')
-        ->join('cua_hang', 'nhaxuatban_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('nhaxuatban_cuahang.ch_id', $idd->ch_id)
-        ->get();
+        $nxb = DB::table('nha_xuatban')
+        ->orderby('nxb_id','desc')->get();
 
-        $mix = DB::table('linh_vuc')
-        ->join('the_loai', 'linh_vuc.tl_id', 'the_loai.tl_id')
-        ->join('cua_hang', 'linh_vuc.ch_id', 'cua_hang.ch_id')
-        ->where('linh_vuc.ch_id', $idd->ch_id)
-        ->get();
+        $mix = DB::table('the_loai')
+        ->orderby('tl_id','desc')->get();
 
-        return view('client.store.product.add', compact('mix', 'tg', 'cty', 'lb', 'nxb'));
+        return view('client.page.product.add', compact('mix', 'tg', 'cty', 'lb', 'nxb'));
     }
 
     public function getProductTypeByCat ($id){
-        $idUser =  Auth::guard('nguoi_dung')->user()->nd_id;
-        $idStore = DB::table('cua_hang')->where('nd_id', $idUser)->first();
-        $li = DB::table('linh_vuc')->where('tl_id', $id)->where('ch_id', $idStore->ch_id)->get();
+        // $idUser =  Auth::guard('nguoi_dung')->user()->nd_id;
+        // $idStore = DB::table('nguoi_dung')->where('nd_id', $idUser)->first();
+        // $li = DB::table('linh_vuc')->where('tl_id', $id)->where('nd_id', $idStore->nd_id)->get();
+        $li = DB::table('linh_vuc')->where('tl_id', $id)->orderby('lv_id','desc')->get();
         return response()->json($li, 200);
     }
 
     public function addPro(Request $request){
         $ten = $request->ten;
-        $soluong = $request->soluong;
+        $trangthai = $request->trangthai;
         $sotrang = $request->sotrang;
         $kichthuoc = $request->kichthuoc;
         $gia = $request->gia;
         $mota = $request->mota;
-        $theloai = $request->theloai;
         $linhvuc = $request->linhvuc;
+        $theloai = $request->theloai;
         $nhaxuatban = $request->nhaxuatban;
         $loaibia = $request->loaibia;
         $congty = $request->congty;
@@ -109,7 +93,7 @@ class SanPhamController extends Controller
         // Trường bắt buộc
 
         $nd = Auth::guard('nguoi_dung')->user()->nd_id;
-        $ch = DB::table('cua_hang')->where('nd_id', $nd)->first();
+        $ch = DB::table('nguoi_dung')->where('nd_id', $nd)->first();
         if($request->hasFile('anh')){
             $anh = $request->file('anh');
             $tenanh = $anh->getClientOriginalName();
@@ -117,18 +101,17 @@ class SanPhamController extends Controller
             $insert = DB::table('san_pham')->insertGetId(
                 [
                     'sp_ten' => $ten,
-                    'sp_soluong' => $soluong,
+                    'sp_trangthai' => $trangthai,
                     'sp_sotrang' => $sotrang,
                     'sp_kichthuoc' => $kichthuoc,
                     'sp_gia' => $gia,
                     'sp_mota' => $mota,
-                    'tl_id' => $theloai,
                     'lv_id' => $linhvuc,
                     'nxb_id' => $nhaxuatban,
                     'lb_id' => $loaibia,
                     'cty_id' => $congty,
                     'tg_id' => $tacgia,
-                    'ch_id' => $ch->ch_id,
+                    'nd_id' => $ch->nd_id,
                     'sp_hinhanh' => 'anh-san-pham/'.$tenanh,
                 ]
                 );
@@ -170,47 +153,30 @@ class SanPhamController extends Controller
 
     public function revised($id){
         $a = Auth::guard('nguoi_dung')->user()->nd_id;
-        $b = DB::table('cua_hang')->where('nd_id', $a)->first();
+        $b = DB::table('nguoi_dung')->where('nd_id', $a)->first();
 
-        $category = DB::table('theloai_cuahang')
-        ->join('the_loai', 'theloai_cuahang.tl_id', 'the_loai.tl_id')
-        ->join('cua_hang', 'theloai_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('theloai_cuahang.ch_id', $b->ch_id)
-        ->get();
+        $category = DB::table('the_loai')
+        ->orderby('tl_id','desc')->get();
 
         $field = DB::table('linh_vuc')
-        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
-        ->where('linh_vuc.ch_id', $b->ch_id)
-        ->get();
+        ->orderby('lv_id','desc')->get();
 
-        $type = DB::table('loaibia_cuahang')
-        ->join('loai_bia', 'loaibia_cuahang.lb_id', 'loai_bia.lb_id')
-        ->join('cua_hang', 'loaibia_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('loaibia_cuahang.ch_id', $b->ch_id)
-        ->get();
+        $type = DB::table('loai_bia')
+        ->orderby('lb_id','desc')->get();
 
-        $editor = DB::table('nhaxuatban_cuahang')
-        ->join('nha_xuatban', 'nhaxuatban_cuahang.nxb_id', 'nha_xuatban.nxb_id')
-        ->join('cua_hang', 'nhaxuatban_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('nhaxuatban_cuahang.ch_id', $b->ch_id)
-        ->get();
+        $editor = DB::table('nha_xuatban')
+        ->orderby('nxb_id','desc')->get();
 
-        $company = DB::table('congty_cuahang')
-        ->join('congty_phathanh', 'congty_cuahang.cty_id', 'congty_phathanh.cty_id')
-        ->join('cua_hang', 'congty_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('congty_cuahang.ch_id', $b->ch_id)
-        ->get();
+        $company = DB::table('congty_phathanh')
+        ->orderby('cty_id','desc')->get();
 
-        $author = DB::table('tacgia_cuahang')
-        ->join('tac_gia', 'tacgia_cuahang.tg_id', 'tac_gia.tg_id')
-        ->join('cua_hang', 'tacgia_cuahang.ch_id', 'cua_hang.ch_id')
-        ->where('tacgia_cuahang.ch_id', $b->ch_id)
-        ->get();
+        $author = DB::table('tac_gia')
+        ->orderby('tg_id','desc')->get();
 
         $image = DB::table('anh')
         ->join('san_pham', 'san_pham.sp_id', 'anh.sp_id')
         ->where('anh.sp_id', $id)
-        ->get();
+        ->orderby('a_id','desc')->get();
 
         $product = DB::table('san_pham')
         ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
@@ -218,22 +184,22 @@ class SanPhamController extends Controller
         ->where('san_pham.sp_id', $id)
         ->first();
 
-        return view('client.store.product.edit', compact('category', 'product', 'field', 'type', 'editor', 'company', 'author', 'image'));
+        return view('client.page.product.edit', compact('category', 'product', 'field', 'type', 'editor', 'company', 'author', 'image'));
     }
 
     public function amend(Request $request, $id){
         $ten = $request->ten;
-        $soluong = $request->soluong;
+        $trangthai = $request->trangthai;
         $sotrang = $request->sotrang;
         $kichthuoc = $request->kichthuoc;
         $gia = $request->gia;
         $mota = $request->mota;
-        $theloai = $request->theloai;
         $linhvuc = $request->linhvuc;
         $nhaxuatban = $request->nhaxuatban;
         $loaibia = $request->loaibia;
         $congty = $request->congty;
         $tacgia = $request->tacgia;
+        $link = $request->link;
 
         if($request->hasFile('anh_edit')){
             $anh_edit = $request->file('anh_edit');
@@ -250,15 +216,15 @@ class SanPhamController extends Controller
                     File::delete($anh);
                 }
         }
+
             $update = DB::table('san_pham')->where('sp_id', $id)->update(
                 [
                     'sp_ten' => $ten,
-                    'sp_soluong' => $soluong,
+                    'sp_trangthai' => $trangthai,
                     'sp_sotrang' => $sotrang,
                     'sp_kichthuoc' => $kichthuoc,
                     'sp_gia' => $gia,
                     'sp_mota' => $mota,
-                    'tl_id' => $theloai,
                     'lv_id' => $linhvuc,
                     'nxb_id' => $nhaxuatban,
                     'lb_id' => $loaibia,
@@ -266,24 +232,27 @@ class SanPhamController extends Controller
                     'tg_id' => $tacgia,
                 ]
                 );
+
+                if ($request->hasFile('link')) {
+                    // Define upload path
+                    $link = $request->file('link');
+                     // Upload Orginal Image
+                    $moral = $link->getClientOriginalName();
+                    $link->move(public_path('anh-link/'), $moral);
+                    $insertImage = DB::table('anh')->insert(
+                        [
+                            'sp_id' => $id,
+                            'a_duongdan' => 'anh-link/'.$moral
+                        ]
+                        );
+                    return redirect()->back();
+                }
             Session::flash("make", "Chỉnh sửa sản phẩm thành công !");
             return redirect()->route('pro.index');
     }
 
-    public function link(){
-        $idU = Auth::guard('nguoi_dung')->user()->nd_id;
-        $idS = DB::table('cua_hang')->where('nd_id', $idU)->first();
-
-        $i = DB::table('san_pham')
-        ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
-        ->where('san_pham.ch_id', $idS->ch_id)
-        ->get();
-        return view('client.store.image_link.index', compact('i'));
-    }
-
     public function erase($id){
-    $dele = DB::table('anh')->where('a_id', $id)->delete();
-        Session::flash("pulloff", "Xóa hình ảnh thành công !");
+        $dele = DB::table('anh')->where('a_id', $id)->delete();
         return redirect()->back();
     }
 

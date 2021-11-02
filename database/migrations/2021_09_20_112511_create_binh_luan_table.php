@@ -15,16 +15,10 @@ class CreateBinhLuanTable extends Migration
     {
         Schema::create('binh_luan', function (Blueprint $table) {
             $table->id('bl_id');
-            $table->text('bl_noidung');
+            $table->string('bl_noidung');
 
-            $table->bigInteger('sp_id')->unsigned();
-            $table->foreign('sp_id')->references('sp_id')->on('san_pham')->onDelete('cascade');
-
-            $table->bigInteger('nd_id')->unsigned();
-            $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');
-
-            $table->bigInteger('ch_id')->unsigned();
-            $table->foreign('ch_id')->references('ch_id')->on('cua_hang')->onDelete('cascade');
+            $table->bigInteger('bv_id')->unsigned();
+            $table->foreign('bv_id')->references('bv_id')->on('bai_viet')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -9,5 +9,9 @@
 <script src="{{asset('template_client/js/plugins.js')}}"></script>
 <!-- main JS -->
 <script src="{{asset('template_client/js/main.js')}}"></script>
+<!-- JavaScript -->
+<script src="{{asset('template_client/js/alertify.min.js')}}"></script>
+<script src="{{asset('template_client/js/ajax.js')}}"></script>
+
 
 

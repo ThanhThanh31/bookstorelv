@@ -6,9 +6,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Home || T90 - Fashion Ecommerce Bootstrap 4 Template</title>
+    <title>AnnaBooks || ABS - Kết nối những sẻ</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template_client/img/icon.ico') }}">
     <!-- All CSS Hear -->
@@ -32,12 +33,13 @@
                 <button class="search-close"><span class="icon-close"></span></button>
             </div>
             <div class="sidebar-search-input">
-                <form>
+                <form action="{{ route('user.search') }}">
                     <div class="form-search">
-                        <input id="search" class="input-text" value="" placeholder="Search entire store here ..." type="search">
-                        <button class="search-btn" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
+                        <input id="search" name="key" class="input-text" value="" placeholder="Nhập vào từ khóa tìm kiếm về sản phẩm..."
+                            type="search">
+                        <button class="search-btn" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </form>
             </div>

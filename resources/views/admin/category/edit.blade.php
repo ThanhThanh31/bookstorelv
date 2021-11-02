@@ -22,7 +22,16 @@
                                             <label for="">Tên thể loại</label>
                                             <input type="text" value="{{ $category->tl_ten }}" name="theloai"
                                                 class="form-control" id="">
-                                        </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="">Mô tả thể loại</label>
+                                            <textarea name="moTa" cols="30" rows="10"
+                                                class="textarea">{{ $category->tl_mota }}</textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

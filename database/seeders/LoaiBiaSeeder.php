@@ -15,21 +15,6 @@ class LoaiBiaSeeder extends Seeder
     {
         $type = [
             [
-                'lb_ten' => 'Bìa Mềm',
-            ],
-            [
-                'lb_ten' => 'Bìa Cứng',
-            ],
-            [
-                'lb_ten' => 'Paperback',
-            ],
-            [
-                'lb_ten' => 'Hardcover',
-            ],
-            [
-                'lb_ten' => 'Board Book',
-            ],
-            [
                 'lb_ten' => 'Hardback With Ribbon Marker',
             ],
             [
@@ -103,6 +88,21 @@ class LoaiBiaSeeder extends Seeder
             ],
             [
                 'lb_ten' => 'Spiral - Bound Book',
+            ],
+            [
+                'lb_ten' => 'Paperback',
+            ],
+            [
+                'lb_ten' => 'Hardcover',
+            ],
+            [
+                'lb_ten' => 'Board Book',
+            ],
+            [
+                'lb_ten' => 'Bìa Cứng',
+            ],
+            [
+                'lb_ten' => 'Bìa Mềm',
             ],
         ];
         $insert = DB::table('loai_bia')->insert($type);

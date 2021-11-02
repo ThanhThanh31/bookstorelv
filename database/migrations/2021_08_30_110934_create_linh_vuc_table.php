@@ -18,9 +18,7 @@ class CreateLinhVucTable extends Migration
             $table->string('lv_ten');
 
             $table->bigInteger('tl_id')->unsigned();
-            $table->foreign('tl_id')->references('tl_id')->on('theloai_cuahang')->onDelete('cascade');
-            $table->bigInteger('ch_id')->unsigned();
-            $table->foreign('ch_id')->references('ch_id')->on('theloai_cuahang')->onDelete('cascade');
+            $table->foreign('tl_id')->references('tl_id')->on('the_loai')->onDelete('cascade');
             $table->timestamps();
         });
     }

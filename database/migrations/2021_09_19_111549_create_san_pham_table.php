@@ -17,14 +17,11 @@ class CreateSanPhamTable extends Migration
             $table->id('sp_id');
             $table->string('sp_ten');
             $table->string('sp_hinhanh');
-            $table->integer('sp_soluong');
             $table->integer('sp_sotrang');
             $table->string('sp_kichthuoc');
+            $table->string('sp_trangthai')->nullable();
             $table->float('sp_gia');
-            $table->text('sp_mota');
-
-            $table->bigInteger('tl_id')->unsigned();
-            $table->foreign('tl_id')->references('tl_id')->on('the_loai')->onDelete('cascade');
+            $table->string('sp_mota');
 
             $table->bigInteger('lv_id')->unsigned();
             $table->foreign('lv_id')->references('lv_id')->on('linh_vuc')->onDelete('cascade');
@@ -41,8 +38,17 @@ class CreateSanPhamTable extends Migration
             $table->bigInteger('tg_id')->unsigned()->nullable();
             $table->foreign('tg_id')->references('tg_id')->on('tac_gia')->onDelete('cascade');
 
-            $table->bigInteger('ch_id')->unsigned();
-            $table->foreign('ch_id')->references('ch_id')->on('cua_hang')->onDelete('cascade');
+            $table->bigInteger('nd_id')->unsigned();
+            $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');
+
+            $table->bigInteger('ttp_id')->unsigned();
+            $table->foreign('ttp_id')->references('ttp_id')->on('tinh_thanhpho')->onDelete('cascade');
+
+            $table->bigInteger('qh_id')->unsigned();
+            $table->foreign('qh_id')->references('qh_id')->on('quan_huyen')->onDelete('cascade');
+
+            $table->bigInteger('xp_id')->unsigned();
+            $table->foreign('xp_id')->references('xp_id')->on('xa_phuong')->onDelete('cascade');
             $table->timestamps();
         });
     }

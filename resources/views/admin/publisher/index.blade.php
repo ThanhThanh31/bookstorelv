@@ -12,16 +12,20 @@
                 <a href="{{ route('publisher.create') }}" class="btn btn-primary">Thêm nhà xuất bản</a>
             </div>
             <br>
-            @if (Session::has('publisher'))
-                <b class="text-success">{{ Session::get('publisher') }}</b>
+            @if (session()->has('publisher'))
+                <i>
+                    <div style="font-size: 15px" class="alert alert-success">
+                        {{ session()->get('publisher') }}
+                    </div>
+                </i>
             @endif
-            <br>
             <div class="row">
                 <table class="table table-hover">
                     <thead>
                         <tr style="text-align: center">
                             <th>STT</th>
                             <th>Tên nhà xuất bản</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,15 +35,40 @@
                                 <td>{{ $stt++ }}</td>
                                 <td>{{ $item->nxb_ten }}</td>
                                 <td>
-                                    <a href="{{ route('publisher.modified', ['id' => $item->nxb_id]) }}" class="btn btn-warning">Chỉnh
-                                        sửa</a>
+                                    <a href="{{ route('publisher.modified', ['id' => $item->nxb_id]) }}" class="btn btn-warning">
+                                        <i class="fas fa-edit"></i></a>
                                     <a onclick="return confirm('Bạn có chắc là muốn xóa {{ $item->nxb_ten }} ?')" href="{{ route('publisher.eradicate', ['id' => $item->nxb_id]) }}"
-                                        class="btn btn-danger">Xóa</a>
+                                        class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if ($list->currentPage() != 1)
+                        <li class="page-item">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $list->url($list->currentPage() - 1)) !!}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        @endif
+                        @for ($i = 1; $i <= $list->lastPage(); $i = $i + 1)
+                        <li class="page-item {!! $list->currentPage() == $i ? 'active' : ' ' !!}">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $list->url($i)) !!}">{!! $i !!}</a>
+                        </li>
+                        @endfor
+                        @if ($list->currentPage() != $list->lastPage())
+                        <li class="page-item">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $list->url($list->currentPage() + 1)) !!}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>

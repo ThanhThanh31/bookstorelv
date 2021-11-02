@@ -14,19 +14,21 @@ class TheLoaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $listCate = DB::table('the_loai')->get();
+        $listCate = DB::table('the_loai')->orderby('tl_id','desc')->paginate(6);
         return view('admin.category.index', compact('listCate'));
     }
 
     public function addform(){
-        return view('admin.category.add'); 
+        return view('admin.category.add');
     }
 
     public function add(Request $request){
         $theloai = $request->theloai;
+        $moTa = $request->moTa;
         $insert = DB::table('the_loai')->insert(
             [
                 'tl_ten' => $theloai,
+                'tl_mota' => $moTa,
             ]
             );
             Session::flash("get", "Thêm thể loại thành công !");
@@ -46,9 +48,11 @@ class TheLoaiController extends Controller
 
     public function update(Request $request, $id){
         $theloai = $request->theloai;
+        $moTa = $request->moTa;
         $update = DB::table('the_loai')->where('tl_id', $id)->update(
             [
                 'tl_ten' => $theloai,
+                'tl_mota' => $moTa,
             ]
             );
             Session::flash("get", "Chỉnh sửa thể loại thành công !");

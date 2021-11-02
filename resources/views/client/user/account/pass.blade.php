@@ -24,11 +24,18 @@
                 <div class="col-lg-10  col-md-10 col-sm-12">
                     <div class="customer-login-register">
                         <h3>Thay đổi mật khẩu</h3>
-                        @if (Session::has("no"))
-                            <p>{{ Session::get("no") }}</p>
-                        @endif
-                        @if (Session::has("yes"))
-                            <p>{{ Session::get("yes") }}</p>
+                        @if (session()->has('yes'))
+                            <i>
+                                <div style="font-size: 15px" class="alert alert-success">
+                                    {{ session()->get('yes') }}
+                                </div>
+                            </i>
+                        @elseif(session()->has('no'))
+                            <i>
+                                <div style="font-size: 15px" class="alert alert-danger">
+                                    {{ session()->get('no') }}
+                                </div>
+                            </i>
                         @endif
                         <div class="login-Register-info">
                             <form method="POST" action="{{ route('user.change', ['id' => Auth::guard('nguoi_dung')->user()->nd_id]) }}">

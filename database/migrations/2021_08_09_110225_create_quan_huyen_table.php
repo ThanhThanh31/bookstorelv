@@ -11,13 +11,16 @@ class CreateQuanHuyenTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up() 
     {
         Schema::create('quan_huyen', function (Blueprint $table) {
             $table->id('qh_id');
             $table->string('qh_ten');
+            $table->string('qh_cap');
+
             $table->bigInteger('ttp_id')->unsigned();
             $table->foreign('ttp_id')->references('ttp_id')->on('tinh_thanhpho')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

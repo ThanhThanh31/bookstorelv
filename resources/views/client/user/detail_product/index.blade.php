@@ -7,7 +7,7 @@
                 <div class="col">
                     <ul class="breadcrumb-list">
                         <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Trang chủ</a></li>
-                        <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
+                        <li class="breadcrumb-item active">Chi tiết sản phẩm - {{ $pro->sp_ten }}</li> 
                     </ul>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="single-product-tab">
-                                    <div class="zoomWrapper">
+                                    <div class="zoomWrapper"> 
                                         <div id="img-1" class="zoomWrapper single-zoom" style="text-align:center;">
                                                 <a href="{{ route('detail.pro', ['id' => $pro->sp_id]) }}">
                                                 <img style="height: 450px; width: 300px;" id="zoom1"
@@ -37,7 +37,8 @@
                                                 <li>
                                                     <a href="#" class="elevatezoom-gallery active" data-update=""
                                                         data-image="" data-zoom-image="">
-                                                        <img style="height: 150px" src="{{ asset($pro->sp_hinhanh) }}" alt="zo-th-1" /></a>
+                                                        <img style="height: 150px" src="{{ asset($pro->sp_hinhanh) }}" alt="zo-th-1" />
+                                                    </a>
                                                 </li>
                                                 @foreach($imagg as $keys)
                                                 <li class="">
@@ -59,49 +60,31 @@
                                 <div class="quick-view-content">
                                     <div class="product-info">
                                         <h2>{{ $pro->sp_ten }}</h2>
-                                        <div class="rating-box">
-                                            <ul class="rating d-flex">
-                                                <li><i class="icon-star"></i></li>
-                                                <li><i class="icon-star"></i></li>
-                                                <li><i class="icon-star"></i></li>
-                                                <li><i class="icon-star"></i></li>
-                                                <li><i class="icon-star"></i></li>
-                                            </ul>
-                                        </div>
                                         <div class="price-box">
                                             <span
                                                 class="new-price">{{ number_format($pro->sp_gia, 0, ',', '.') . ' ' . 'VNĐ' }}</span>
-                                            {{-- <span class="old-price">$30.50</span> --}}
                                         </div>
                                         <ul class="list-unstyled">
+                                            <li>Người đăng bán: <a href="#">{{ $pro->username }}</a></li>
+                                            <li>Địa chỉ: <a href="#">{{ $pro->nd_diachi }}</a></li>
                                             <li>Tác giả: <a href="#">{{ $pro->tg_ten }}</a></li>
-                                            <li>Thể loại: <a href="#">{{ $pro->tl_ten }}</a></li>
-                                            <li>Lĩnh vực: <a href="#">{{ $pro->lv_ten }}</a></li>
-                                            <li>Mã sản phẩm: {{ $pro->sp_id }}</li>
-                                            <li>Tình trạng: <span class="stock">Còn hàng</span></li>
+                                            <li>Thể loại: <a href="{{ route('detail.cate', ['id' => $pro->tl_id]) }}">{{ $pro->tl_ten }}</a></li>
+                                            <li>Lĩnh vực: <a href="{{ route('detail.field', ['id' => $pro->lv_id]) }}">{{ $pro->lv_ten }}</a></li>
+                                            <li>Tình trạng:
+                                                @if ($pro->sp_trangthai == 1)
+                                                <span class="stock">Đang bán</span>
+                                                @else
+                                                <span class="stock">Đã bán</span>
+                                                @endif
+                                            </li>
                                         </ul>
-                                        <form class="modal-cart">
-                                            <div class="quantity">
-                                                <label>Số lượng</label>
-                                                <div class="cart-plus-minus">
-                                                    <input type="number" value="1" min="0" step="1" class="input-box">
-                                                </div>
-                                            </div>
-                                        </form>
                                         <ul class="quick-add-to-cart">
-                                            <li><a href="#" class="add-to-cart"><i class="icon-basket-loaded"></i> Thêm
-                                                    vào giỏ hàng</a></li>
-                                            <li><a class="wishlist-btn" href="#"><i class="icon-heart"></i></a></li>
-                                            <li><a class="compare-btn" href="#"><i class="icon-refresh"></i></a></li>
+                                            <li><a href="#" class="add-to-cart"><i class="icon-umbrella"></i>Chat với người bán</a></li>
                                         </ul>
-                                        <p>Tags: <a href="#">Movado</a>,<a href="#">Omega</a>
-                                            <a href="#"></a>
-                                        </p>
                                     </div>
                                 </div>
                                 <!-- product-thumbnail-content end -->
                             </div>
-                            {{-- @endforeach --}}
                         </div>
                         <div class="row">
                             <div class="col">
@@ -147,7 +130,7 @@
                                         </div>
                                         <div class="tab-pane" id="descriptionn">
                                             <div class="description-content">
-                                                <p>{{ $pro->sp_mota }}</p>
+                                                <p>{!! $pro->sp_mota !!}</p>
                                             </div>
                                         </div>
                                         <div id="review" class="tab-pane fade">

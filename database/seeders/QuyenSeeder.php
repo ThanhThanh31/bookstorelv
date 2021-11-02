@@ -18,10 +18,10 @@ class QuyenSeeder extends Seeder
                 'q_ten' => 'Khách hàng',
             ],
             [
-                'q_ten' => 'Chủ cửa hàng',
+                'q_ten' => 'Quản trị',
             ],
             [
-                'q_ten' => 'Quản trị',
+                'q_ten' => 'Quyền đã bị khóa',
             ],
         ];
         $insert = DB::table('quyen')->insert($quyen);

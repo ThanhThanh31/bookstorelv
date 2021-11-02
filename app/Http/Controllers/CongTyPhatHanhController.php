@@ -15,7 +15,7 @@ class CongTyPhatHanhController extends Controller
      */
     public function index()
     {
-        $company = DB::table('congty_phathanh')->get();
+        $company = DB::table('congty_phathanh')->orderby('cty_id','desc')->paginate(6);
         return view('admin.company.index', compact('company'));
     }
 

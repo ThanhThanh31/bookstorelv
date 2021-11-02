@@ -15,7 +15,7 @@ class NhaXuatBanController extends Controller
      */
     public function index()
     {
-        $list = DB::table('nha_xuatban')->get();
+        $list = DB::table('nha_xuatban')->orderby('nxb_id','desc')->paginate(6);
         return view('admin.publisher.index', compact('list'));
     }
 

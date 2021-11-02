@@ -15,28 +15,13 @@ class TacGiaSeeder extends Seeder
     {
         $author = [
             [
-                'tg_ten' => 'Nhiều Tác Giả',
-            ],
-            [
-                'tg_ten' => 'Mặc Hương Đồng Khứu',
-            ],
-            [
-                'tg_ten' => 'Khốn Ỷ Nguy Lâu',
-            ],
-            [
-                'tg_ten' => 'Tĩnh Thủy Biên',
-            ],
-            [
                 'tg_ten' => 'Cửu Lộ Phi Hương',
-            ],
-            [
-                'tg_ten' => 'Nhĩ Nhã',
             ],
             [
                 'tg_ten' => 'Cố Tây Tước',
             ],
             [
-                'tg_ten' => 'Tạ Hà Như Bình',
+                'tg_ten' => 'Đinh Tị',
             ],
             [
                 'tg_ten' => 'Mạc Bảo Phi Bảo',
@@ -61,6 +46,21 @@ class TacGiaSeeder extends Seeder
             ],
             [
                 'tg_ten' => 'Annie Pietri',
+            ],
+            [
+                'tg_ten' => 'Khốn Ỷ Nguy Lâu',
+            ],
+            [
+                'tg_ten' => 'Nhĩ Nhã',
+            ],
+            [
+                'tg_ten' => 'Mặc Hương Đồng Khứu',
+            ],
+            [
+                'tg_ten' => 'Tĩnh Thủy Biên',
+            ],
+            [
+                'tg_ten' => 'Nhiều Tác Giả',
             ],
         ];
         $insert = DB::table('tac_gia')->insert($author);

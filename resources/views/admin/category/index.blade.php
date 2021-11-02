@@ -12,16 +12,20 @@
                 <a href="{{ route('cate.addform') }}" class="btn btn-primary">Thêm thể loại</a>
             </div>
             <br>
-            @if (Session::has('get'))
-                <b class="text-success">{{ Session::get('get') }}</b>
+            @if (session()->has('get'))
+                <i>
+                    <div style="font-size: 15px" class="alert alert-success">
+                        {{ session()->get('get') }}
+                    </div>
+                </i>
             @endif
-            <br>
             <div class="row">
                 <table class="table table-hover">
                     <thead>
                         <tr style="text-align: center">
                             <th>STT</th>
                             <th>Tên thể loại sản phẩm</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,15 +35,39 @@
                                 <td>{{ $stt++ }}</td>
                                 <td>{{ $item->tl_ten }}</td>
                                 <td>
-                                    <a href="{{ route('cate.edit', ['id' => $item->tl_id]) }}" class="btn btn-warning">Chỉnh
-                                        sửa</a>
-                                    <a onclick="return confirm('Bạn có chắc là muốn xóa {{ $item->tl_ten }} ?')" href="{{ route('cate.delete', ['id' => $item->tl_id]) }}" 
-                                        class="btn btn-danger">Xóa</a>
+                                    <a href="{{ route('cate.edit', ['id' => $item->tl_id]) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <a onclick="return confirm('Bạn có chắc là muốn xóa {{ $item->tl_ten }} ?')" href="{{ route('cate.delete', ['id' => $item->tl_id]) }}"
+                                        class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @if ($listCate->currentPage() != 1)
+                        <li class="page-item">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $listCate->url($listCate->currentPage() - 1)) !!}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        @endif
+                        @for ($i = 1; $i <= $listCate->lastPage(); $i = $i + 1)
+                        <li class="page-item {!! $listCate->currentPage() == $i ? 'active' : ' ' !!}">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $listCate->url($i)) !!}">{!! $i !!}</a>
+                        </li>
+                        @endfor
+                        @if ($listCate->currentPage() != $listCate->lastPage())
+                        <li class="page-item">
+                            <a class="page-link" href="{!! str_replace('/?', '?', $listCate->url($listCate->currentPage() + 1)) !!}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>

@@ -1,7 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
+use Hash;
+use Session;
+use Auth;
+use Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,7 +18,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $subtotal = Cart::subtotal();
+        $total = Cart::total();
+        return view('client.user.cart.index', compact('subtotal', 'total'));
     }
 
     /**
@@ -21,9 +28,16 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function addCart(Request $request, $id)
     {
-        //
+        $product = DB::table('san_pham')->where('san_pham.sp_id', $id)->first();
+        Cart::add(array('id' => $product ->sp_id, 'name' => $product->sp_ten,
+        'qty' => 1, 'weight' => '0', 'price' => $product->sp_gia, 'options' => ['user' => $product->nd_id, 'image' => $product->sp_hinhanh]));
+        $content = Cart::content();
+        // dd($content);
+        // return redirect()->back()->with('thongbao','Đã thêm sản phẩm thành công !');
+        // Session::flash("thongbao", "Đã thêm sản phẩm thành công !");
+        return redirect()->back();
     }
 
     /**
@@ -32,9 +46,9 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function deleCart(Request $request ,$id){
+        Cart::remove($id);
+        return redirect()->back()->with('feedback','Sản phẩm của bạn đã được xóa thành công khỏi giỏ hàng !');
     }
 
     /**
@@ -43,9 +57,10 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function updateCart(Request $request, $rowId)
     {
-        //
+        Cart::update($rowId, ['qty'=>$request->qty]);
+        return redirect()->back()->with('feedback','Cập nhật số lượng sản phẩm thành công !');
     }
 
     /**
@@ -54,9 +69,10 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function deleAllCart()
     {
-        //
+        Cart::destroy();
+        return redirect()->back()->with('feedback','Tất cả sản phẩm của bạn đã được xóa thành công khỏi giỏ hàng !');
     }
 
     /**

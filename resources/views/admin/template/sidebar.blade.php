@@ -31,25 +31,33 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               <li class="nav-item">
+                    <a href="{{ route('admin.list') }}" class="nav-link">
+                        <i class="nav-icon fas fas fa-address-card"></i>
+                        <p>
+                            Người Dùng
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('cate.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-paw"></i>
                         <p>
                             Thể Loại
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.list') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="{{ route('field.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-snowflake"></i>
                         <p>
-                            Cửa Hàng
+                            Lĩnh vực
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('cover.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-cannabis"></i>
                         <p>
                             Loại Bìa
                         </p>
@@ -57,7 +65,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('author.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-pencil-alt"></i>
                         <p>
                             Tác Giả
                         </p>
@@ -65,7 +73,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('publisher.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-guitar"></i>
                         <p>
                             Nhà Xuất Bản
                         </p>
@@ -73,7 +81,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('company.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-umbrella"></i>
                         <p>
                             Công Ty Phát Hành
                         </p>
@@ -85,4 +93,3 @@
     </div>
     <!-- /.sidebar -->
 </aside>
-          
