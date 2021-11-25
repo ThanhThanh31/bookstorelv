@@ -19,7 +19,6 @@ class CreateXaPhuongTable extends Migration
             $table->string('xp_cap'); 
 
             $table->bigInteger('qh_id')->unsigned();
-            $table->foreign('qh_id')->references('qh_id')->on('quan_huyen')->onDelete('cascade');
 
             $table->timestamps();
         });

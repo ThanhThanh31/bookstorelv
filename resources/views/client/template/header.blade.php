@@ -57,12 +57,12 @@
             </div>
             <!-- logo-container end -->
             <!-- main-menu-area start -->
-            <div class="horizontal-menu main-menu-area d-none d-lg-block" style="padding-right: 260px">
+            <div class="horizontal-menu main-menu-area d-none d-lg-block" style="padding-right: 470px">
                 <nav>
                     <ul>
                         <li><a href="{{ route('client.index') }}">Trang chủ</a>
                         </li>
-                        <li class="mega_parent"><a href="shop.html">Trang <i class="icon-arrow-down"></i></a>
+                        {{-- <li class="mega_parent"><a href="shop.html">Trang <i class="icon-arrow-down"></i></a>
                             <ul class="mega-menu">
                                 <li><a href="#">Column One</a>
                                     <ul>
@@ -98,16 +98,32 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li><a href="{{ route('detail.index') }}">Sản phẩm</a></li>
-                        <li><a href="about.html">Giới thiệu</a></li>
-                        <li><a href="contact.html">Liên hệ</a></li>
-                        <li><a href="blog.html">Diễn đàn</a></li>
+                        <li><a href="{{ route('information.index') }}">Giới thiệu</a></li>
+                        <li><a href="{{ route('post.index') }}">Diễn đàn</a></li>
                     </ul>
                 </nav>
             </div>
             <!-- main-menu-area end -->
             <!-- box-right start -->
+            <div class="box-right" style="padding-right: 120px">
+                {{-- <div id="top-shopoing-cart" class="btn-group"> --}}
+                @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 1)
+                    <span class="top-cart-total" style="font-weight: 500; padding-right: 50px">
+                    @if (Auth::guard('nguoi_dung')->user()->nd_anh == null)
+                    <img style="height: 50px; padding-right: 5px; border-radius: 50%;" src="{{ asset('template_client/img/icon/admin.jpg') }}" alt="">
+                    @else
+                    <img style="height: 50px; padding-right: 5px; border-radius: 50%;" alt="" src="{{ asset( Auth::guard('nguoi_dung')->user()->nd_anh ) }}">
+                    @endif
+                    Xin chào, {{ Auth::guard('nguoi_dung')->user()->username }}</span>
+                @else
+                    <span class="top-cart-total" style="font-weight: 500; padding-right: 50px">
+                    <img style="height: 50px; padding-right: 5px; border-radius: 50%;" src="{{ asset('template_client/img/icon/admin.jpg') }}" alt="">
+                    <a href="{{ route('client.form') }}">Đăng nhập/Đăng ký</a>
+                @endif
+                {{-- </div> --}}
+            </div>
             <div class="box-right">
                 <!-- search-box-area start -->
                 <div class="search-box-area">
@@ -127,8 +143,6 @@
                                 <button class="setting-btn">Tài khoản <i class="icon-arrow-down"></i></button>
                                 <ul class="setting-list">
                                     @if (Auth::guard('nguoi_dung')->check() && Auth::guard('nguoi_dung')->user()->q_id == 1)
-                                        <li><span style="color: white">Xin chào,
-                                                {{ Auth::guard('nguoi_dung')->user()->username }}</span></li>
                                         <li><a href="{{ route('page.manage') }}">Đăng bán sản phẩm</a></li>
                                         <li><a href="{{ route('user.edit') }}">Thông tin người dùng</a></li>
                                         <li><a href="{{ route('user.pass') }}">Thay đổi mật khẩu</a></li>

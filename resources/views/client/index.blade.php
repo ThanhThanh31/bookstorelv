@@ -47,7 +47,7 @@
                         </div>
                         <div class="row">
                             <div class="product-module-2-active owl-carousel">
-                                @foreach($showCate as $keys) 
+                                @foreach($showCate as $keys)
                                 <div class="list-syle-item">
                                     <div class="product-wrap">
                                         <div class="product-caption right-caption text-right" style="width: 100%;">
@@ -95,7 +95,7 @@
                                 </a>
                             </div>
                             <div class="product-caption">
-                                <h4 class="product-name"><a href="{{ $key->sp_id }}">{{ $key->sp_ten }}</a></h4>
+                                <h4 class="product-name"><a href="{{ route('detail.pro', ['id' => $key->sp_id]) }}">{{ $key->sp_ten }}</a></h4>
                                 <div class="price-box">
                                     <span class="new-price">{{number_format($key->sp_gia,0,',','.').' '.'VNĐ'}}</span>
                                 </div>
@@ -110,58 +110,37 @@
     </div>
     <!-- product-area end -->
 
-    <!-- banner-area start -->
-    <div class="banner-area">
-        <div class="banner-inner">
-            <div class="col-custom-4 mt-30">
-                <div class="single-banner-image">
-                    <a href="#"><img src="{{ asset('template_client/img/banner/1.jpg') }}" alt=""></a>
-                </div>
-            </div>
-            <div class="col-custom-8 mt-30">
-                <div class="single-banner-image responsive-img">
-                    <a href="#"><img src="{{ asset('template_client/img/banner/2.jpg') }}" alt=""></a>
-                    <div class="banner-text">
-                        <span class="text1">we are free to discount sale up to 70%</span>
-                        <span class="text2">FREE UK DELIVERY + RETURN OVER £40.00 (EXCLUDING men's
-                            fashion).</span>
-                        <a href="shop.html" class="link">learn more</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- banner-area end -->
-
     <!-- latest-blog-area start -->
     <div class="latest-blog-area ptb-100">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="section-title text-center mb-50">
-                        <h4>our news</h4>
-                        <h2>Unique blog style </h2>
+                        <h4>Bài viết của chúng tôi</h4>
+                        <h2>BÀI VIẾT MỚI NHẤT </h2>
                         <div class="module-description">
-                            Update the latest fashion trends of the shop T90, useful articles to help you learn about
-                            fashion and the latest styles.
+                            Khám phá những bài viết mới nhất của AnnaBooks
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="latest-blog-active owl-carousel">
+                    @foreach($showPost as $key)
                     <div class="col">
                         <div class="singel-latest-blog">
                             <div class="aritcles-content">
                                 <div class="author-name">
-                                    post by:<a href="#"> Author Name</a> - 30 Oct 2018
+                                    Đăng bởi:<a href="#"> {{ $key->username }}</a> - {{ $key->created_at }}
                                 </div>
-                                <a href="blog-details.html" class="articles-name">Best of Hair & Makeup New York
-                                    Spring/Summer 2018 - 360° Experience</a>
+                                <a href="{{ route('post.detail', ['id' => $key->bv_id]) }}"
+                                    class="articles-name">{{ $key->bv_tieude }}
+                                </a>
                             </div>
+                            <br>
                             <div class="articles-image">
-                                <a href="blog-details.html">
-                                    <img src="{{ asset('template_client/img/blog/3.jpg') }}" alt="">
+                                <a href="{{ route('post.detail', ['id' => $key->bv_id]) }}">
+                                    <img style="height: 240px;" src="{{ asset($key->bv_hinhanh) }}" alt="">
                                     <span class="blog-action">
                                         <i class="icon-picture icons"></i>
                                     </span>
@@ -169,113 +148,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="singel-latest-blog">
-                            <div class="aritcles-content">
-                                <div class="author-name">
-                                    post by:<a href="#"> Author Name</a> - 11 may 2018
-                                </div>
-                                <a href="blog-details.html" class="articles-name">Best of Hair & Makeup New York
-                                    Spring/Summer 2016 - 360° Experience</a>
-                            </div>
-                            <div class="articles-image">
-                                <a href="blog-details.html">
-                                    <img src="{{ asset('template_client/img/blog/1.jpg') }}" alt="">
-                                    <span class="blog-action">
-                                        <i class="icon-picture icons"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="singel-latest-blog">
-                            <div class="aritcles-content">
-                                <div class="author-name">
-                                    post by:<a href="#"> Author Name</a> - 25 July 2018
-                                </div>
-                                <a href="blog-details.html" class="articles-name">London Fashion Week 360° Candy Rock &
-                                    Royal Fashion Day</a>
-                            </div>
-                            <div class="articles-image">
-                                <a href="blog-details.html">
-                                    <img src="{{ asset('template_client/img/blog/2.jpg') }}" alt="">
-                                    <span class="blog-action">
-                                        <i class="icon-picture icons"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="singel-latest-blog">
-                            <div class="aritcles-content">
-                                <div class="author-name">
-                                    post by:<a href="#"> Author Name</a> - 21 Jun 2018
-                                </div>
-                                <a href="blog-details.html" class="articles-name">Mercedes Benz Fashion Week – Mirror To
-                                    The Soul 360• Experience</a>
-                            </div>
-                            <div class="articles-image">
-                                <a href="blog-details.html">
-                                    <img src="{{ asset('template_client/img/blog/4.jpg') }}" alt="">
-                                    <span class="blog-action">
-                                        <i class="icon-picture icons"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
     <!-- latest-blog-area end -->
-
-    <!-- testimonial-area start -->
-    <div class="testimonial-area bg-color ptb-100">
-        <div class="container">
-            <div class="row">
-                <div class="testimonial-active owl-carousel">
-                    <div class="col">
-                        <div class="testimonial-content text-center">
-                            <div class="icon-box">
-                                <i class="icon-bubbles"></i>
-                            </div>
-                            <div class="testimonial-box">
-                                <p> This is Photoshops version of Lorem Ipsum. Proin gravida nibh vel velit.Lorem ipsum
-                                    dolor sit amet, consectetur adipiscing elit. In molestie augue magna. Pellentesque felis
-                                    lorem, pulvinar sed eros ..</p>
-                            </div>
-                            <div class="testimonial-images">
-                                <img src="{{ asset('template_client/img/team/1.jpg') }}" alt="">
-                            </div>
-                            <div class="testimonial-author">
-                                <p>Rebecka Filson</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="testimonial-content text-center">
-                            <div class="icon-box">
-                                <i class="icon-bubbles"></i>
-                            </div>
-                            <div class="testimonial-box">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae facilis, veniam iste
-                                    nemo aspernatur laborum quos, nihil ut sequi dolor. Velit quod adipisci voluptas libero
-                                    quasi reprehenderit ..</p>
-                            </div>
-                            <div class="testimonial-images">
-                                <img src="{{ asset('template_client/img/team/2.jpg') }}" alt="">
-                            </div>
-                            <div class="testimonial-author">
-                                <p>jonaki roja</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- testimonial-area end -->
 @endsection

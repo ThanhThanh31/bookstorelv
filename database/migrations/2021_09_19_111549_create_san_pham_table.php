@@ -16,26 +16,27 @@ class CreateSanPhamTable extends Migration
         Schema::create('san_pham', function (Blueprint $table) {
             $table->id('sp_id');
             $table->string('sp_ten');
-            $table->string('sp_hinhanh');
+            $table->string('sp_trangthai')->nullable();
             $table->integer('sp_sotrang');
             $table->string('sp_kichthuoc');
-            $table->string('sp_trangthai')->nullable();
             $table->float('sp_gia');
-            $table->string('sp_mota');
+            $table->longtext('sp_mota');
+            $table->string('sp_tinhtrang')->default('1');
+            $table->string('sp_hinhanh');
 
             $table->bigInteger('lv_id')->unsigned();
             $table->foreign('lv_id')->references('lv_id')->on('linh_vuc')->onDelete('cascade');
 
-            $table->bigInteger('nxb_id')->unsigned()->nullable();
+            $table->bigInteger('nxb_id')->unsigned();
             $table->foreign('nxb_id')->references('nxb_id')->on('nha_xuatban')->onDelete('cascade');
 
-            $table->bigInteger('lb_id')->unsigned()->nullable();
+            $table->bigInteger('lb_id')->unsigned();
             $table->foreign('lb_id')->references('lb_id')->on('loai_bia')->onDelete('cascade');
 
-            $table->bigInteger('cty_id')->unsigned()->nullable();
+            $table->bigInteger('cty_id')->unsigned();
             $table->foreign('cty_id')->references('cty_id')->on('congty_phathanh')->onDelete('cascade');
 
-            $table->bigInteger('tg_id')->unsigned()->nullable();
+            $table->bigInteger('tg_id')->unsigned();
             $table->foreign('tg_id')->references('tg_id')->on('tac_gia')->onDelete('cascade');
 
             $table->bigInteger('nd_id')->unsigned();
@@ -49,6 +50,9 @@ class CreateSanPhamTable extends Migration
 
             $table->bigInteger('xp_id')->unsigned();
             $table->foreign('xp_id')->references('xp_id')->on('xa_phuong')->onDelete('cascade');
+
+            $table->bigInteger('qt_id')->unsigned()->nullable();
+            $table->foreign('qt_id')->references('qt_id')->on('quan_tri')->onDelete('cascade');
             $table->timestamps();
         });
     }

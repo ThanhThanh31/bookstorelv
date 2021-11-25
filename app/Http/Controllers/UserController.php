@@ -5,6 +5,8 @@ use DB;
 use Hash;
 use Auth;
 use Session;
+use Intervention\Image\Facades\Image as Image;
+use App\Model\Photo;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,12 +16,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search_product = DB::table('san_pham')
         ->where('sp_ten','like','%'.$request->key.'%')
         ->orWhere('sp_gia',$request->key)->orderby('sp_id','desc')->paginate(6);
         $list_category = DB::table('the_loai')->orderby('tl_id','desc')->get();
-        return view('client.user.search.index', compact('search_product', 'list_category'));
+        return view('client.user.search_product.index', compact('search_product', 'list_category'));
     }
 
     public function proField(Request $request, $id)
@@ -33,17 +36,48 @@ class UserController extends Controller
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
         ->where('linh_vuc.lv_id', $id)
         ->get();
-        return view('client.user.product_field.index', compact('product_field', 'array_field'));
 
+        $city = DB::table('tinh_thanhpho')->orderby('ttp_id','asc')->get();
+        $min_price = DB::table('san_pham')->min('sp_gia');
+        $max_price = DB::table('san_pham')->max('sp_gia');
+
+        $min_price_range = $min_price;
+        $max_price_range = $max_price + 10000;
+
+        if($request->id_city){
+            $id_city = $request->id_city;
+            $product_field = DB::table('san_pham')->where('ttp_id', $id_city)->orderby('sp_id','desc')->paginate(6)->appends(request()->query());
+        }elseif(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+            if($sort_by=='prices_decrease'){
+                $product_field = DB::table('san_pham')->orderby('sp_gia','desc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='prices_increase'){
+                $product_field = DB::table('san_pham')->orderby('sp_gia','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_A_Z'){
+                $product_field = DB::table('san_pham')->orderby('sp_ten','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_Z_A'){
+                $product_field = DB::table('san_pham')->orderby('sp_ten','desc')->paginate(6)->appends(request()->query());
+            }
+        }elseif(isset($_GET['start_price']) && $_GET['end_price']){
+            $min_price = $_GET['start_price'];
+            $max_price = $_GET['end_price'];
+            $product_field = DB::table('san_pham')->whereBetween('sp_gia',[$min_price,$max_price])
+            ->orderBy('sp_gia','ASC')->paginate(6)->appends(request()->query());
+        }
+        return view('client.user.product_field.index', compact('product_field', 'array_field', 'city', 'min_price', 'max_price', 'min_price_range', 'max_price_range'));
     }
 
     public function index()
     {
-        $showPro = DB::table('san_pham')
-        ->orderby('sp_id','desc')->get();
+        $showPro = DB::table('san_pham')->orderby('sp_id','desc')->get();
 
         $showCate = DB::table('the_loai')->orderby('tl_id','desc')->get();
-        return view('client.index', compact('showPro', 'showCate'));
+
+        $showPost = DB::table('bai_viet')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'bai_viet.nd_id')
+        ->orderby('bv_id','desc')->get();
+
+        return view('client.index', compact('showPro', 'showCate', 'showPost'));
 
     }
 
@@ -157,6 +191,18 @@ class UserController extends Controller
         $email = $request->email;
         $phone = $request->phone;
         $diachi = $request->diachi;
+
+        if($request->hasFile('avatar')){
+            $avatar = $request->file('avatar')->getClientOriginalName();
+            $request->file('avatar')->move(public_path('anh-nguoi-dung/'),$avatar);
+
+            $user = DB::table('nguoi_dung')->where('nd_id', $id)->update(
+                [
+                    'nd_anh' => 'anh-nguoi-dung/'. $avatar,
+                ]
+            );
+        }
+
         $update = DB::table('nguoi_dung')->where('nd_id', $id)->update(
             [
                 'username' => $name,
@@ -166,7 +212,7 @@ class UserController extends Controller
             ]
             );
             Session::flash("great", "Chỉnh sửa thông tin người dùng thành công !");
-            return redirect()->route('user.edit');
+            return redirect()->back();
     }
 
     public function pass(){
@@ -178,20 +224,20 @@ class UserController extends Controller
         $new_password = $request->new_password;
         $password_confirmation = $request->password_confirmation;
 
-        // if($current_password == "" || $current_password == null){
-        //     Session::flash("no", "Mật khẩu không được để trống !");
-        //     return redirect()->back();
-        // }
+        if($current_password == "" || $current_password == null){
+            Session::flash("no", "Mật khẩu không được để trống !");
+            return redirect()->back();
+        }
 
-        // if($new_password == "" || $new_password == null){
-        //     Session::flash("no", "Mật khẩu mới không được để trống !");
-        //     return redirect()->back();
-        // }
+        if($new_password == "" || $new_password == null){
+            Session::flash("no", "Mật khẩu mới không được để trống !");
+            return redirect()->back();
+        }
 
-        // if($password_confirmation == "" || $password_confirmation == null){
-        //     Session::flash("no", "Xác nhận lại mật khẩu mới không được để trống !");
-        //     return redirect()->back();
-        // }
+        if($password_confirmation == "" || $password_confirmation == null){
+            Session::flash("no", "Xác nhận lại mật khẩu mới không được để trống !");
+            return redirect()->back();
+        }
 
         if (!(Hash::check($current_password, Auth::guard('nguoi_dung')->user()->password))) {
             return redirect()->back()->with("no","Mật khẩu người dùng không đúng. Vui lòng nhập lại !");
@@ -244,8 +290,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function pageUser($id)
     {
-        //
+        $store = DB::table('san_pham')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
+        ->select('nguoi_dung.*', 'san_pham.*')
+        ->where('nguoi_dung.nd_id', $id)->orderby('sp_id','desc')->paginate(8);
+        $nd = DB::table('nguoi_dung')
+        ->join('san_pham', 'san_pham.nd_id', 'nguoi_dung.nd_id')->where('nguoi_dung.nd_id', $id)->first();
+        return view('client.user.page.index', compact('store', 'nd'));
     }
 }

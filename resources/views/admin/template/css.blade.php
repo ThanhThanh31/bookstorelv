@@ -16,5 +16,10 @@
 <link rel="stylesheet" href="{{asset('template_admin/plugins/summernote/summernote-bs4.css')}}">
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="{{asset('template_admin/ionicons/css/ionicons.min.css')}}">
 <!-- Google Font: Source Sans Pro -->
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{{-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> --}}
+<link href="{{asset('template_admin/fonts/googleapis.css')}}">
+
+{{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">  --}}
+<link rel="stylesheet" href="{{asset('template_admin/libs/morris/morris.css')}}"> 

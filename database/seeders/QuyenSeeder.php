@@ -15,13 +15,10 @@ class QuyenSeeder extends Seeder
     {
         $quyen = [
             [
-                'q_ten' => 'Khách hàng',
+                'q_ten' => 'Người dùng',
             ],
             [
-                'q_ten' => 'Quản trị',
-            ],
-            [
-                'q_ten' => 'Quyền đã bị khóa',
+                'q_ten' => 'Người dùng đã bị khóa',
             ],
         ];
         $insert = DB::table('quyen')->insert($quyen);

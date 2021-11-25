@@ -5,7 +5,6 @@
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
@@ -17,7 +16,7 @@
             <div class="info">
                 <a href="#" class="d-block">
                     @if (Auth::guard('quan_tri')->check())
-                      <span>Quản trị viên:&ensp;{{ Auth::guard('quan_tri')->user()->username }}</span>
+                        <span>Quản trị viên:&ensp;{{ Auth::guard('quan_tri')->user()->username }}</span>
                     @endif
                 </a>
                 @if (Auth::guard('quan_tri')->check())
@@ -25,17 +24,25 @@
                 @endif
             </div>
         </div>
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item">
-                    <a href="{{ route('admin.list') }}" class="nav-link">
-                        <i class="nav-icon fas fas fa-address-card"></i>
+                <li class="nav-item">
+                    <a href="{{ route('admin.information') }}" class="nav-link">
+                        <i class="nav-icon fas fa-globe"></i>
                         <p>
-                            Người Dùng
+                            Giới thiệu trang web
+                        </p>
+                    </a>
+                </li>
+                {{-- fas fa-chart-bar, fas fa-chart-line, fas fa-chart-area --}}
+                <li class="nav-item">
+                    <a href="{{ route('statistical.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Thống kê
                         </p>
                     </a>
                 </li>
@@ -84,6 +91,22 @@
                         <i class="nav-icon fas fa-umbrella"></i>
                         <p>
                             Công Ty Phát Hành
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('post.report') }}" class="nav-link">
+                        <i class="nav-icon fas fa-thumbtack"></i>
+                        <p>
+                            Báo Xấu Bài Viết
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('product.report') }}" class="nav-link">
+                        <i class="nav-icon fas fa-paperclip"></i>
+                        <p>
+                            Báo Cáo Sản Phẩm
                         </p>
                     </a>
                 </li>

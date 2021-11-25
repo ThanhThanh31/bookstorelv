@@ -54,6 +54,10 @@
     </div>
     <!-- jquery -->
     @include('client.template.js')
+    @stack('add-pro-by-city')
+    @stack('comment-by-ajax')
+    @stack('comment-reply')
+    @stack('filter-posts')
     <!-- all plugins JS hear -->
 </body>
 

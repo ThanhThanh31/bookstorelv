@@ -58,5 +58,6 @@
 <!-- ./wrapper -->
 @include('client.page.template.js')
 @stack('ajax-add-product')
+@stack('ajax-add-address')
 </body>
 </html>

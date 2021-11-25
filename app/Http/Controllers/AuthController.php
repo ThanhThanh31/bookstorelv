@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 use DB;
 use Hash;
+use Session;
 use Auth;
+// use File;
+use Validator;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -15,7 +18,10 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $quantity_user = DB::table('nguoi_dung')->get()->count();
+        $quantity_post = DB::table('bai_viet')->get()->count();
+        $quantity_product = DB::table('san_pham')->get()->count();
+        return view('admin.index', compact('quantity_user', 'quantity_post', 'quantity_product'));
     }
 
     /**

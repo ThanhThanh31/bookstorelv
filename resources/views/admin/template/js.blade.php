@@ -3,9 +3,7 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('template_admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
+
 <!-- Bootstrap 4 -->
 <script src="{{asset('template_admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
@@ -32,3 +30,13 @@
 <script src="{{asset('template_admin/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('template_admin/dist/js/demo.js')}}"></script>
+<link rel="stylesheet" href="{{asset('template_admin/morris/morris.css')}}">
+
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> --}}
+<script src="{{asset('template_admin/libs/raphael/raphael-min.js')}}"></script>
+
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> --}}
+<script src="{{asset('template_admin/libs/morris/morris.min.js')}}"></script>
+
+<script src="{{asset('template_admin/ckeditor/ckeditor.js')}}"></script>
+

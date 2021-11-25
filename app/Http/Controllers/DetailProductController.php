@@ -19,38 +19,46 @@ class DetailProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('client.user.product.index');
-    }
-    public function pro($id)
-    {
-
-        $imagg = DB::table('anh')
-        ->join('san_pham', 'san_pham.sp_id', 'anh.sp_id')
-        ->where('anh.sp_id', $id)
-        ->get();
-
-        $pro = DB::table('san_pham')
-        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
+        $city = DB::table('tinh_thanhpho')->orderby('ttp_id','asc')->get();
+        $theloai = DB::table('the_loai')->orderby('tl_id','desc')->get();
+        $sanpham = DB::table('san_pham')
+        ->join('tinh_thanhpho', 'tinh_thanhpho.ttp_id', 'san_pham.ttp_id')
         ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
-        ->join('tac_gia', 'tac_gia.tg_id', 'san_pham.tg_id')
-        ->join('nha_xuatban', 'nha_xuatban.nxb_id', 'san_pham.nxb_id')
-        ->join('congty_phathanh', 'congty_phathanh.cty_id', 'san_pham.cty_id')
-        ->join('loai_bia', 'loai_bia.lb_id', 'san_pham.lb_id')
-        ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
-        ->where('san_pham.sp_id', $id)
-        ->first();
-        return view('client.user.detail_product.index', compact('pro', 'imagg'));
+        ->orderby('sp_id','desc')->paginate(6);
+
+        $min_price = DB::table('san_pham')->min('sp_gia');
+        $max_price = DB::table('san_pham')->max('sp_gia');
+
+        $min_price_range = $min_price;
+        $max_price_range = $max_price + 10000;
+
+        if($request->id_city){
+            $id_city = $request->id_city;
+            $sanpham = DB::table('san_pham')->where('ttp_id', $id_city)->orderby('sp_id','desc')->paginate(6)->appends(request()->query());
+        }elseif(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+            if($sort_by=='prices_decrease'){
+                $sanpham = DB::table('san_pham')->orderby('sp_gia','desc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='prices_increase'){
+                $sanpham = DB::table('san_pham')->orderby('sp_gia','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_A_Z'){
+                $sanpham = DB::table('san_pham')->orderby('sp_ten','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_Z_A'){
+                $sanpham = DB::table('san_pham')->orderby('sp_ten','desc')->paginate(6)->appends(request()->query());
+            }
+        }elseif(isset($_GET['start_price']) && $_GET['end_price']){
+            $min_price = $_GET['start_price'];
+            $max_price = $_GET['end_price'];
+            $sanpham = DB::table('san_pham')->whereBetween('sp_gia',[$min_price,$max_price])
+            ->orderBy('sp_gia','ASC')->paginate(6)->appends(request()->query());
+        }
+        return view('client.user.product.index', compact('city', 'theloai', 'sanpham', 'min_price', 'max_price', 'min_price_range', 'max_price_range'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function cate($id)
+    public function cate(Request $request, $id)
     {
         $list_field = DB::table('the_loai')
         ->join('linh_vuc', 'linh_vuc.tl_id', 'the_loai.tl_id')
@@ -66,8 +74,76 @@ class DetailProductController extends Controller
         ->where('the_loai.tl_id', $id)
         ->get();
 
-        return view('client.user.detail_field.index', compact('list_field', 'pro_field', 'name_Cate'));
+        $city = DB::table('tinh_thanhpho')->orderby('ttp_id','asc')->get();
+        $min_price = DB::table('san_pham')->min('sp_gia');
+        $max_price = DB::table('san_pham')->max('sp_gia');
+
+        $min_price_range = $min_price;
+        $max_price_range = $max_price + 10000;
+
+        if($request->id_city){
+            $id_city = $request->id_city;
+            $pro_field = DB::table('san_pham')->where('ttp_id', $id_city)->orderby('sp_id','desc')->paginate(6)->appends(request()->query());
+        }elseif(isset($_GET['sort_by'])){
+            $sort_by = $_GET['sort_by'];
+            if($sort_by=='prices_decrease'){
+                $pro_field = DB::table('san_pham')->orderby('sp_gia','desc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='prices_increase'){
+                $pro_field = DB::table('san_pham')->orderby('sp_gia','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_A_Z'){
+                $pro_field = DB::table('san_pham')->orderby('sp_ten','asc')->paginate(6)->appends(request()->query());
+            }elseif($sort_by=='name_Z_A'){
+                $pro_field = DB::table('san_pham')->orderby('sp_ten','desc')->paginate(6)->appends(request()->query());
+            }
+        }elseif(isset($_GET['start_price']) && $_GET['end_price']){
+            $min_price = $_GET['start_price'];
+            $max_price = $_GET['end_price'];
+            $pro_field = DB::table('san_pham')->whereBetween('sp_gia',[$min_price,$max_price])
+            ->orderBy('sp_gia','ASC')->paginate(6)->appends(request()->query());
+        }
+
+        return view('client.user.detail_field.index', compact('list_field', 'pro_field', 'name_Cate', 'city', 'min_price', 'max_price', 'min_price_range', 'max_price_range'));
     }
+
+    public function pro($id)
+    {
+        $imagg = DB::table('anh')
+        ->join('san_pham', 'san_pham.sp_id', 'anh.sp_id')
+        ->where('anh.sp_id', $id)
+        ->get();
+
+        $pro = DB::table('san_pham')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
+        ->join('tinh_thanhpho', 'tinh_thanhpho.ttp_id', 'san_pham.ttp_id')
+        ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
+        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
+        ->join('tac_gia', 'tac_gia.tg_id', 'san_pham.tg_id')
+        ->join('nha_xuatban', 'nha_xuatban.nxb_id', 'san_pham.nxb_id')
+        ->join('congty_phathanh', 'congty_phathanh.cty_id', 'san_pham.cty_id')
+        ->join('loai_bia', 'loai_bia.lb_id', 'san_pham.lb_id')
+        ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
+        ->where('san_pham.sp_id', $id)
+        ->first();
+
+        // $binhluan = DB::table('binhluan_sanpham')
+        // ->join('san_pham', 'san_pham.sp_id', 'binhluan_sanpham.sp_id')
+        // ->join('nguoi_dung', 'nguoi_dung.nd_id', 'binhluan_sanpham.nd_id')
+        // ->select('nguoi_dung.*', 'san_pham.*', 'binhluan_sanpham.*')->orderby('bs_id','desc')
+        // ->where('san_pham.sp_id', $id)
+        // ->get();
+
+        $same = DB::table('san_pham')
+        ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
+        ->where('linh_vuc.lv_id', $pro->lv_id)->where('sp_id', '<>', $pro->sp_id)->orderby('sp_id','desc')->get();
+
+        return view('client.user.detail_product.index', compact('pro', 'imagg', 'same'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
     /**
      * Store a newly created resource in storage.

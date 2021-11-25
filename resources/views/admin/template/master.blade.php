@@ -13,7 +13,7 @@
 <div class="wrapper">
 
   <!-- Navbar -->
-  @include('admin.template.header') 
+  @include('admin.template.header')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -28,10 +28,11 @@
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">@yield('title-page')</h1>
           </div><!-- /.col -->
-          <div class="col-sm-6"> 
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
               <li class="breadcrumb-item active">@yield('title-page-detail')</li>
+              {{-- <li class="breadcrumb-item active">@yield('title-page-details')</li> --}}
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -56,6 +57,11 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
 @include('admin.template.js')
+@stack('statistical-post')
+@stack('ckeditor')
 </body>
 </html>

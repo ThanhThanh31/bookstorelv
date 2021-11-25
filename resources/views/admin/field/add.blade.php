@@ -24,7 +24,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="">Thể loại</label>
                                         <select name="theloai" class="form-control" selected>
-                                            <option value="">Chọn thể loại</option>
+                                            <option value="">--- Chọn thể loại ---</option>
                                             @foreach ($cateList as $item => $key)
                                                 <option value="{{ $key->tl_id }}">{{ $key->tl_ten }}</option>
                                             @endforeach

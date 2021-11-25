@@ -19,7 +19,7 @@ class CreateBaiVietTable extends Migration
             $table->string('bv_tomtat');
             $table->string('bv_noidung');
             $table->string('bv_hinhanh');
-            $table->integer('bv_trangthai')->default('1');
+            $table->integer('bv_tinhtrang')->default('1');
 
             $table->bigInteger('nd_id')->unsigned();
             $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');

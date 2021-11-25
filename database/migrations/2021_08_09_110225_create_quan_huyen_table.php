@@ -19,7 +19,6 @@ class CreateQuanHuyenTable extends Migration
             $table->string('qh_cap');
 
             $table->bigInteger('ttp_id')->unsigned();
-            $table->foreign('ttp_id')->references('ttp_id')->on('tinh_thanhpho')->onDelete('cascade');
 
             $table->timestamps();
         });

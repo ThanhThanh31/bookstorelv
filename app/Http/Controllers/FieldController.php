@@ -29,7 +29,7 @@ class FieldController extends Controller
      */
     public function create()
     {
-        $cateList = DB::table('the_loai')
+        $cateList = DB::table('the_loai')->orderby('tl_id','desc')
         ->get();
         return view('admin.field.add', compact('cateList'));
     }

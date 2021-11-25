@@ -17,11 +17,11 @@ class CreateNguoiDungTable extends Migration
             $table->id('nd_id');
             $table->string('username');
             $table->string('email');
-            $table->boolean('nd_gioitinh')->nullable();
-            $table->integer('nd_trangthai')->default('1');
-            $table->integer('nd_sdt');
-            $table->string('nd_diachi');
             $table->string('password');
+            $table->string('nd_diachi');
+            $table->integer('nd_sdt');
+            $table->string('nd_anh')->nullable();
+            $table->integer('nd_trangthai')->default('1');
 
             $table->bigInteger('q_id')->unsigned()->default('1');
             $table->foreign('q_id')->references('q_id')->on('quyen')->onDelete('cascade');

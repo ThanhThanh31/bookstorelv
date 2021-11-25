@@ -11,9 +11,11 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
+                <style type="text/css">
+                    .error-message { color: red; }
+                </style>
                 <div class="col-md-12">
-                    <form method="POST" action="{{ route('pro.amend', ['id' => $product->sp_id]) }}"
-                        enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('pro.amend', ['id' => $product->sp_id]) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card">
                             <div class="card-body">
@@ -29,6 +31,7 @@
                                             <label for="">Thay đổi ảnh sản phẩm</label>
                                             <input type="file" style="padding-top: 3px" name="anh_edit"
                                                 class="form-control" id="" aria-describedby="helpId">
+                                            <span class="error-message">{{ $errors->first('anh_edit') }}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -36,6 +39,7 @@
                                             <label for=""> Tên sản phẩm</label>
                                             <input type="text" value="{{ $product->sp_ten }}" name="ten"
                                                 class="form-control" id="">
+                                            <span class="error-message">{{ $errors->first('ten') }}</span>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Thể loại</label>
@@ -72,7 +76,6 @@
                                         <button type="button" class="btn btn-success" data-toggle="modal"
                                             data-target="#exampleModal">Thêm hình ảnh liên quan
                                         </button>
-
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -100,22 +103,27 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
-                                        <label for="">Giá sản phẩm (VNĐ)</label>
-                                        <input class="form-control" type="number" name="gia"
-                                            value="{{ $product->sp_gia }}">
-                                    </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-6">
                                         <label for="">Số trang</label>
                                         <input class="form-control" type="number" name="sotrang"
                                             value="{{ $product->sp_sotrang }}">
+                                        <span class="error-message">{{ $errors->first('sotrang') }}</span>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-6">
                                         <label for="">Kích thước</label>
                                         <input class="form-control" type="text" name="kichthuoc"
                                             value="{{ $product->sp_kichthuoc }}">
+                                        <span class="error-message">{{ $errors->first('kichthuoc') }}</span>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="">Giá sản phẩm (VNĐ)</label>
+                                        <input class="form-control" type="number" name="gia"
+                                            value="{{ $product->sp_gia }}">
+                                        <span class="error-message">{{ $errors->first('gia') }}</span>
+                                    </div>
+                                    <div class="form-group col-md-6">
                                         <label for="">Trạng thái</label>
                                         <select name="trangthai" class="form-control">
                                             <option value="1" @if ($product->sp_trangthai == 1) selected @endif>Đang bán</option>
@@ -163,12 +171,46 @@
                                         </select>
                                     </div>
                                 </div>
+                                <label for="">Nơi bán sản phẩm</label>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Tỉnh thành phố</label>
+                                        <select name="thanhpho" class="form-control City">
+                                            <option value="">--- Chọn tỉnh thành phố ---</option>
+                                            @foreach ($city as $item => $tp)
+                                                <option value="{{ $tp->ttp_id }}" @if ($product->ttp_id == $tp->ttp_id) selected @endif>
+                                                    {{ $tp->ttp_ten }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="error-message">{{ $errors->first('thanhpho') }}</span></p>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Quận huyện</label>
+                                        <select name="quanhuyen" class="form-control Province">
+                                            <option class="itemCity" value="{{ $product->qh_id }}">{{ $product->qh_ten }}</option>
+                                            @foreach ($provin as $item => $keys)
+                                            @endforeach
+                                        </select>
+                                        <span class="error-message">{{ $errors->first('quanhuyen') }}</span>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Xã phường</label>
+                                        <select name="xaphuong" class="form-control Ward">
+                                            <option class="itemProvince" value="{{ $product->xp_id }}">{{ $product->xp_ten }}</option>
+                                            @foreach ($wards as $item => $check)
+                                            @endforeach
+                                        </select>
+                                        <span class="error-message">{{ $errors->first('xaphuong') }}</span>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Mô tả sản phẩm</label>
                                             <textarea name="mota" cols="30" rows="10"
-                                                class="textarea">{{ $product->sp_mota }}</textarea>
+                                                class="textarea">{{ $product->sp_mota }}
+                                            </textarea>
+                                            <span class="error-message">{{ $errors->first('mota') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -178,7 +220,7 @@
                                 <button type="submit" class="btn btn-success">Chỉnh sửa</button>
                             </div>
                         </div>
-                </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -214,5 +256,51 @@
                 });
             })
         </script>
+    @endpush
+    @push('ajax-add-address')
+    <script>
+        $(document).ready(function() {
+            const BASE_URL = window.location.origin;
+            //jqchang - phím tắt
+            $('select.City').change(function(e) {
+                e.preventDefault();
+                var getIDCity = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemCity').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/page/" + getIDCity + "/province",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Province').append('<option value="' + response[i].qh_id +
+                                '" class="itemCity">' + response[i].qh_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+            $('select.Province').change(function(e) {
+                e.preventDefault();
+                var getIDProvince = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemProvince').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/page/" + getIDProvince + "/ward",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Ward').append('<option value="' + response[i].xp_id +
+                                '" class="itemProvince">' + response[i].xp_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
     @endpush
 @endsection

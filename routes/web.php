@@ -14,6 +14,17 @@ use App\Http\Controllers\CongTyPhatHanhController;
 use App\Http\Controllers\NhaXuatBanController;
 use App\Http\Controllers\BookJacketController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentProductController;
+use App\Http\Controllers\PostUserController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProductReportController;
+use App\Http\Controllers\PostReportController;
+use App\Http\Controllers\AdminProductReportController;
+use App\Http\Controllers\AdminPostReportController;
+use App\Http\Controllers\StatisticalAdminController;
+use App\Http\Controllers\InformationController;
+use App\Http\Controllers\AdminInformationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,10 +56,28 @@ Route::prefix('/client')->group(function () {
     Route::post('/{id}/change', [UserController::class, 'change'])->name('user.change');
     Route::get('/search', [UserController::class, 'search'])->name('user.search');
     Route::get('/{id}/detail-field', [UserController::class, 'proField'])->name('detail.field');
+    Route::get('/{id}/detail-user', [UserController::class, 'pageUser'])->name('detail.pageUser');
 
     Route::get('/all-product', [DetailProductController::class, 'index'])->name('detail.index');
     Route::get('/{id}/detail-pro', [DetailProductController::class, 'pro'])->name('detail.pro');
     Route::get('/{id}/detail-cate', [DetailProductController::class, 'cate'])->name('detail.cate');
+
+    Route::get('/post', [PostController::class, 'index'])->name('post.index');
+    Route::get('/{id}/detail-post', [PostController::class, 'post'])->name('post.detail');
+    Route::post('/post-find', [PostController::class, 'find'])->name('post.find');
+
+    Route::post('/{id}/comment-post', [CommentController::class, 'post'])->name('comment.post');
+    Route::post('/{idbv}/{idbl}/reply-post', [CommentController::class, 'reply'])->name('reply.post');
+    Route::get('/{id}/comment-delete', [CommentController::class, 'obliterate'])->name('comment.obliterate');
+    Route::post('/{id}/comment-update', [CommentController::class, 'updatecomment'])->name('comment.update');
+
+    // Route::post('/comment-product/{pro_id}', [CommentProductController::class, 'comment'])->name('comment.ajax');
+
+    Route::get('/{id}/report-product', [ProductReportController::class, 'report'])->name('report.product');
+
+    Route::get('/{id}/article-report', [PostReportController::class, 'article'])->name('article.report');
+
+    Route::get('/information', [InformationController::class, 'index'])->name('information.index');
 
 });
 
@@ -64,13 +93,28 @@ Route::prefix('/client')->group(function () {
     Route::get('/{id}/revised', [SanPhamController::class, 'revised'])->name('pro.revised');
     Route::post('/{id}/amend', [SanPhamController::class, 'amend'])->name('pro.amend');
     Route::get('/{id}/get', [SanPhamController::class, 'getProductTypeByCat'])->name('pro.get');
+    //quan_huyen
+    Route::get('/{id}/province', [SanPhamController::class, 'getProvinceByCity'])->name('pro.province');
+    //xa_phuong
+    Route::get('/{id}/ward', [SanPhamController::class, 'getWardByProvince'])->name('pro.ward');
     // Hình ảnh lien quan
     Route::get('/{id}/erase', [SanPhamController::class, 'erase'])->name('image.erase');
+    Route::get('/product-rope', [SanPhamController::class, 'rope'])->name('pro.rope');
+    Route::get('/history-product', [SanPhamController::class, 'historyProduct'])->name('pro.historyProduct');
 
     Route::get('/type', [BookJacketController::class, 'index'])->name('book.index');
     Route::get('/checklist', [BookJacketController::class, 'checklist'])->name('book.checklist');
     Route::post('/adoption', [BookJacketController::class, 'adoption'])->name('book.adoption');
     Route::get('/{idshop}/{idcover}/erased', [BookJacketController::class, 'erased'])->name('book.erased');
+
+    Route::get('/postuser', [PostUserController::class, 'index'])->name('postuser.index');
+    Route::get('/postuser-plus', [PostUserController::class, 'plus'])->name('postuser.plus');
+    Route::post('/postuser-redouble', [PostUserController::class, 'redouble'])->name('postuser.redouble');
+    Route::get('/{id}/postuser-dab', [PostUserController::class, 'dab'])->name('postuser.dab');
+    Route::get('/{id}/postuser-remark', [PostUserController::class, 'remark'])->name('postuser.remark');
+    Route::post('/{id}/postuser-overhaul', [PostUserController::class, 'overhaul'])->name('postuser.overhaul');
+    Route::get('/postuser-history-post', [PostUserController::class, 'historyPost'])->name('postuser.historyPost');
+    Route::get('/postuser-buckle-post', [PostUserController::class, 'buckle'])->name('postuser.buckle');
 
   });
 
@@ -96,6 +140,8 @@ Route::middleware(['checkQuanTri'])->group(function () {
     Route::post('/{id}/uphold', [FieldController::class, 'uphold'])->name('field.uphold');
 
     Route::get('/store', [StoreController::class, 'list'])->name('admin.list');
+    Route::get('/align', [StoreController::class, 'align'])->name('admin.align');
+    Route::get('/embattle', [StoreController::class, 'embattle'])->name('admin.embattle');
     Route::get('/{id}/lock', [StoreController::class, 'lock'])->name('admin.lock');
     Route::get('/{id}/open', [StoreController::class, 'open'])->name('admin.open');
 
@@ -126,6 +172,25 @@ Route::middleware(['checkQuanTri'])->group(function () {
     Route::get('/{id}/eradicate', [NhaXuatBanController::class, 'eradicate'])->name('publisher.eradicate');
     Route::get('/{id}/modified', [NhaXuatBanController::class, 'modified'])->name('publisher.modified');
     Route::post('/{id}/updating', [NhaXuatBanController::class, 'updating'])->name('publisher.updating');
+
+    Route::get('/product-report', [AdminProductReportController::class, 'index'])->name('product.report');
+    Route::get('/{id}/detail-report', [AdminProductReportController::class, 'detail_report'])->name('product.detail');
+    Route::get('/{id}/details-pro', [AdminProductReportController::class, 'detail_pro'])->name('product.details');
+    Route::get('/{id}/product-overt', [AdminProductReportController::class, 'overt'])->name('product.overt');
+
+    Route::get('/post-report', [AdminPostReportController::class, 'index'])->name('post.report');
+    Route::get('/{id}/post-highlight', [AdminPostReportController::class, 'highlight'])->name('post.highlight');
+    Route::get('/{id}/post-professed', [AdminPostReportController::class, 'professed'])->name('post.professed');
+    Route::get('/{id}/post-pendent', [AdminPostReportController::class, 'pendent'])->name('post.pendent');
+
+    Route::get('/statistical', [StatisticalAdminController::class, 'index'])->name('statistical.index');
+    Route::get('/filter-by-date', [StatisticalAdminController::class, 'filter_by_date'])->name('statistical.filter_by_date');
+    Route::post('/dashboard-filter', [StatisticalAdminController::class, 'dashboard_filter'])->name('statistical.filter_dashboard');
+    Route::post('/days-order', [StatisticalAdminController::class, 'days_order'])->name('statistical.days_order');
+
+    Route::get('/information', [AdminInformationController::class, 'index'])->name('admin.information');
+    Route::post('/information-add', [AdminInformationController::class, 'add'])->name('information.add');
+    Route::post('/{id}/information-update', [AdminInformationController::class, 'update'])->name('information.update');
   });
 });
 

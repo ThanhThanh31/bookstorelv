@@ -78,7 +78,7 @@ class NhaXuatBanController extends Controller
         $xuatban = $request->xuatban;
         $up = DB::table('nha_xuatban')->where('nxb_id', $id)->update(
             [
-                'lb_ten' => $xuatban,
+                'nxb_ten' => $xuatban,
             ]
             );
             Session::flash("publisher", "Chỉnh sửa nhà xuât bản thành công !");
