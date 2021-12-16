@@ -8,6 +8,24 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <form action="{{ route('admin.seek_user') }}" method="GET" class="form-inline" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-group col-lg-12 col-sm-12" style="min-width: 150%; padding-left: 470px">
+                        <input id="key_user" name="key_user" class="form-control" type="search" placeholder="Nhập vào tên người dùng cần tìm kiếm..." aria-label="Search">
+                        <div class="input-group-append" style="background-color:#007bff">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search" style="color: #fff"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="row">
+                <a href="{{ route('admin.index') }}" type="button" class="btn btn-secondary">Trở về</a>&emsp;
+                <a href="{{ route('statistical_user.index') }}" class="btn btn-primary">Xem thống kê người dùng</a>
+            </div>
             <br>
             @if (session()->has('acc'))
                 <i>
@@ -73,6 +91,8 @@
                                             <button class="btn btn-warning">Mở khóa tài khoản</button>
                                         </a>
                                     @endif
+                                        <a href="{{ route('admin.detail_users', ['id' => $item->nd_id]) }}" class="btn btn-info">
+                                            Xem thông tin</i></a>
                                 </td>
                             </tr>
                         @endforeach

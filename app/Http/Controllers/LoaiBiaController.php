@@ -15,7 +15,7 @@ class LoaiBiaController extends Controller
      */
     public function index()
     {
-        $type = DB::table('loai_bia')->orderby('lb_id','desc')->paginate(6);
+        $type = DB::table('loai_bia')->orderby('lb_id','desc')->paginate(10);
         return view('admin.cover.index', compact('type'));
     }
 
@@ -38,6 +38,17 @@ class LoaiBiaController extends Controller
     public function add(Request $request)
     {
         $loaibia = $request->loaibia;
+
+        $messages = [
+            'loaibia.required' => 'Tên loại bìa không được để trống !',
+            'loaibia.unique' => 'Tên loại bìa này đã tồn tại. Vui lòng nhập tên loại bìa khác !',
+        ];
+
+        $this->validate($request,[
+
+            'loaibia' => 'required|unique:loai_bia,lb_ten',
+        ], $messages);
+
         $insert = DB::table('loai_bia')->insert(
             [
                 'lb_ten' => $loaibia,
@@ -76,6 +87,16 @@ class LoaiBiaController extends Controller
     public function update(Request $request, $id)
     {
         $loaibia = $request->loaibia;
+
+        $messages = [
+            'loaibia.required' => 'Tên loại bìa không được để trống !',
+        ];
+
+        $this->validate($request,[
+
+            'loaibia' => 'required',
+        ], $messages);
+
         $up = DB::table('loai_bia')->where('lb_id', $id)->update(
             [
                 'lb_ten' => $loaibia,

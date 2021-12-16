@@ -15,7 +15,7 @@ class TacGiaController extends Controller
      */
     public function index()
     {
-        $author = DB::table('tac_gia')->orderby('tg_id','desc')->paginate(6);
+        $author = DB::table('tac_gia')->orderby('tg_id','desc')->paginate(10);
         return view('admin.author.index', compact('author'));
     }
 
@@ -49,6 +49,18 @@ class TacGiaController extends Controller
     public function add(Request $request)
     {
         $tacgia = $request->tacgia;
+
+        $messages = [
+            'tacgia.required' => 'Tên tác giả không được để trống !',
+            'tacgia.min' => 'Tên tác giả ít nhất phải 3 ký tự trở lên !',
+             'tacgia.unique' => 'Tên tác giả này đã tồn tại. Vui lòng nhập tên khác !',
+        ];
+
+        $this->validate($request,[
+
+            'tacgia' => 'required|min:3|unique:tac_gia,tg_ten',
+        ], $messages);
+
         $insert = DB::table('tac_gia')->insert(
             [
                 'tg_ten' => $tacgia,
@@ -80,6 +92,17 @@ class TacGiaController extends Controller
     public function update(Request $request, $id)
     {
         $tacgia = $request->tacgia;
+
+        $messages = [
+            'tacgia.required' => 'Tên tác giả không được để trống !',
+            'tacgia.min' => 'Tên tác giả ít nhất phải 3 ký tự trở lên !',
+        ];
+
+        $this->validate($request,[
+
+            'tacgia' => 'required|min:3',
+        ], $messages);
+
         $up = DB::table('tac_gia')->where('tg_id', $id)->update(
             [
                 'tg_ten' => $tacgia,

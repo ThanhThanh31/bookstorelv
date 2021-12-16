@@ -11,7 +11,7 @@ class StoreController extends Controller
 {
     public function list(){
         $roll = DB::table('nguoi_dung')
-        ->orderby('nd_id','desc')->paginate(6);
+        ->orderby('nd_id','desc')->paginate(10);
         return view('admin.user.index', compact('roll'));
     }
 
@@ -21,7 +21,7 @@ class StoreController extends Controller
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
         ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
         ->select('nguoi_dung.*', 'san_pham.*', 'linh_vuc.*', 'the_loai.*')
-        ->orderby('sp_id','desc')->paginate(5);
+        ->orderby('sp_id','desc')->paginate(20);
         return view('admin.product.index', compact('align'));
     }
 
@@ -29,7 +29,7 @@ class StoreController extends Controller
         $embattle = DB::table('bai_viet')
         ->join('nguoi_dung', 'nguoi_dung.nd_id', 'bai_viet.nd_id')
         ->select('nguoi_dung.*', 'bai_viet.*')
-        ->orderby('bv_id','desc')->paginate(4);
+        ->orderby('bv_id','desc')->paginate(10);
         return view('admin.post.index', compact('embattle'));
     }
 

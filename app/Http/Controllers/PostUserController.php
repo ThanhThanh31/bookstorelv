@@ -58,6 +58,24 @@ class PostUserController extends Controller
         $tomtat = $request->tomtat;
         $noidung = $request->noidung;
 
+        $messages = [
+            'anhbaiviet.required' => 'Vui lòng chọn hình ảnh cho bài viết !',
+            'anhbaiviet.image' => 'Chỉ chấp nhận hình ảnh cho bài viết với đuôi .jpg .jpeg .png .gif !',
+            'tieude.required' => 'Tiêu đề bài viết không được để trống !',
+            'tomtat.required' => 'Tóm tắt nội dung bài viết không được để trống !',
+            'tomtat.min' => 'Tóm tắt nội dung bài viết phải có ít nhất 10 ký tự !',
+            'noidung.required' => 'Nội dung bài viết không được để trống !',
+            'noidung.min' => 'Nội dung bài viết có ít nhất 50 ký tự !',
+        ];
+
+        $this->validate($request,[
+            'anhbaiviet' => 'required|image',
+            'tieude' => 'required',
+            'tomtat' => 'required|min:10',
+            'noidung' => 'required|min:30',
+        ], $messages);
+        // Ràng buộc dữ liệu
+
         $nguoidung = Auth::guard('nguoi_dung')->user()->nd_id;
         $table = DB::table('nguoi_dung')->where('nd_id', $nguoidung)->first();
         if($request->hasFile('anhbaiviet')){
@@ -108,6 +126,22 @@ class PostUserController extends Controller
         $tieude = $request->tieude;
         $tomtat = $request->tomtat;
         $noidung = $request->noidung;
+
+        $messages = [
+            'anhbaiviet.image' => 'Chỉ chấp nhận hình ảnh cho bài viết với đuôi .jpg .jpeg .png .gif !',
+            'tieude.required' => 'Tiêu đề bài viết không được để trống !',
+            'tomtat.required' => 'Tóm tắt nội dung bài viết không được để trống !',
+            'tomtat.min' => 'Tóm tắt nội dung bài viết phải có ít nhất 10 ký tự !',
+            'noidung.required' => 'Nội dung bài viết không được để trống !',
+            'noidung.min' => 'Nội dung bài viết có ít nhất 50 ký tự !',
+        ];
+
+        $this->validate($request,[
+            'anhbaiviet' => 'image',
+            'tieude' => 'required',
+            'tomtat' => 'required|min:10',
+            'noidung' => 'required|min:30',
+        ], $messages);
 
         if($request->hasFile('anhbaiviet')){
             $anhbaiviet = $request->file('anhbaiviet');
@@ -170,5 +204,19 @@ class PostUserController extends Controller
         ->where('nd_id', $tb_nd->nd_id)->where('bv_tinhtrang', 2)
         ->orderby('bv_id','desc')->paginate(4);
         return view('client.page.report_post.index', compact('buckle'));
+    }
+
+    public function find_posts(Request $request){
+        $id_nd = Auth::guard('nguoi_dung')->user()->nd_id;
+        $tb_nd = DB::table('nguoi_dung')->where('nd_id', $id_nd)->first();
+
+        $key = $request->key;
+        $find_posts = DB::table('bai_viet')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'bai_viet.nd_id')
+        ->where('bai_viet.nd_id', $tb_nd->nd_id)
+        ->where('bv_tieude','like','%'.$key.'%')
+        ->take(10)->orderby('bv_id','desc')->get();
+
+        return view('client.page.search_post.index', compact('find_posts', 'key'));
     }
 }

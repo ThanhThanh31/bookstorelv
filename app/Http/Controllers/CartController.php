@@ -18,9 +18,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        $subtotal = Cart::subtotal();
-        $total = Cart::total();
-        return view('client.user.cart.index', compact('subtotal', 'total'));
+        $subtotal = Cart::subtotal(0);
+        return view('client.user.cart.index', compact('subtotal')); 
     }
 
     /**
@@ -46,8 +45,8 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function deleCart(Request $request ,$id){
-        Cart::remove($id);
+    public function deleCart(Request $request ,$rowId){
+        Cart::remove($rowId);
         return redirect()->back()->with('feedback','Sản phẩm của bạn đã được xóa thành công khỏi giỏ hàng !');
     }
 
@@ -57,10 +56,23 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateCart(Request $request, $rowId)
+    public function updateCart(Request $request)
     {
-        Cart::update($rowId, ['qty'=>$request->qty]);
-        return redirect()->back()->with('feedback','Cập nhật số lượng sản phẩm thành công !');
+        // Cart::update($rowId, ['qty'=>$request->qty]);
+        // return redirect()->back()->with('feedback','Cập nhật số lượng sản phẩm thành công !');
+        // if(Request::ajax()){
+        //     $id = Request::input('id');
+        //     $qty = Request::input('qty');
+        //     Cart::update($id, $qty);
+        //     return "ok";
+        // }
+        if (Request()->ajax()) {
+            $id = Request::get('id');
+            $qty = Request::get('qty');
+            Cart::update($id, ['qty'=>$qty]);
+            echo "ok";
+           }
+
     }
 
     /**
@@ -82,7 +94,7 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateAllCart(Request $request)
     {
         //
     }

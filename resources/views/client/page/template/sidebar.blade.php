@@ -1,6 +1,10 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('page.manage') }}"></a>
+    <a href="{{ route('page.manage') }}" class="brand-link">
+        <img src="{{ asset('template_client/img/icon.ico') }}" alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">ANNABOOKS</span>
+    </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -25,14 +29,16 @@
         @endif
 
         <!-- Sidebar Menu -->
-
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('pro.index') }}" class="nav-link">
+                    <a href="{{ route('pro.index') }}" class="nav-link
+                    @if (Request::segment(2) == 'product')
+                    active
+                    @endif
+                    ">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Sản Phẩm
@@ -40,7 +46,35 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('postuser.index') }}" class="nav-link">
+                    <a href="{{ route('pro.rope') }}" class="nav-link
+                    @if (Request::segment(2) == 'rope')
+                    active
+                    @endif
+                    ">
+                        <i class="nav-icon fas fa-paperclip"></i>
+                        <p>
+                            Sản phẩm bị báo cáo
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pro.historyProduct') }}" class="nav-link
+                    @if (Request::segment(2) == 'annals')
+                    active
+                    @endif
+                    ">
+                        <i class="nav-icon fas fa-chart-area"></i>
+                        <p>
+                            Lịch sử báo cáo sản phẩm
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('postuser.index') }}" class="nav-link
+                    @if (Request::segment(2) == 'postuser')
+                    active
+                    @endif
+                    ">
                         <i class="nav-icon fas fa-fan"></i>
                         <p>
                             Bài Viết
@@ -48,41 +82,33 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pro.rope') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="{{ route('postuser.buckle') }}" class="nav-link
+                    @if (Request::segment(2) == 'buckle')
+                    active
+                    @endif
+                    ">
+                        <i class="nav-icon fas fa-thumbtack"></i>
                         <p>
-                            Sản phẩm bị ẩn
+                            Bài viết bị báo cáo
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pro.historyProduct') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="{{ route('postuser.historyPost') }}" class="nav-link
+                    @if (Request::segment(2) == 'history')
+                    active
+                    @endif
+                    ">
+                        <i class="nav-icon fas fa-chart-bar"></i>
                         <p>
-                            Lịch sử báo cáo vi phạm
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('postuser.buckle') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Bài viết bị ẩn
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('postuser.historyPost') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Lịch sử báo xấu
+                            Lịch sử báo cáo bài viết
                         </p>
                     </a>
                 </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
-        <!-- TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT -->
+        <!-- TEST -->
     </div>
     <!-- /.sidebar -->
 </aside>

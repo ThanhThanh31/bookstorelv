@@ -18,7 +18,7 @@ class StatisticalAdminController extends Controller
      */
     public function index()
     {
-        return view('admin.statistical.index');
+        return view('admin.statistical_post.index');
     }
 
     /**
@@ -58,58 +58,52 @@ class StatisticalAdminController extends Controller
     public function dashboard_filter(Request $request){
 
         $data = $request->all();
-    
-            // $today = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
-           // $tomorrow = Carbon::now('Asia/Ho_Chi_Minh')->addDay()->format('d-m-Y H:i:s');
-           // $lastWeek = Carbon::now('Asia/Ho_Chi_Minh')->subWeek()->format('d-m-Y H:i:s');
-           // $sub15days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(15)->format('d-m-Y H:i:s');
-           // $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(30)->format('d-m-Y H:i:s');
-    
+
         $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
         $dau_thangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
         $cuoi_thangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
-    
+
         $sub7days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(7)->toDateString();
         $sub365days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(365)->toDateString();
-    
+
         $dauthang10 = Carbon::now('Asia/Ho_Chi_Minh')->subMonth(1)->startOfMonth()->toDateString();
         $cuoithang10 = Carbon::now('Asia/Ho_Chi_Minh')->subMonth(1)->endOfMonth()->toDateString();
-    
-    
+
+
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
-    
+
         if($data['dashboard_value']=='7ngay'){
-    
+
             $get = DB::table('bai_viet')->whereBetween('created_at',[$sub7days,$now])
             ->select('created_at',
             DB::raw('count(*) as bai_viet'),
             )
             ->groupBy('created_at')->get();
-    
+
         }elseif($data['dashboard_value']=='thangtruoc'){
-    
+
             $get = DB::table('bai_viet')->whereBetween('created_at',[$dau_thangtruoc,$cuoi_thangtruoc])
             ->select('created_at',
             DB::raw('count(*) as bai_viet'),
             )
             ->groupBy('created_at')->get();
-    
+
         }elseif($data['dashboard_value']=='thangnay'){
-    
+
             $get = DB::table('bai_viet')->whereBetween('created_at',[$dauthangnay,$now])
             ->select('created_at',
             DB::raw('count(*) as bai_viet'),
             )
             ->groupBy('created_at')->get();
-    
-        }elseif ($data['dashboard_value']=='thang9') {
-    
+
+        }elseif ($data['dashboard_value']=='thang10') {
+
             $get = DB::table('bai_viet')->whereBetween('created_at',[$dauthang10,$cuoithang10])
             ->select('created_at',
             DB::raw('count(*) as bai_viet'),
             )
             ->groupBy('created_at')->get();
-    
+
         }else{
             $get = DB::table('bai_viet')->whereBetween('created_at',[$sub365days,$now])
             ->select('created_at',
@@ -134,18 +128,18 @@ class StatisticalAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function days_order(){
+    public function days_post(){
 
-        $sub60days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(60)->toDateString();
-    
+        $sub100days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(100)->toDateString();
+
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
-    
-        $get = DB::table('bai_viet')->whereBetween('created_at',[$sub60days,$now])
+
+        $get = DB::table('bai_viet')->whereBetween('created_at',[$sub100days,$now])
         ->select('created_at',
             DB::raw('count(*) as bai_viet'),
             )
             ->groupBy('created_at')->get();
-    
+
         foreach($get as $key => $val){
             $date = \Carbon\Carbon::parse($val->created_at)->format('Y-m-d');
             $chart_data[] = array(

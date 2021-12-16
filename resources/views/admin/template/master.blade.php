@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>AnnaBooks | Trang quản trị</title>
   <!-- Tell the browser to be responsive to screen width -->
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('template_client/img/icon.ico') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,6 +62,8 @@
   </script>
 @include('admin.template.js')
 @stack('statistical-post')
+@stack('statistical-user')
+@stack('statistical-product')
 @stack('ckeditor')
 </body>
 </html>

@@ -15,7 +15,7 @@ class CreateBaocaoBaivietTable extends Migration
     {
         Schema::create('baocao_baiviet', function (Blueprint $table) {
             $table->id('bb_id');
-            $table->string('bb_noidung');
+            $table->longtext('bb_noidung');
 
             $table->bigInteger('nd_id')->unsigned();
             $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AnnaBooks || ABS - Kết nối những sẻ</title>
+    <title>AnnaBooks || ABS - Kết nối những sẻ chia</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -55,9 +55,12 @@
     <!-- jquery -->
     @include('client.template.js')
     @stack('add-pro-by-city')
-    @stack('comment-by-ajax')
+    @stack('comment-product-reply')
     @stack('comment-reply')
     @stack('filter-posts')
+    @stack('address-user')
+    @stack('update-cart')
+    @stack('update-all-cart')
     <!-- all plugins JS hear -->
 </body>
 

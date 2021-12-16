@@ -16,7 +16,7 @@ class CreateBinhluanSanphamTable extends Migration
         Schema::create('binhluan_sanpham', function (Blueprint $table) {
             $table->id('bs_id');
             $table->string('bs_id_reply')->nullable();
-            $table->string('bs_noidung');
+            $table->longtext('bs_noidung');
 
             $table->bigInteger('sp_id')->unsigned();
             $table->foreign('sp_id')->references('sp_id')->on('san_pham')->onDelete('cascade');

@@ -18,7 +18,7 @@ class AdminPostReportController extends Controller
         $reports = DB::table('bai_viet')
         ->where('bv_tinhtrang', 2)
         ->orderby('bv_id','desc')
-        ->paginate(6);
+        ->paginate(10);
         return view('admin.post_report.index', compact('reports'));
     }
 

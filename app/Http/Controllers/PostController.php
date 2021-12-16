@@ -25,20 +25,21 @@ class PostController extends Controller
             $sort_by = $_GET['sort_by'];
             if($sort_by=='latest'){
                 $showPost = $postList
-                ->orderby('bv_id','desc')->paginate(6)->appends(request()->query());
+                ->orderby('bv_id','desc')->paginate(10)->appends(request()->query());
             }elseif($sort_by=='oldest'){
                 $showPost = $postList
-                ->orderby('bv_id','asc')->paginate(6)->appends(request()->query());
+                ->orderby('bv_id','asc')->paginate(10)->appends(request()->query());
             }elseif($sort_by=='title_A_Z'){
                 $showPost = $postList
-                ->orderby('bv_tieude','asc')->paginate(6)->appends(request()->query());
+                ->orderby('bv_tieude','asc')->paginate(10)->appends(request()->query());
             }elseif($sort_by=='title_Z_A'){
                 $showPost = $postList
-                ->orderby('bv_tieude','desc')->paginate(6)->appends(request()->query());
+                ->orderby('bv_tieude','desc')->paginate(10)->appends(request()->query());
             }
         } else {
-            $showPost = $postList->orderby('bv_id','desc')->paginate(6);
+            $showPost = $postList->orderby('bv_id','desc')->paginate(2);
         }
+
         return view('client.user.post.index', compact('showPost'));
     }
 
@@ -71,6 +72,7 @@ class PostController extends Controller
         ->orderBy('bl_id', 'asc')
         ->get();
 
+
         return view('client.user.post_detail.index', compact('post', 'parent', 'child'));
     }
 
@@ -87,7 +89,7 @@ class PostController extends Controller
         ->join('nguoi_dung', 'nguoi_dung.nd_id', 'bai_viet.nd_id')
         ->where('bv_tieude','like','%'.$keyword.'%')->orWhere('bv_tomtat','like','%'.$keyword.'%')->orWhere('bv_noidung','like','%'.$keyword.'%')
         ->orWhere('username','like','%'.$keyword.'%')
-        ->take(10)->orderby('bv_id','desc')->paginate(6);
+        ->take(10)->orderby('bv_id','desc')->paginate(10);
 
         return view('client.user.search_post.index', compact('search_post', 'keyword'));
     }

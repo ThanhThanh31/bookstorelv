@@ -50,8 +50,7 @@ class AdminInformationController extends Controller
                 'tt_lienhe' => $lienhe,
             ]
             );
-        // Session::flash("author", "Thêm tác giả thành công !");
-        //     return redirect()->route('author.index');
+
         return view('admin.information.add');
     }
 
@@ -69,26 +68,22 @@ class AdminInformationController extends Controller
         $lienhe = $request->lienhe;
         $fanpage = $request->fanpage;
 
-        if($tieude == "" || $tieude == null){
-            Session::flash("no", "Tiêu đề thông tin website không được để trống !");
-            return redirect()->back();
-        }
-        if($noidung == "" || $noidung == null){
-            Session::flash("no", "Nội dung giới thiệu không được để trống !");
-            return redirect()->back();
-        }
-        if($map == "" || $map == null){
-            Session::flash("no", "Bản đồ không được để trống !");
-            return redirect()->back();
-        }
-        if($fanpage == "" || $fanpage == null){
-            Session::flash("no", "Fanpage website không được để trống !");
-            return redirect()->back();
-        }
-        if($lienhe == "" || $lienhe == null){
-            Session::flash("no", "Thông tin liên hệ không được để trống !");
-            return redirect()->back();
-        }
+        $messages = [
+            'tieude.required' => 'Tiêu đề giới thiệu website không được để trống !',
+            'lienhe.required' => 'Nội dung liên hệ không được để trống !',
+            'map.required' => 'Bản đồ website không được để trống !',
+            'noidung.required' => 'Nội dung giới thiệu không được để trống !',
+            'noidung.min' => 'Nội dung giới thiệu có ít nhất 50 ký tự !',
+            'fanpage.required' => 'Địa chỉ fanpage không được để trống !',
+        ];
+
+        $this->validate($request,[
+            'tieude' => 'required',
+            'lienhe' => 'required',
+            'map' => 'required',
+            'noidung' => 'required|min:30',
+            'fanpage' => 'required',
+        ], $messages);
 
         $up = DB::table('thong_tin')->where('tt_id', $id)->update(
             [

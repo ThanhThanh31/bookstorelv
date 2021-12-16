@@ -15,7 +15,7 @@ class CreateBaocaoSanphamTable extends Migration
     {
         Schema::create('baocao_sanpham', function (Blueprint $table) {
             $table->id('bp_id');
-            $table->string('bp_noidung');
+            $table->longtext('bp_noidung');
 
             $table->bigInteger('nd_id')->unsigned();
             $table->foreign('nd_id')->references('nd_id')->on('nguoi_dung')->onDelete('cascade');

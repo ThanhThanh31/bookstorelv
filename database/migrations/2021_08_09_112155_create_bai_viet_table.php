@@ -16,9 +16,10 @@ class CreateBaiVietTable extends Migration
         Schema::create('bai_viet', function (Blueprint $table) {
             $table->id('bv_id');
             $table->string('bv_tieude');
-            $table->string('bv_tomtat');
-            $table->string('bv_noidung');
+            $table->longtext('bv_tomtat');
+            $table->longtext('bv_noidung');
             $table->string('bv_hinhanh');
+            $table->string('bv_luotxem')->nullable();
             $table->integer('bv_tinhtrang')->default('1');
 
             $table->bigInteger('nd_id')->unsigned();

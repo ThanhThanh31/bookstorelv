@@ -101,13 +101,10 @@
                                         <span class="error-message">{{ $errors->first('gia') }}</span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="">Trạng thái</label>
-                                        <select name="trangthai" class="form-control">
-                                            <option value="">--- Chọn trạng thái sản phẩm ---</option>
-                                                <option value="1">Đang bán</option>
-                                                <option value="2">Đã bán</option>
-                                        </select>
-                                        <span class="error-message">{{ $errors->first('trangthai') }}</span>
+                                        <label for="">Số lượng</label>
+                                        <input class="form-control" type="number" name="soluong"
+                                            placeholder="Nhập vào số lượng sản phẩm">
+                                        <span class="error-message">{{ $errors->first('soluong') }}</span>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -173,7 +170,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Thêm</button>
+                                <a href="{{ route('pro.index') }}" type="button" class="btn btn-secondary">Trở về</a>
+                                <button type="submit" class="btn btn-success">Xác nhận</button>
                             </div>
                         </div>
                     </form>

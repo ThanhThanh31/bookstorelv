@@ -23,13 +23,22 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="../../index2.html"><b>AnnaBooks</b> - Admin</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Đăng nhập để quản lý hệ thống</p>
-
+                @if (session()->has('login'))
+                <i>
+                    <span style="color: red;">
+                        {{ session()->get('login') }}
+                    </span>
+                </i>
+            @endif
+                <style type="text/css">
+                    .error-message { color: red; }
+                </style>
                 <form method="POST" action="{{ route('admin.login') }}">
                     @csrf
                     <div class="input-group mb-3">
@@ -40,6 +49,7 @@
                             </div>
                         </div>
                     </div>
+                    <span class="error-message">{{ $errors->first('email') }}</span>
                     <div class="input-group mb-3">
                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
                         <div class="input-group-append">
@@ -48,15 +58,16 @@
                             </div>
                         </div>
                     </div>
+                    <span class="error-message">{{ $errors->first('password') }}</span>
                     <div class="row">
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">
                                 <label for="remember">
                                     Ghi nhớ
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- /.col -->
                         <div class="col-6">
                             <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
@@ -65,7 +76,7 @@
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center mb-3">
+                {{-- <div class="social-auth-links text-center mb-3">
                     <p>- Hoặc -</p>
                     <a href="#" class="btn btn-block btn-primary">
                         <i class="fab fa-facebook mr-2"></i> Đăng nhập bằng Facebook
@@ -73,15 +84,15 @@
                     <a href="#" class="btn btn-block btn-danger">
                         <i class="fab fa-google-plus mr-2"></i> Đăng nhập bằng Google+
                     </a>
-                </div>
+                </div> --}}
                 <!-- /.social-auth-links -->
 
-                <p class="mb-1">
+                {{-- <p class="mb-1">
                     <a href="forgot-password.html">Quên mật khẩu?</a>
                 </p>
                 <p class="mb-0">
                     <a href="register.html" class="text-center">Đăng ký thành viên mới</a>
-                </p>
+                </p> --}}
             </div>
             <!-- /.login-card-body -->
         </div>

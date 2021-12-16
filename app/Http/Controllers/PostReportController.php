@@ -6,6 +6,7 @@ use Hash;
 use Session;
 use Auth;
 use Validator;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostReportController extends Controller
@@ -23,19 +24,17 @@ class PostReportController extends Controller
         $nd = Auth::guard('nguoi_dung')->user()->nd_id;
         $db = DB::table('nguoi_dung')->where('nd_id', $nd)->first();
 
-        $messages = [
-            'vipham.required' => 'Nội dung báo xấu bài viết không được để trống !',
-        ];
-
-        $this->validate($request,[
-            'vipham' => 'required',
-        ], $messages);
+        if($vipham == "" || $vipham == null){
+            Session::flash("danger", "Nội dung báo cáo vi phạm không hợp lệ !");
+            return redirect()->back();
+        }
 
         $insert = DB::table('baocao_baiviet')->insert(
             [
                 'bb_noidung' => $vipham,
                 'nd_id' => $db->nd_id,
                 'bv_id' => $baiviet->bv_id,
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
             ]
             );
 

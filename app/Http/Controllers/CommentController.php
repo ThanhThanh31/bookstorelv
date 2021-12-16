@@ -5,6 +5,7 @@ use DB;
 use Hash;
 use Auth;
 use Session;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -22,19 +23,17 @@ class CommentController extends Controller
         $nd = Auth::guard('nguoi_dung')->user()->nd_id;
         $ch = DB::table('nguoi_dung')->where('nd_id', $nd)->first();
 
-        $messages = [
-            'binhluan.required' => 'Nội dung bình luận không được để trống !',
-        ];
-
-        $this->validate($request,[
-            'binhluan' => 'required',
-        ], $messages);
+        if($binhluan == "" || $binhluan == null){
+            Session::flash("danger", "Nội dung bình luận không được để trống !");
+            return redirect()->back();
+        }
 
         $insert = DB::table('binh_luan')->insert(
             [
                 'bl_noidung' => $binhluan,
                 'nd_id' => $ch->nd_id,
                 'bv_id' => $idBaiViet->bv_id,
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
             ]
             );
         return redirect()->back();
@@ -54,16 +53,10 @@ class CommentController extends Controller
         $ndd = Auth::guard('nguoi_dung')->user()->nd_id;
         $chh = DB::table('nguoi_dung')->where('nd_id', $ndd)->first();
 
-        $messages = [
-            'replies.required' => 'Nội dung bình luận không được để trống !',
-        ];
-
-        $this->validate($request,[
-            'replies' => 'required',
-        ], $messages);
-
-        // $errors = $validate->errors();
-        // Ràng buộc dữ liệu
+        if($replies == "" || $replies == null){
+            Session::flash("danger", "Nội dung phản hồi bình luận không được để trống !");
+            return redirect()->back();
+        }
 
         $insert = DB::table('binh_luan')->insert(
             [

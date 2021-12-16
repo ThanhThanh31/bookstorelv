@@ -18,7 +18,7 @@ class FieldController extends Controller
     {
         $show = DB::table('linh_vuc')
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
-        ->orderby('lv_id','desc')->paginate(6);
+        ->orderby('lv_id','desc')->paginate(10);
         return view('admin.field.index', compact('show'));
     }
 
@@ -44,6 +44,20 @@ class FieldController extends Controller
     {
         $tenlinhVuc = $request->tenlinhVuc;
         $theloai = $request->theloai;
+
+        $messages = [
+            'tenlinhVuc.required' => 'Tên lĩnh vực sản phẩm không được để trống !',
+            'tenlinhVuc.min' => 'Tên lĩnh vực sản phẩm ít nhất phải 3 ký tự trở lên !',
+            'tenlinhVuc.unique' => 'Tên lĩnh vực này đã tồn tại. Vui lòng nhập tên lĩnh vực khác !',
+            'theloai.required' => 'Vui lòng chọn thể loại cho lĩnh vực sản phẩm !',
+        ];
+
+        $this->validate($request,[
+
+            'tenlinhVuc' => 'required|min:3|unique:linh_vuc,lv_ten',
+            'theloai' => 'required',
+        ], $messages);
+
         $insert = DB::table('linh_vuc')->insert(
             [
                 'lv_ten' => $tenlinhVuc,
@@ -93,6 +107,19 @@ class FieldController extends Controller
     {
         $tenlinhVuc = $request->tenlinhVuc;
         $theloai = $request->theloai;
+
+        $messages = [
+            'tenlinhVuc.required' => 'Tên lĩnh vực sản phẩm không được để trống !',
+            'tenlinhVuc.min' => 'Tên lĩnh vực sản phẩm ít nhất phải 3 ký tự trở lên !',
+            'theloai.required' => 'Vui lòng chọn thể loại cho lĩnh vực sản phẩm !',
+        ];
+
+        $this->validate($request,[
+
+            'tenlinhVuc' => 'required|min:3',
+            'theloai' => 'required',
+        ], $messages);
+
         $update = DB::table('linh_vuc')->where('lv_id', $id)->update(
             [
                 'lv_ten' => $tenlinhVuc,

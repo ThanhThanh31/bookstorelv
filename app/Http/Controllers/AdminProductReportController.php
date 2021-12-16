@@ -18,7 +18,7 @@ class AdminProductReportController extends Controller
         $report = DB::table('san_pham')
         ->where('sp_tinhtrang', 2)
         ->orderby('sp_id','asc')
-        ->paginate(6);
+        ->paginate(10);
         return view('admin.pro_report.index', compact('report'));
     }
 
@@ -68,6 +68,7 @@ class AdminProductReportController extends Controller
         ->where('anh.sp_id', $id)
         ->get();
 
+        //DB anh doi khi null nên DB san_pham k the join
         $show = DB::table('san_pham')
         ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
         ->join('tinh_thanhpho', 'tinh_thanhpho.ttp_id', 'san_pham.ttp_id')
@@ -77,7 +78,6 @@ class AdminProductReportController extends Controller
         ->join('nha_xuatban', 'nha_xuatban.nxb_id', 'san_pham.nxb_id')
         ->join('congty_phathanh', 'congty_phathanh.cty_id', 'san_pham.cty_id')
         ->join('loai_bia', 'loai_bia.lb_id', 'san_pham.lb_id')
-        ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
         ->where('san_pham.sp_id', $id)
         ->first();
 

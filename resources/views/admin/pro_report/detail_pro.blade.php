@@ -9,6 +9,10 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <a href="{{ route('product.report') }}" type="button" class="btn btn-secondary">Trở về</a>
+            </div>
+            <br>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div class="card">
@@ -19,14 +23,16 @@
                                             <a href="{{ route('product.details', ['id' => $show->sp_id]) }}"></a>
                                             <img src="{{ asset($show->sp_hinhanh) }}" width="50%" height="370px" alt="">
                                         </div>
-                                        <label for="">Hình ảnh sản phẩm liên quan</label>
-                                        <div class="form-row">
-                                            @foreach ($image as $item)
-                                                <div class="form-group col-md-3">
-                                                    <img style="text-align: center; width: 70px; height: 100px" src="{{ asset($item->a_duongdan) }}">
-                                                </div>
-                                            @endforeach
+                                        @if (count($image) != 0)
+                                            <label for="">Hình ảnh sản phẩm liên quan</label>
+                                            <div class="form-row">
+                                                @foreach ($image as $item)
+                                                    <div class="form-group col-md-3">
+                                                        <img style="text-align: center; width: 70px; height: 100px" src="{{ asset($item->a_duongdan) }}">
+                                                    </div>
+                                                @endforeach
                                         </div>
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">

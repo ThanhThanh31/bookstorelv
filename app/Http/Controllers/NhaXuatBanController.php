@@ -15,7 +15,7 @@ class NhaXuatBanController extends Controller
      */
     public function index()
     {
-        $list = DB::table('nha_xuatban')->orderby('nxb_id','desc')->paginate(6);
+        $list = DB::table('nha_xuatban')->orderby('nxb_id','desc')->paginate(10);
         return view('admin.publisher.index', compact('list'));
     }
 
@@ -38,6 +38,17 @@ class NhaXuatBanController extends Controller
     public function increased(Request $request)
     {
         $xuatban = $request->xuatban;
+
+        $messages = [
+            'xuatban.required' => 'Tên nhà xuất bản không được để trống !',
+            'xuatban.unique' => 'Tên nhà xuất bản này đã tồn tại. Vui lòng nhập tên khác !',
+        ];
+
+        $this->validate($request,[
+
+            'xuatban' => 'required|unique:nha_xuatban,nxb_ten',
+        ], $messages);
+
         $insert = DB::table('nha_xuatban')->insert(
             [
                 'nxb_ten' => $xuatban,
@@ -76,6 +87,16 @@ class NhaXuatBanController extends Controller
     public function updating(Request $request, $id)
     {
         $xuatban = $request->xuatban;
+
+        $messages = [
+            'xuatban.required' => 'Tên nhà xuất bản không được để trống !',
+         ];
+
+        $this->validate($request,[
+
+            'xuatban' => 'required',
+        ], $messages);
+
         $up = DB::table('nha_xuatban')->where('nxb_id', $id)->update(
             [
                 'nxb_ten' => $xuatban,

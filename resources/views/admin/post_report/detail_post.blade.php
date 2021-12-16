@@ -9,6 +9,10 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <a href="{{ route('post.report') }}" type="button" class="btn btn-secondary">Trở về</a>
+            </div>
+            <br>
+            <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
                         <div class="card">

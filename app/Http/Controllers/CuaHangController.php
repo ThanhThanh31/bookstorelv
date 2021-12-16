@@ -51,7 +51,13 @@ class CuaHangController extends Controller
      */
     public function page()
     {
-        return view('client.page.index');
+        $check = Auth::guard('nguoi_dung')->user()->nd_id;
+        $checks = DB::table('nguoi_dung')->where('nd_id', $check)->first();
+
+        $bai_viet = DB::table('bai_viet')->where('nd_id', $checks->nd_id)->get()->count();
+        $san_pham = DB::table('san_pham')->where('nd_id', $checks->nd_id)->get()->count();
+        $don_hang = DB::table('don_hang')->where('dh_id', $checks->nd_id)->get()->count();
+        return view('client.page.index', compact('bai_viet', 'san_pham', 'don_hang'));
     }
 
     /**

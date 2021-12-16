@@ -11,17 +11,13 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
+                <style type="text/css">
+                    .error-message { color: red; }
+                </style>
                 @if (session()->has('yes'))
                     <i>
                         <div style="font-size: 15px; width: 305%; color: #155724; background-color: #d4edda;" class="alert alert-success">
                             {{ session()->get('yes') }}
-                        </div>
-                    </i>
-                @endif
-                @if (session()->has('no'))
-                    <i>
-                        <div style="font-size: 15px; width: 305%; text-align: center; color: #856404; background-color: #fff3cd;" class="alert alert-danger">
-                            {{ session()->get('no') }}
                         </div>
                     </i>
                 @endif
@@ -37,6 +33,7 @@
                                                 <label for="">Tiêu đề trang website</label>
                                                 <input class="form-control" type="text" value="{{ $key->tt_tieude }}"
                                                     name="tieude" placeholder="Nhập vào tiêu đề bài viết">
+                                                    <span class="error-message">{{ $errors->first('tieude') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -48,6 +45,7 @@
                                                     placeholder="Nhập vào nội dung giới thiệu website" name="noidung"
                                                     rows="8" cols="50">{{ $key->tt_noidung }}
                                                         </textarea>
+                                                        <span class="error-message">{{ $errors->first('noidung') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -58,6 +56,7 @@
                                                 <textarea placeholder="Nhập vào thông tin liên hệ" name="map"
                                                     class="form-control" rows="8" cols="50">{{ $key->tt_bando }}
                                                         </textarea>
+                                                        <span class="error-message">{{ $errors->first('map') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -68,6 +67,7 @@
                                                 <textarea placeholder="Nhập vào thông tin fanpage" name="fanpage"
                                                     class="form-control" rows="8" cols="50">{{ $key->tt_fanpage }}
                                                         </textarea>
+                                                        <span class="error-message">{{ $errors->first('fanpage') }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -79,6 +79,7 @@
                                                     placeholder="Nhập vào thông tin liên hệ" name="lienhe" rows="8"
                                                     cols="50">{{ $key->tt_lienhe }}
                                                     </textarea>
+                                                    <span class="error-message">{{ $errors->first('lienhe') }}</span>
                                             </div>
                                         </div>
                                     </div>

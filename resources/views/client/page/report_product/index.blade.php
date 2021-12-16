@@ -1,9 +1,9 @@
 @extends('client.page.template.master')
 @section('title-page')
-    Danh sách sản phẩm bị ẩn
+    Danh sách sản phẩm bị báo cáo
 @endsection
 @section('title-page-detail')
-    Sản phẩm bị ẩn
+    Sản phẩm bị báo cáo
 @endsection
 @section('content')
     <section class="content">
@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     @if ($item->sp_tinhtrang == 2)
-                                        <button type="button" class="btn btn-warning" disabled>Sản phẩm bị ẩn</button>
+                                        <button type="button" class="btn btn-warning" disabled>Sản phẩm đang tạm khóa</button>
                                     @endif
                                 </td>
                             </tr>

@@ -21,6 +21,7 @@ class CreateSanPhamTable extends Migration
             $table->string('sp_kichthuoc');
             $table->float('sp_gia');
             $table->longtext('sp_mota');
+            $table->string('sp_luotxem')->nullable();
             $table->string('sp_tinhtrang')->default('1');
             $table->string('sp_hinhanh');
 

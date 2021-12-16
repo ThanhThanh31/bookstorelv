@@ -1,9 +1,9 @@
 @extends('client.page.template.master')
 @section('title-page')
-    Danh sách bài viết bị ẩn
+    Danh sách bài viết bị báo cáo
 @endsection
 @section('title-page-detail')
-    Bài viết bị ẩn
+    Bài viết bị báo cáo
 @endsection
 @section('content')
     <section class="content">
@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     @if ($item->bv_tinhtrang == 2)
-                                        <button type="button" class="btn btn-warning" disabled>Bài viết bị ẩn</button>
+                                        <button type="button" class="btn btn-warning" disabled>Bài viết đang tạm khóa</button>
                                     @endif
                                 </td>
                             </tr>

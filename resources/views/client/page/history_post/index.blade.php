@@ -1,9 +1,9 @@
 @extends('client.page.template.master')
 @section('title-page')
-Chi tiết báo xấu
+Lịch sử báo cáo bài viết
 @endsection
 @section('title-page-detail')
-Lịch sử báo xấu bài viết
+Lịch sử báo cáo bài viết
 @endsection
 @section('content')
     <section class="content">
@@ -57,7 +57,7 @@ Lịch sử báo xấu bài viết
                                     <img src="{{ asset($item->bv_hinhanh) }}" alt="" style="height: 70px;  width: 100px">
                                 </td>
                                 <td>{{ $item->bb_noidung }}</td>
-                                <td>{{ $item->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}</td>
                             </tr>
                         @endforeach
                     </tbody>

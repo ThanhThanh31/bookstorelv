@@ -5,7 +5,7 @@ use DB;
 use Hash;
 use Session;
 use Auth;
-// use File;
+use Carbon\Carbon;
 use Validator;
 use Intervention\Image\Facades\Image as Image;
 use App\Model\Photo;
@@ -22,7 +22,7 @@ class SanPhamController extends Controller
         ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
         ->where('nd_id', $h->nd_id)
-        ->orderby('sp_id','desc')->paginate(3);
+        ->orderby('sp_id','desc')->paginate(10);
         return view('client.page.product.index', compact('show'));
     }
 
@@ -69,7 +69,7 @@ class SanPhamController extends Controller
 
     public function addPro(Request $request){
         $ten = $request->ten;
-        $trangthai = $request->trangthai;
+        $soluong = $request->soluong;
         $sotrang = $request->sotrang;
         $kichthuoc = $request->kichthuoc;
         $gia = $request->gia;
@@ -89,7 +89,9 @@ class SanPhamController extends Controller
             'anh.image' => 'Chỉ chấp nhận hình ảnh cho sản phẩm với đuôi .jpg .jpeg .png .gif !',
             'ten.required' => 'Tên sản phẩm không được để trống !',
             'ten.min' => 'Tên sản phẩm phải có ít nhất 2 ký tự !',
-            'trangthai.required' => 'Vui lòng chọn trạng thái sản phẩm !',
+            'soluong.required' => 'Số lượng sản phẩm không được để trống !',
+            'soluong.alpha_num' => 'Số lượng nhập vào phải là số !',
+            'soluong.gt' => 'Số lượng phải lớn hơn 0 !',
             'sotrang.required' => 'Số trang sản phẩm không được để trống !',
             'sotrang.alpha_num' => 'Số trang nhập vào phải là số !',
             'sotrang.gt' => 'Số trang sản phẩm phải lớn hơn 0 !',
@@ -120,7 +122,7 @@ class SanPhamController extends Controller
             'sotrang' => 'required|alpha_num|gt:0',
             'kichthuoc' => 'required',
             'gia' => 'required|alpha_num|min:4',
-            'trangthai' => 'required',
+            'soluong' => 'required|alpha_num|gt:0',
             'nhaxuatban' => 'required',
             'congty' => 'required',
             'thanhpho' => 'required',
@@ -141,7 +143,7 @@ class SanPhamController extends Controller
             $insert = DB::table('san_pham')->insertGetId(
                 [
                     'sp_ten' => $ten,
-                    'sp_trangthai' => $trangthai,
+                    'sp_soluong' => $soluong,
                     'sp_sotrang' => $sotrang,
                     'sp_kichthuoc' => $kichthuoc,
                     'sp_gia' => $gia,
@@ -156,6 +158,7 @@ class SanPhamController extends Controller
                     'tg_id' => $tacgia,
                     'nd_id' => $ch->nd_id,
                     'sp_hinhanh' => 'anh-san-pham/'.$tenanh,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
                 ]
                 );
         }
@@ -234,7 +237,6 @@ class SanPhamController extends Controller
         ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
         ->join('quan_huyen', 'quan_huyen.qh_id', 'san_pham.qh_id')
         ->join('xa_phuong', 'xa_phuong.xp_id', 'san_pham.xp_id')
-        ->join('anh', 'anh.sp_id', 'san_pham.sp_id')
         ->where('san_pham.sp_id', $id)
         ->first();
 
@@ -243,7 +245,7 @@ class SanPhamController extends Controller
 
     public function amend(Request $request, $id){
         $ten = $request->ten;
-        $trangthai = $request->trangthai;
+        $soluong = $request->soluong;
         $sotrang = $request->sotrang;
         $kichthuoc = $request->kichthuoc;
         $gia = $request->gia;
@@ -260,37 +262,39 @@ class SanPhamController extends Controller
         $link = $request->link;
         $anh_edit = $request->anh_edit;
 
-        // $messages = [
-        //     'anh_edit.image' => 'Chỉ chấp nhận hình ảnh cho sản phẩm với đuôi .jpg .jpeg .png .gif !',
-        //     'ten.required' => 'Tên sản phẩm không được để trống !',
-        //     'ten.min' => 'Tên sản phẩm phải có ít nhất 2 ký tự !',
-        //     'sotrang.required' => 'Số trang sản phẩm không được để trống !',
-        //     'sotrang.alpha_num' => 'Số trang nhập vào phải là số !',
-        //     'sotrang.gt' => 'Số trang sản phẩm phải lớn hơn 0 !',
-        //     'kichthuoc.required' => 'Kích thước sản phẩm không được để trống !',
-        //     'gia.required' => 'Giá sản phẩm không được để trống !',
-        //     'gia.alpha_num' => 'Giá nhập vào phải là số !',
-        //     'gia.min' => 'Giá sản phẩm phải có ít nhất 4 số !',
-        //     'mota.required' => 'Mô tả sản phẩm không được để trống !',
-        //     'mota.min' => 'Mô tả sản phẩm có ít nhất 50 ký tự !',
-        //     'thanhpho.required' => 'Vui lòng chọn tỉnh thành phố !',
-        //     'quanhuyen.required' => 'Vui lòng chọn quận huyện !',
-        //     'xaphuong.required' => 'Vui lòng chọn xã phường !',
-        // ];
+        $messages = [
+            'anh_edit.image' => 'Chỉ chấp nhận hình ảnh cho sản phẩm với đuôi .jpg .jpeg .png .gif !',
+            'ten.required' => 'Tên sản phẩm không được để trống !',
+            'ten.min' => 'Tên sản phẩm phải có ít nhất 2 ký tự !',
+            'soluong.required' => 'Số lượng sản phẩm không được để trống !',
+            'soluong.alpha_num' => 'Số lượng nhập vào phải là số !',
+            'soluong.gt' => 'Số lượng phải lớn hơn 0 !',
+            'sotrang.required' => 'Số trang sản phẩm không được để trống !',
+            'sotrang.alpha_num' => 'Số trang nhập vào phải là số !',
+            'sotrang.gt' => 'Số trang sản phẩm phải lớn hơn 0 !',
+            'kichthuoc.required' => 'Kích thước sản phẩm không được để trống !',
+            'gia.required' => 'Giá sản phẩm không được để trống !',
+            'gia.alpha_num' => 'Giá nhập vào phải là số !',
+            'gia.min' => 'Giá sản phẩm phải có ít nhất 4 số !',
+            'mota.required' => 'Mô tả sản phẩm không được để trống !',
+            'mota.min' => 'Mô tả sản phẩm có ít nhất 50 ký tự !',
+            'thanhpho.required' => 'Vui lòng chọn tỉnh thành phố !',
+            'quanhuyen.required' => 'Vui lòng chọn quận huyện !',
+            'xaphuong.required' => 'Vui lòng chọn xã phường !',
+        ];
 
-        // $this->validate($request,[
-        //     'anh_edit' => 'image',
-        //     'ten' => 'required|min:2',
-        //     'sotrang' => 'required|alpha_num|gt:0',
-        //     'kichthuoc' => 'required',
-        //     'gia' => 'required|alpha_num|min:4',
-        //     'thanhpho' => 'required',
-        //     'quanhuyen' => 'required',
-        //     'xaphuong' => 'required',
-        //     'mota' => 'required|min:30',
-        // ], $messages);
-
-        // $errors = $validate->errors();
+        $this->validate($request,[
+            'anh_edit' => 'image',
+            'ten' => 'required|min:2',
+            'soluong' => 'required|alpha_num|gt:0',
+            'sotrang' => 'required|alpha_num|gt:0',
+            'kichthuoc' => 'required',
+            'gia' => 'required|alpha_num|min:4',
+            'thanhpho' => 'required',
+            'quanhuyen' => 'required',
+            'xaphuong' => 'required',
+            'mota' => 'required|min:30',
+        ], $messages);
         // Ràng buộc dữ liệu
 
         if($request->hasFile('anh_edit')){
@@ -312,7 +316,7 @@ class SanPhamController extends Controller
             $update = DB::table('san_pham')->where('sp_id', $id)->update(
                 [
                     'sp_ten' => $ten,
-                    'sp_trangthai' => $trangthai,
+                    'sp_soluong' => $soluong,
                     'sp_sotrang' => $sotrang,
                     'sp_kichthuoc' => $kichthuoc,
                     'sp_gia' => $gia,
@@ -372,6 +376,22 @@ class SanPhamController extends Controller
         ->paginate(6);
 
         return view('client.page.history_product.index', compact('pro_history'));
+    }
+
+    public function find_products(Request $request){
+        $id_nd = Auth::guard('nguoi_dung')->user()->nd_id;
+        $tb_nd = DB::table('nguoi_dung')->where('nd_id', $id_nd)->first();
+
+        $key = $request->key;
+        $find_products = DB::table('san_pham')
+        ->join('linh_vuc', 'linh_vuc.lv_id', 'san_pham.lv_id')
+        ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
+        ->where('san_pham.nd_id', $tb_nd->nd_id)
+        ->where('sp_ten','like','%'.$key.'%')
+        ->orderby('sp_id','desc')->get();
+
+        return view('client.page.search_product.index', compact('find_products', 'key'));
     }
 
 

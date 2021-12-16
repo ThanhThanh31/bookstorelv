@@ -18,6 +18,7 @@ class CreateQuanTriTable extends Migration
             $table->string('username');
             $table->string('password');
             $table->string('email');
+            $table->string('qt_anh')->nullable();
             $table->timestamps();
         });
     }

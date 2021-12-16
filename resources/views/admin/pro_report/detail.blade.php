@@ -1,6 +1,6 @@
 @extends('admin.template.master')
 @section('title-page')
-    Chi tiết báo cáo vi phạm
+    Chi tiết báo cáo sản phẩm
 @endsection
 @section('title-page-detail')
     Báo Cáo Vi Phạm - Sản Phẩm
@@ -8,6 +8,10 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <a href="{{ route('product.report') }}" type="button" class="btn btn-secondary">Trở về</a>
+            </div>
+            <br>
             <div class="row">
                 <table class="table table-hover">
                     <thead>
@@ -17,7 +21,7 @@
                             <th>Hình ảnh</th>
                             <th>Tên người báo cáo</th>
                             <th>Nội dung báo cáo</th>
-                            <th>Thời gian báo cáo</th> 
+                            <th>Thời gian báo cáo</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +35,7 @@
                                 </td>
                                 <td>{{ $item->username }}</td>
                                 <td>{{ $item->bp_noidung }}</td>
-                                <td>{{ $item->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->created_at)->toDateString() }}</td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -90,9 +90,27 @@
                                     <input type="email" name="email" placeholder="Nhập vào email">
                                 </p>
                                 <p class="coupon-input form-row-first">
-                                    <label>Địa chỉ <span class="required">*</span></label>
-                                    <input type="text" name="diachi" placeholder="Nhập vào địa chỉ">
+                                    <label>Tỉnh thành phố <span class="required">*</span></label>
+                                    <select style="font-size: 13px;" name="thanhpho" class="form-control City">
+                                        <option value="">--- Chọn tỉnh thành phố ---</option>
+                                        @foreach ($tp as $item => $city)
+                                            <option value="{{ $city->ttp_id }}">{{ $city->ttp_ten }}</option>
+                                        @endforeach
+                                    </select>
                                 </p>
+                                <p class="coupon-input form-row-first">
+                                    <label>Quận huyện <span class="required">*</span></label>
+                                    <select style="font-size: 13px;" name="quanhuyen" class="form-control Province">
+                                        <option value="">--- Chọn quận huyện ---</option>
+                                    </select>
+                                </p>
+                                <p class="coupon-input form-row-first">
+                                    <label>Xã phường <span class="required">*</span></label>
+                                    <select style="font-size: 13px;" name="xaphuong" class="form-control Ward">
+                                        <option value="">--- Chọn xã phường ---</option>
+                                    </select>
+                                </p>
+
                                 <p class="coupon-input form-row-first">
                                     <label>Số điện thoại <span class="required">*</span></label>
                                     <input type="text" name="phone" placeholder="Nhập vào số điện thoại">
@@ -117,4 +135,50 @@
         </div>
     </div>
     <!-- main-content-wrap end -->
+    @push('address-user')
+    <script>
+        $(document).ready(function() {
+            const BASE_URL = window.location.origin;
+            //jqchang - phím tắt
+            $('select.City').change(function(e) {
+                e.preventDefault();
+                var getIDCity = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemCity').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/client/" + getIDCity + "/province-user",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Province').append('<option value="' + response[i].qh_id +
+                                '" class="itemCity">' + response[i].qh_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+            $('select.Province').change(function(e) {
+                e.preventDefault();
+                var getIDProvince = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemProvince').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/client/" + getIDProvince + "/ward-user",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Ward').append('<option value="' + response[i].xp_id +
+                                '" class="itemProvince">' + response[i].xp_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush
 @endsection

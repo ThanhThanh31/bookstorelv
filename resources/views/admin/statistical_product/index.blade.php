@@ -1,13 +1,17 @@
 @extends('admin.template.master')
 @section('title-page')
-    Thống kê
+Thống kê sản phẩm
 @endsection
 @section('title-page-detail')
-    Thống kê
+Thống kê sản phẩm
 @endsection
 @section('content')
     <section class="content">
         <div class="container-fluid">
+            <div class="row">
+                <a href="{{ route('admin.align') }}" type="button" class="btn btn-secondary">Trở về</a>
+            </div>
+            <br>
             <!-- LINE CHART -->
             <div class="card card-info">
                 <!-- /.chartjs - start -->
@@ -15,27 +19,27 @@
                     <!-- /.lọc bài viet - start -->
                     <div class="row">
                         <div class="col-md-12">
-                            <p class="title_thongke">Thống kê bài viết</p>
+                            <label class="title_thongke">Thống kê sản phẩm</label>
                             <form>
                                 @csrf
                                 <div class="form-row">
                                     <div class="col-md-3">
-                                        <p>Từ ngày <input name="from_date" type="date" id="from_date" class="form-control"></p>
-                                        <input type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm"
+                                        <p>Từ ngày <input name="tuNgay" type="date" id="tuNgay" class="form-control"></p>
+                                        <input type="button" id="btn-dashboard-filters" class="btn btn-primary btn-sm"
                                             value="Lọc kết quả"></p>
                                     </div>
                                     <div class="col-md-3">
-                                        <p>Đến ngày <input name="to_date" type="date" id="to_date" class="form-control"></p>
+                                        <p>Đến ngày <input name="denNgay" type="date" id="denNgay" class="form-control"></p>
                                     </div>
                                     <div class="col-md-4">
                                         <p>
                                             Lọc theo
-                                            <select class="dashboard-filter form-control">
+                                            <select class="dashboard-filters form-control">
                                                 <option>--- Chọn ---</option>
                                                 <option value="7ngay">7 ngày qua</option>
                                                 <option value="thangtruoc">Tháng trước</option>
                                                 <option value="thangnay">Tháng này</option>
-                                                <option value="thang9">Trong tháng 10</option>
+                                                <option value="thang9">Trong tháng 9</option>
                                                 <option value="365ngayqua">365 ngày qua</option>
                                             </select>
                                         </p>
@@ -43,7 +47,7 @@
                             </form>
                         </div>
                         <div class="col-md-12">
-                                <div id="chart" style="height: 250px"></div>
+                                <div id="chartjs" style="height: 250px"></div>
                         </div>
                     </div>
                     <!-- /.lọc bài viet - end -->
@@ -53,51 +57,51 @@
             <!-- LINE CHART -->
         </div>
     </section>
-    @push('statistical-post')
+    @push('statistical-product')
         <script>
             $(document).ready(function() {
-                chart60daysorder();
+                chart90dayspost();
                 var chart = new Morris.Bar({
-                element: 'chart',
+                element: 'chartjs',
                 //option chart
                 lineColors: ['#819C79', '#fc8710','#FF6541', '#A4ADD3'],
                 xkey: ['created_at'],
                 parseTime: false,
-                ykeys: ['bai_viet'],
+                ykeys: ['san_pham'],
                 hideHover: 'auto',
-                labels: ['bài viết']
+                labels: ['sản phẩm']
                 });
 
-                function chart60daysorder(){
+                function chart90dayspost(){
                     var _token = $('input[name="_token"]').val();
                     $.ajax({
-                        url: "/admin/days-order",
+                        url: "/admin/days-product",
                         method: "POST",
                         dataType: "json",
                         data:{
                             _token:_token
                         },
-                        
+
                         success:function(data)
                             {
                                 chart.setData(data);
-                            }   
+                            }
                     });
                 }
 
-                $('#btn-dashboard-filter').click(function(e) {
+                $('#btn-dashboard-filters').click(function(e) {
                     e.preventDefault();
                     var _token = $('input[name="_token"]').val();
-                    var from_date = $('#from_date').val();
-                    var to_date = $('#to_date').val();
+                    var tuNgay = $('#tuNgay').val();
+                    var denNgay = $('#denNgay').val();
 
                     $.ajax({
-                        url: "/admin/filter-by-date",
+                        url: "/admin/filter-product-by-date",
                         type: "get",
                         dataType: "json",
                         data: {
-                            from_date: from_date,
-                            to_date: to_date,
+                            tuNgay: tuNgay,
+                            denNgay: denNgay,
                             _token: _token
                         },
 
@@ -107,13 +111,13 @@
                     });
                 });
 
-                $('.dashboard-filter').change(function(e){
+                $('.dashboard-filters').change(function(e){
                     e.preventDefault();
                     var dashboard_value = $(this).val();
                     var _token = $('input[name="_token"]').val();
                     // alert(dashboard_value);
                     $.ajax({
-                        url: "/admin/dashboard-filter",
+                        url: "/admin/dashboard-filter-product",
                         method:"POST",
                         dataType: "json",
                         data: {

@@ -6,8 +6,7 @@ use Hash;
 use Auth;
 use Session;
 use Validator;
-use App\Models\Comment;
-use App\Models\NguoiDung;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CommentProductController extends Controller
@@ -25,22 +24,17 @@ class CommentProductController extends Controller
         $nd = Auth::guard('nguoi_dung')->user()->nd_id;
         $ch = DB::table('nguoi_dung')->where('nd_id', $nd)->first();
 
-        $messages = [
-            'comment.required' => 'Nội dung bình luận không được để trống !',
-        ];
-
-        $this->validate($request,[
-            'comment' => 'required',
-        ], $messages);
-
-        // $errors = $validate->errors();
-        // Ràng buộc dữ liệu
+        if($comment == "" || $comment == null){
+            Session::flash("danger", "Nội dung bình luận không được để trống !");
+            return redirect()->back();
+        }
 
         $insert = DB::table('binhluan_sanpham')->insert(
             [
                 'bs_noidung' => $comment,
                 'nd_id' => $ch->nd_id,
                 'sp_id' => $idSanPham->sp_id,
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
             ]
             );
         return redirect()->back();
@@ -51,29 +45,29 @@ class CommentProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function comment(Request $request, $pro_id)
+    public function reply(Request $request, $idsp, $idbl)
     {
-        $customer_id = Auth::guard('nguoi_dung')->user()->nd_id;
-        $validator = Validator::make($request->all(), [
-            'content' => 'required',
-        ],[
-            'content.required' => 'Nội dung bình luận không được để trống !!!'
-        ]);
+        $replies = $request->replies;
+        $idPro = DB::table('san_pham')->where('sp_id', $idsp)->first();
+        $idBl = DB::table('binhluan_sanpham')->where('bs_id', $idbl)->first();
 
-        if($validator->passes()){
-            $data = [
-                'nd_id' => $customer_id,
-                'bs_noidung' => $request->content,
-                'sp_id' => $pro_id,
-            ];
+        $ndd = Auth::guard('nguoi_dung')->user()->nd_id;
+        $chh = DB::table('nguoi_dung')->where('nd_id', $ndd)->first();
 
-            if($bl = Comment::create($data)){
-                $list = Comment::where(['sp_id' => $pro_id, 'reply_id' => 0])->get();
-                // return response()->json(['list' => $list]);
-                return view('client.user.detail_product.list', compact('list'));
-            }
+        if($replies == "" || $replies == null){
+            Session::flash("danger", "Nội dung phản hồi bình luận không được để trống !");
+            return redirect()->back();
         }
-        return response()->json(['error'=>$validator->errors()->first()]);
+
+        $insert = DB::table('binhluan_sanpham')->insert(
+            [
+                'bs_noidung' => $replies,
+                'bs_id_reply' => $idBl->bs_id,
+                'nd_id' => $chh->nd_id,
+                'sp_id' => $idPro->sp_id,
+            ]
+            );
+        return redirect()->back();
     }
 
     /**
@@ -82,9 +76,9 @@ class CommentProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function delete(Request $request, $id){
+        $dell = DB::table('binhluan_sanpham')->where('bs_id', $id)->delete();
+        return redirect()->back();
     }
 
     /**
@@ -93,9 +87,13 @@ class CommentProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function updated(Request $request, $id)
     {
-        //
+        $commentToUpdate = DB::table('binhluan_sanpham')->where('bs_id', $id)->update([
+            'bs_noidung' => $request->edit,
+        ]);
+
+        return redirect()->back()->with('success', 'Cập nhật bình luận thành công');
     }
 
     /**

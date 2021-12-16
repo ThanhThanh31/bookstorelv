@@ -9,6 +9,20 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <form action="{{ route('postuser.find_posts') }}" method="POST" class="form-inline" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-group col-lg-12 col-sm-12" style="min-width: 150%; padding-left: 470px">
+                        <input id="key" name="key" class="form-control" type="search" placeholder="Nhập vào tên bài viết cần tìm kiếm..." aria-label="Search">
+                        <div class="input-group-append" style="background-color:#007bff">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search" style="color: #fff"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="row">
                 <a href="{{ route('postuser.plus') }}" class="btn btn-primary">Thêm bài viết</a>
             </div>
             <br>
@@ -52,7 +66,7 @@
                         <thead>
                             <tr style="text-align: center">
                                 <th>STT</th>
-                                <th>Tiêu đề</th>
+                                <th>Tiêu đề bài viết</th>
                                 <th>Hình ảnh</th>
                                 <th>Thao tác</th>
                             </tr>

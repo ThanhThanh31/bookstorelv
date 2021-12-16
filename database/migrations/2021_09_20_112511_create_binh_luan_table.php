@@ -16,7 +16,7 @@ class CreateBinhLuanTable extends Migration
         Schema::create('binh_luan', function (Blueprint $table) {
             $table->id('bl_id');
             $table->string('bl_id_reply')->nullable();
-            $table->string('bl_noidung');
+            $table->longtext('bl_noidung');
 
             $table->bigInteger('bv_id')->unsigned();
             $table->foreign('bv_id')->references('bv_id')->on('bai_viet')->onDelete('cascade');

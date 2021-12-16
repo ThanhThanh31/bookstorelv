@@ -15,6 +15,9 @@ class NhaXuatBanSeeder extends Seeder
     {
         $publisher = [
             [
+                'nxb_ten' => 'Nhà Sách Minh Lâm',
+            ],
+            [
                 'nxb_ten' => 'Nhà Xuất Bản Khoa Học Xã Hội',
             ],
             [
@@ -24,7 +27,7 @@ class NhaXuatBanSeeder extends Seeder
                 'nxb_ten' => 'Nhà Xuất Bản Thanh Niên',
             ],
             [
-                'nxb_ten' => 'Nhà Xuất Bản Phụ Nữ',
+                'nxb_ten' => 'Nhà Xuất Bản Phụ Nữ Việt Nam',
             ],
             [
                 'nxb_ten' => 'Nhà Xuất Bản Chính Trị Quốc Gia Sự Thật',
@@ -37,6 +40,9 @@ class NhaXuatBanSeeder extends Seeder
             ],
             [
                 'nxb_ten' => 'Nhà Xuất Bản Giáo Dục',
+            ],
+            [
+                'nxb_ten' => 'Nhà Xuất Bản Chính Trị Quốc Gia Sự Thật',
             ],
             [
                 'nxb_ten' => 'Nhà Xuất Bản Tri Thức',

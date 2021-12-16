@@ -15,6 +15,12 @@ class TacGiaSeeder extends Seeder
     {
         $author = [
             [
+                'tg_ten' => 'Quốc Hội',
+            ],
+            [
+                'tg_ten' => 'Bộ Giáo Dục Và Đào Tạo',
+            ],
+            [
                 'tg_ten' => 'Cửu Lộ Phi Hương',
             ],
             [
@@ -25,6 +31,57 @@ class TacGiaSeeder extends Seeder
             ],
             [
                 'tg_ten' => 'Mạc Bảo Phi Bảo',
+            ],
+            [
+                'tg_ten' => 'Nguyễn Hiếu Lê',
+            ],
+            [
+                'tg_ten' => 'Nguyễn Nhật Ánh',
+            ],
+            [
+                'tg_ten' => 'Gosho Aoyama',
+            ],
+            [
+                'tg_ten' => 'Yoshito Usui',
+            ],
+            [
+                'tg_ten' => 'Eiichiro Oda',
+            ],
+            [
+                'tg_ten' => 'Akira Toriyama',
+            ],
+            [
+                'tg_ten' => 'Kim Khánh',
+            ],
+            [
+                'tg_ten' => 'Jonh C. Maxwell',
+            ],
+            [
+                'tg_ten' => 'Masashi Kishimoto',
+            ],
+            [
+                'tg_ten' => 'The Zhishi',
+            ],
+            [
+                'tg_ten' => 'Nhật Phạm',
+            ],
+            [
+                'tg_ten' => 'Brian Tracy',
+            ],
+            [
+                'tg_ten' => 'Phan Minh Hạo',
+            ],
+            [
+                'tg_ten' => 'Napoleon Hill',
+            ],
+            [
+                'tg_ten' => 'Dale Carnegie',
+            ],
+            [
+                'tg_ten' => 'The Changmi',
+            ],
+            [
+                'tg_ten' => 'The Sakura',
             ],
             [
                 'tg_ten' => 'Vãn Tình',
@@ -40,6 +97,9 @@ class TacGiaSeeder extends Seeder
             ],
             [
                 'tg_ten' => 'Gari',
+            ],
+            [
+                'tg_ten' => 'The Windy',
             ],
             [
                 'tg_ten' => 'Patrick Suskind',

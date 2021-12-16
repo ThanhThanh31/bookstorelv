@@ -29,6 +29,15 @@ class CreateNguoiDungTable extends Migration
             $table->bigInteger('qt_id')->unsigned()->nullable();
             $table->foreign('qt_id')->references('qt_id')->on('quan_tri')->onDelete('cascade');
 
+            $table->bigInteger('ttp_id')->unsigned();
+            $table->foreign('ttp_id')->references('ttp_id')->on('tinh_thanhpho')->onDelete('cascade');
+
+            $table->bigInteger('qh_id')->unsigned();
+            $table->foreign('qh_id')->references('qh_id')->on('quan_huyen')->onDelete('cascade');
+
+            $table->bigInteger('xp_id')->unsigned();
+            $table->foreign('xp_id')->references('xp_id')->on('xa_phuong')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

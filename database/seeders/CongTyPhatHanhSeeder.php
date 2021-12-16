@@ -15,13 +15,13 @@ class CongTyPhatHanhSeeder extends Seeder
     {
         $issuer = [
             [
-                'cty_ten' => 'Nhà Sách Minh Lâm',
-            ],
-            [
                 'cty_ten' => 'VanLangBooks',
             ],
             [
                 'cty_ten' => 'Văn Việt',
+            ],
+            [
+                'cty_ten' => 'Minh Long',
             ],
             [
                 'cty_ten' => 'Nhà Sách Minh Thắng',
@@ -60,6 +60,33 @@ class CongTyPhatHanhSeeder extends Seeder
                 'cty_ten' => 'Thái Hà',
             ],
             [
+                'cty_ten' => 'Hồng Ân',
+            ],
+            [
+                'cty_ten' => 'Tân Việt',
+            ],
+            [
+                'cty_ten' => 'AZ Việt Nam',
+            ],
+            [
+                'cty_ten' => 'Bách Việt',
+            ],
+            [
+                'cty_ten' => 'Quảng Văn',
+            ],
+            [
+                'cty_ten' => 'Saigon Books',
+            ],
+            [
+                'cty_ten' => 'Khang Việt Books',
+            ],
+            [
+                'cty_ten' => 'Công Ty Cổ Phần Tri Thức Văn Hóa Sách Việt Nam',
+            ],
+            [
+                'cty_ten' => 'Công Ty Cổ Phần Văn Hóa Đông Á',
+            ],
+            [
                 'cty_ten' => 'Công Ty CP Truyền Thông Sáo Diều',
             ],
             [
@@ -81,6 +108,15 @@ class CongTyPhatHanhSeeder extends Seeder
                 'cty_ten' => 'AMUN',
             ],
             [
+                'cty_ten' => 'MCBOOKS',
+            ],
+            [
+                'cty_ten' => 'BIZBOOKS',
+            ],
+            [
+                'cty_ten' => '1980 Books',
+            ],
+            [
                 'cty_ten' => 'Nhã Nam',
             ],
             [
@@ -94,6 +130,9 @@ class CongTyPhatHanhSeeder extends Seeder
             ],
             [
                 'cty_ten' => 'Cẩm Phong Books',
+            ],
+            [
+                'cty_ten' => 'Nhiều Công Ty Phát Hành',
             ],
         ];
         $insert = DB::table('congty_phathanh')->insert($issuer);

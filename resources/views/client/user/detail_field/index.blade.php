@@ -7,6 +7,7 @@
                 <div class="col">
                     <ul class="breadcrumb-list">
                         <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('detail.index') }}">Sản phẩm</a></li>
                         @foreach($name_Cate as $key)
                         <li class="breadcrumb-item active">{{ $key->tl_ten }}</li>
                         @endforeach
@@ -139,12 +140,32 @@
                                                     <a href="{{ route('detail.pro', ['id' => $key->sp_id]) }}">
                                                         <img style="height: 350px;" class="primary-image" src="{{ asset($key->sp_hinhanh) }}" alt="">
                                                     </a>
+                                                    @if ($key->sp_soluong == 0)
+                                                    <div class="label-product label_sale">Hết</div>
+                                                    @endif
+                                                    @if ($key->sp_tinhtrang == 2)
+                                                    <div class="label-product label_new">Khóa</div>
+                                                    @endif
                                                 </div>
                                                 <div class="product-caption">
-                                                    <h4 class="product-name"><a href="single-product.html">{{ $key->sp_ten }}</a></h4>
+                                                    <h4 class="product-name"><a href="{{ route('detail.pro', ['id' => $key->sp_id]) }}" style="text-transform: capitalize">{{ $key->sp_ten }}</a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">{{number_format($key->sp_gia,0,',','.').' '.'VNĐ'}}</span>
                                                     </div>
+                                                    @if ($key->sp_soluong == 0)
+                                                        <a href="" class="action-cart-btn">
+                                                            Sản phẩm đã hết hàng
+                                                        </a>
+                                                        @else
+                                                        <a href="{{ route('cart.add', ['id' => $key->sp_id]) }}" class="action-cart-btn">
+                                                            Thêm vào giỏ hàng
+                                                        </a>
+                                                        @endif
+                                                        @if ($key->sp_tinhtrang == 2)
+                                                        <a href="" class="action-cart-btn">
+                                                            Sản phẩm đang tạm khóa
+                                                        </a>
+                                                        @endif
                                                 </div>
                                             </div>
                                             <!-- single-product-area end -->
@@ -172,14 +193,14 @@
                                                     <div class="price-box">
                                                         <span class="new-price">{{ number_format($key->sp_gia, 0, ',', '.') . ' ' . 'VNĐ' }}</span>
                                                     </div>
-                                                    <p class="product-des">Tình trạng sản phẩm:
+                                                    {{-- <p class="product-des">Tình trạng sản phẩm:
                                                         @if ($key->sp_trangthai == 1)
                                                             <span style="color: #9D4D4A">Đang bán</span>
                                                         @else
                                                             <span style="color: #9D4D4A">Đã bán</span>
                                                         @endif
                                                     </p>
-                                                    <p class="product-des"><b>Mô tả</b></p>
+                                                    <p class="product-des"><b>Mô tả</b></p> --}}
                                                     <p class="product-des">{!! $key->sp_mota !!}</p>
                                                 </div>
                                             </div>

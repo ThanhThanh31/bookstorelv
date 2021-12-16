@@ -22,7 +22,6 @@
     </div>
     <!-- welcome-area end -->
 
-
     <!-- section-area start -->
     <div class="section-area bg-color">
         <div class="container">
@@ -93,12 +92,33 @@
                                     <img style="height: 350px;" class="primary-image" src="{{ asset($key->sp_hinhanh) }}"
                                         alt="">
                                 </a>
+
+                                @if ($key->sp_soluong == 0)
+                                <div class="label-product label_sale">Hết</div>
+                                @endif
+                                @if ($key->sp_tinhtrang == 2)
+                                <div class="label-product label_new">Khóa</div>
+                                @endif
                             </div>
                             <div class="product-caption">
                                 <h4 class="product-name"><a href="{{ route('detail.pro', ['id' => $key->sp_id]) }}">{{ $key->sp_ten }}</a></h4>
                                 <div class="price-box">
-                                    <span class="new-price">{{number_format($key->sp_gia,0,',','.').' '.'VNĐ'}}</span>
+                                    <span class="new-price">{{ number_format($key->sp_gia,0,',','.').' '.'VNĐ' }}</span>
                                 </div>
+                                @if ($key->sp_soluong == 0)
+                                <a href="" class="action-cart-btn">
+                                    Sản phẩm đã hết hàng
+                                </a>
+                                @else
+                                <a href="{{ route('cart.add', ['id' => $key->sp_id]) }}" class="action-cart-btn">
+                                    Thêm vào giỏ hàng
+                                </a>
+                                @endif
+                                @if ($key->sp_tinhtrang == 2)
+                                <a href="" class="action-cart-btn">
+                                    Sản phẩm đang tạm khóa
+                                </a>
+                                @endif
                             </div>
                         </div>
                         <!-- single-product-area end -->
@@ -131,7 +151,7 @@
                         <div class="singel-latest-blog">
                             <div class="aritcles-content">
                                 <div class="author-name">
-                                    Đăng bởi:<a href="#"> {{ $key->username }}</a> - {{ $key->created_at }}
+                                    Đăng bởi:<a href="#"> {{ $key->username }}</a> - {{ \Carbon\Carbon::parse($key->created_at)->toDateString() }}
                                 </div>
                                 <a href="{{ route('post.detail', ['id' => $key->bv_id]) }}"
                                     class="articles-name">{{ $key->bv_tieude }}

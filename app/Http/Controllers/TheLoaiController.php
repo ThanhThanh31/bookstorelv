@@ -14,7 +14,7 @@ class TheLoaiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $listCate = DB::table('the_loai')->orderby('tl_id','desc')->paginate(6);
+        $listCate = DB::table('the_loai')->orderby('tl_id','desc')->paginate(10);
         return view('admin.category.index', compact('listCate'));
     }
 
@@ -25,6 +25,22 @@ class TheLoaiController extends Controller
     public function add(Request $request){
         $theloai = $request->theloai;
         $moTa = $request->moTa;
+
+        $messages = [
+            'theloai.required' => 'Tên thể loại sản phẩm không được để trống !',
+            'theloai.min' => 'Tên thể loại sản phẩm ít nhất phải 3 ký tự trở lên !',
+            'theloai.max' => 'Tên thể loại sản phẩm tối đa chỉ 30 ký tự !',
+            'theloai.unique' => 'Tên thể loại sản phẩm này đã tồn tại. Vui lòng nhập tên khác !',
+            'moTa.required' => 'Mô tả thể loại không được để trống !',
+            'moTa.min' => 'Mô tả thể loại sản phẩm phải có ít nhất 50 ký tự !',
+        ];
+
+        $this->validate($request,[
+
+            'theloai' => 'required|min:3|max:30|unique:the_loai,tl_ten', //tên table the_loai
+            'moTa' => 'required|min:50',
+        ], $messages);
+
         $insert = DB::table('the_loai')->insert(
             [
                 'tl_ten' => $theloai,
@@ -49,6 +65,21 @@ class TheLoaiController extends Controller
     public function update(Request $request, $id){
         $theloai = $request->theloai;
         $moTa = $request->moTa;
+
+        $messages = [
+            'theloai.required' => 'Tên thể loại sản phẩm không được để trống !',
+            'theloai.min' => 'Tên thể loại sản phẩm ít nhất phải 3 ký tự trở lên !',
+            'theloai.max' => 'Tên thể loại sản phẩm tối đa chỉ 30 ký tự !',
+            'moTa.required' => 'Mô tả thể loại không được để trống !',
+            'moTa.min' => 'Mô tả thể loại sản phẩm phải có ít nhất 50 ký tự !',
+        ];
+
+        $this->validate($request,[
+
+            'theloai' => 'required|min:3|max:30',
+            'moTa' => 'required|min:50',
+        ], $messages);
+
         $update = DB::table('the_loai')->where('tl_id', $id)->update(
             [
                 'tl_ten' => $theloai,

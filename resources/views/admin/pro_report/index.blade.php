@@ -1,6 +1,6 @@
 @extends('admin.template.master')
 @section('title-page')
-    Danh sách sản phẩm bị ẩn
+    Danh sách báo cáo sản phẩm
 @endsection
 @section('title-page-detail')
     Báo Cáo Vi Phạm - Sản Phẩm

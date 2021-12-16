@@ -1,6 +1,6 @@
 @extends('admin.template.master')
 @section('title-page')
-    Danh sách bài viết bị ẩn
+    Danh sách báo cáo bài viết
 @endsection
 @section('title-page-detail')
     Báo Cáo Vi Phạm - Bài Viết

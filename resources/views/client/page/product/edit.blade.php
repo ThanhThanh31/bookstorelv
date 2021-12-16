@@ -124,11 +124,14 @@
                                         <span class="error-message">{{ $errors->first('gia') }}</span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="">Trạng thái</label>
-                                        <select name="trangthai" class="form-control">
+                                        <label for="">Số lượng</label>
+                                        <input class="form-control" type="number" name="soluong"
+                                            value="{{ $product->sp_soluong }}">
+                                        <span class="error-message">{{ $errors->first('soluong') }}</span>
+                                        {{-- <select name="trangthai" class="form-control">
                                             <option value="1" @if ($product->sp_trangthai == 1) selected @endif>Đang bán</option>
                                             <option value="2" @if ($product->sp_trangthai == 2) selected @endif>Đã bán</option>
-                                        </select>
+                                        </select> --}}
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -217,7 +220,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Chỉnh sửa</button>
+                                <a href="{{ route('pro.index') }}" type="button" class="btn btn-secondary">Trở về</a>
+                                <button type="submit" class="btn btn-success">Xác nhận</button>
                             </div>
                         </div>
                     </div>

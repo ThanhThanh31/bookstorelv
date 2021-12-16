@@ -44,10 +44,17 @@
                                 </div>
                             </i>
                         @endif
+                        @if (session()->has('danger'))
+                            <i>
+                                <div class="alert alert-danger">
+                                    {{ session()->get('danger') }}
+                                </div>
+                            </i>
+                        @endif
                         <!-- single-blog-area start -->
                         @if ($post->bv_tinhtrang == 2)
-                            <div style="text-align: center;width: 100%; margin-top: 20px;" class="alert alert-warning">Bài
-                                viết đã bị ẩn do báo xấu</div>
+                            <div style="text-align: center; width: 100%; margin-top: 20px;" class="alert alert-warning">Bài
+                                viết đã bị ẩn do báo cáo vi phạm</div>
                         @else
                             <div class="single-blog-area blog-with-post">
                                 <div class="post-category">
@@ -59,7 +66,7 @@
                                     <span class="posted-by">Bài viết được đăng bởi </span><span style="text-transform: capitalize">{{ $post->username }}</span>
                                 </span>
                                 <span class="post-separator"> | </span>
-                                <span class="post-date">{{ $post->created_at }}</span>
+                                <span class="post-date">{{ \Carbon\Carbon::parse($post->created_at)->toDateString() }}</span>
                                 <div class="post-thumbnail">
                                     <a href="{{ route('post.detail', ['id' => $post->bv_id]) }}">
                                         <img alt="" src="img/blog/blog-03.jpg">
@@ -77,7 +84,7 @@
                                             <ul class="social-icons">
                                                 <!-- Button trigger modal -->
                                                 <a style="background: #9d4d4a none repeat scroll 0 0; border-radius: 25px; color: #ffffff; font-size: 14px; font-weight: 500; height: 45px; line-height: 45px; padding: 0 25px; text-transform: capitalize" type="button" class="btn btn-secondary" data-toggle="modal"
-                                                    data-target="#exampleModal">Báo xấu
+                                                    data-target="#exampleModal">Báo cáo
                                                 </a>
                                                 <!-- Modal -->
                                                 <style type="text/css">
@@ -94,7 +101,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="exampleModalLabel">Báo
-                                                                        xấu bài viết
+                                                                        cáo bài viết
                                                                     </h5>
                                                                     <button type="button" class="close"
                                                                         data-dismiss="modal" aria-label="Close">
@@ -106,7 +113,7 @@
                                                                         <div class="col-md-12">
                                                                             <textarea rows="5" cols="100" name="vipham"
                                                                                 class="form-control"
-                                                                                placeholder=" Nhập vào lý do báo xấu ..."></textarea>
+                                                                                placeholder=" Nhập vào lý do báo cáo ..."></textarea>
                                                                             <span
                                                                                 class="error-message">{{ $errors->first('vipham') }}</span>
                                                                         </div>
@@ -116,7 +123,7 @@
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-dismiss="modal">Đóng</button>
                                                                     <button
-                                                                        onclick="return confirm('Xác nhận báo xấu bài viết {{ $post->bv_tieude }} ?')"
+                                                                        onclick="return confirm('Xác nhận báo cáo bài viết {{ $post->bv_tieude }} ?')"
                                                                         type="submit" class="btn btn-primary">Gửi</button>
                                                                 </div>
                                                             </div>
@@ -144,7 +151,6 @@
                                                 <p class="comment-form-comment">
                                                     <label>Bình luận</label>
                                                     <textarea name="binhluan" placeholder="Nội dung bình luận"></textarea>
-                                                    <span class="error-message">{{ $errors->first('binhluan') }}</span>
                                                 </p>
                                                 </p>
                                                 <div class="comment-form-submit">
@@ -154,8 +160,7 @@
                                         </div>
                                     @else
                                         <span style="width: 100%; text-align: center" class="alert alert-warning">Đăng nhập
-                                            hoặc
-                                            đăng ký tài khoản để bình luận bài viết...</span>
+                                            hoặc đăng ký tài khoản để bình luận bài viết...</span>
                                     @endif
                                 </div>
                             </div>
@@ -239,7 +244,7 @@
                                                             @endif
                                                         </div>
                                                     @endif
-                                                    <span class="date">{{ $key->created_at }}</span>
+                                                    <span class="date">{{ \Carbon\Carbon::parse($key->created_at)->toDateString() }}</span>
                                                     <p>{!! $key->bl_noidung !!}</p>
                                                 </div>
                                                 <form class="formReply form-reply"
@@ -250,8 +255,6 @@
                                                         <label>Trả lời bình luận</label>
                                                         <textarea name="replies"
                                                             placeholder="Nội dung trả lời bình luận"></textarea>
-                                                        <span
-                                                            class="error-message">{{ $errors->first('replies') }}</span>
                                                     </p>
                                                     <div class="comment-form-submit">
                                                         <input type="submit" class="comment-submit" value="Gửi bình luận">
@@ -308,9 +311,6 @@
                                                                                         role="document">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header">
-                                                                                                <h5 class="modal-title"
-                                                                                                    id="exampleModalLabel">
-                                                                                                    Modal title</h5>
                                                                                                 <button type="button"
                                                                                                     class="close"
                                                                                                     data-dismiss="modal"
@@ -349,8 +349,7 @@
                                                                                                     <button
                                                                                                         onclick="return confirm('Bạn có chắc là muốn cập nhật bình luận ?')"
                                                                                                         type="submit"
-                                                                                                        class="btn btn-primary">Cập
-                                                                                                        nhật</button>
+                                                                                                        class="btn btn-primary">Xác nhận </button>
                                                                                                 </div>
                                                                                             </form>
                                                                                         </div>
@@ -359,8 +358,7 @@
                                                                             </div>
                                                                         @endif
                                                                     @endif
-                                                                    <span
-                                                                        class="date">{{ $c->created_at }}</span>
+                                                                    <span lass="date">{{ \Carbon\Carbon::parse($c->created_at)->toDateString() }}</span>
                                                                     <p>{!! $c->bl_noidung !!}</p>
                                                                 </div>
                                                             </div>

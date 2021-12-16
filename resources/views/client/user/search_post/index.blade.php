@@ -50,7 +50,7 @@
                                     <div class="post-category">
                                     </div>
                                     <div class="blog-titel blog-image">
-                                        <h1><a
+                                        <h1><a style="text-transform: capitalize"
                                                 href="{{ route('post.detail', ['id' => $key->bv_id]) }}">{!! prominente($key->bv_tieude, $keyword) !!}</a>
                                         </h1>
                                     </div>
@@ -58,7 +58,7 @@
                                         <span class="posted-by">Bài viết được đăng bởi </span>{!! prominente($key->username, $keyword) !!}
                                     </span>
                                     <span class="post-separator"> | </span>
-                                    <span class="post-date">{{ $key->created_at }}</span>
+                                    <span class="post-date">{{ \Carbon\Carbon::parse($key->created_at)->toDateString() }}</span>
                                     <div class="post-thumbnail">
                                         <a href="{{ route('post.detail', ['id' => $key->bv_id]) }}">
                                             <img src="{{ asset($key->bv_hinhanh) }}" alt="">

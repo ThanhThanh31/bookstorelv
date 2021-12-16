@@ -9,6 +9,20 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <form action="{{ route('admin.seek_field') }}" method="GET" class="form-inline" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-group col-lg-12 col-sm-12" style="min-width: 150%; padding-left: 470px">
+                        <input id="key_field" name="key_field" class="form-control" type="search" placeholder="Nhập vào tên lĩnh vực cần tìm kiếm..." aria-label="Search">
+                        <div class="input-group-append" style="background-color:#007bff">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search" style="color: #fff"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="row">
                 <a href="{{ route('field.create') }}" class="btn btn-primary">Thêm lĩnh vực</a>
             </div>
             <br>

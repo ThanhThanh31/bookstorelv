@@ -5,29 +5,36 @@ use DB;
 use Hash;
 use Session;
 use Auth;
+use Carbon\Carbon;
 use Validator;
 use Illuminate\Http\Request;
 
-class ProductReportController extends Controller 
+class ProductReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function report(Request $request, $id) 
+    public function report(Request $request, $id)
     {
         $noidungvipham = $request->noidungvipham;
-        $idsanpham = DB::table('san_pham')->where('sp_id', $id)->first(); 
+        $idsanpham = DB::table('san_pham')->where('sp_id', $id)->first();
 
         $nd = Auth::guard('nguoi_dung')->user()->nd_id;
         $db = DB::table('nguoi_dung')->where('nd_id', $nd)->first();
+
+        if($noidungvipham == "" || $noidungvipham == null){
+            Session::flash("danger", "Nội dung báo cáo vi phạm không hợp lệ !");
+            return redirect()->back();
+        }
 
         $insert = DB::table('baocao_sanpham')->insert(
             [
                 'bp_noidung' => $noidungvipham,
                 'nd_id' => $db->nd_id,
                 'sp_id' => $idsanpham->sp_id,
+                'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
             ]
             );
 

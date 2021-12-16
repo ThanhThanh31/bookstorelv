@@ -79,7 +79,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="product-caption">
-                                                    <h4 class="product-name"><a href="single-product.html">{{ $keys->sp_ten }}</a></h4>
+                                                    <h4 class="product-name"><a href="{{ route('detail.pro', ['id' => $keys->sp_id]) }}" style="text-transform: capitalize">{{ $keys->sp_ten }}</a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">{{number_format($keys->sp_gia,0,',','.').' '.'VNĐ'}}</span>
                                                     </div>
@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="col-lg-8 col-md-8">
                                                 <div class="product-caption">
-                                                    <h4 class="product-name"><a href="single-product.html">{{ $keys->sp_ten }}</a></h4>
+                                                    <h4 class="product-name"><a href="{{ route('detail.pro', ['id' => $keys->sp_id]) }}" style="text-transform: capitalize">{{ $keys->sp_ten }}</a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">{{ number_format($keys->sp_gia, 0, ',', '.') . ' ' . 'VNĐ' }}</span>
                                                     </div>

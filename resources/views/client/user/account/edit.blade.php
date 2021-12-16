@@ -28,7 +28,7 @@
                     @if (session()->has('prosper'))
                         <i>
                             <div style="font-size: 15px" class="alert alert-success">
-                                {{ session()->get('prosper') }} 
+                                {{ session()->get('prosper') }}
                             </div>
                         </i>
                     @endif
@@ -73,16 +73,38 @@
                                             <input type="text" name="name" value="{{ $user->username }}">
                                         </p>
                                         <p class="coupon-input form-row-first">
-                                            <label>Địa chỉ <span class="required">*</span></label>
-                                            <input type="text" name="diachi" value="{{ $user->nd_diachi }}">
-                                        </p>
-                                        <p class="coupon-input form-row-first">
                                             <label>Email <span class="required">*</span></label>
                                             <input type="email" name="email" value="{{ $user->email }}">
                                         </p>
                                         <p class="coupon-input form-row-first">
                                             <label>Số điện thoại <span class="required">*</span></label>
                                             <input type="text" name="phone" value="{{ $user->nd_sdt }}">
+                                        </p>
+                                        <p class="coupon-input form-row-first">
+                                            <label>Tỉnh thành phố <span class="required">*</span></label>
+                                            <select style="font-size: 13px;" name="thanhpho" class="form-control City">
+                                                <option value="">--- Chọn tỉnh thành phố ---</option>
+                                                @foreach ($city as $item => $tp)
+                                                <option value="{{ $tp->ttp_id }}" @if ($user->ttp_id == $tp->ttp_id) selected @endif>
+                                                    {{ $tp->ttp_ten }}</option>
+                                                @endforeach
+                                            </select>
+                                        </p>
+                                        <p class="coupon-input form-row-first">
+                                            <label>Quận huyện <span class="required">*</span></label>
+                                            <select style="font-size: 13px;" name="quanhuyen" class="form-control Province">
+                                                <option class="itemCity" value="{{ $user->qh_id }}">{{ $user->qh_ten }}</option>
+                                                @foreach ($provin as $item => $keys)
+                                                @endforeach
+                                            </select>
+                                        </p>
+                                        <p class="coupon-input form-row-first">
+                                            <label>Xã phường <span class="required">*</span></label>
+                                            <select style="font-size: 13px;" name="xaphuong" class="form-control Ward">
+                                                <option class="itemProvince" value="{{ $user->xp_id }}">{{ $user->xp_ten }}</option>
+                                                @foreach ($wards as $item => $check)
+                                                @endforeach
+                                            </select>
                                         </p>
                                     </div>
                                         <div class="clear"></div>
@@ -98,4 +120,50 @@
         </div>
     </div>
     <!-- main-content-wrap end -->
+    @push('address-user')
+    <script>
+        $(document).ready(function() {
+            const BASE_URL = window.location.origin;
+            //jqchang - phím tắt
+            $('select.City').change(function(e) {
+                e.preventDefault();
+                var getIDCity = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemCity').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/client/" + getIDCity + "/province-user",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Province').append('<option value="' + response[i].qh_id +
+                                '" class="itemCity">' + response[i].qh_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+            $('select.Province').change(function(e) {
+                e.preventDefault();
+                var getIDProvince = $(this).children("option:selected").val();
+                // console.log(getIDCat);
+                $('.itemProvince').remove();
+                // jqajax - phím tắt
+                $.ajax({
+                    type: "get",
+                    url: BASE_URL + "/client/" + getIDProvince + "/ward-user",
+                    success: function(response) {
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            $('.Ward').append('<option value="' + response[i].xp_id +
+                                '" class="itemProvince">' + response[i].xp_ten + '</option>'
+                                );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    @endpush
 @endsection

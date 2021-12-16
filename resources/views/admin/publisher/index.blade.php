@@ -9,6 +9,20 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <form action="{{ route('admin.seek_publisher') }}" method="GET" class="form-inline" enctype="multipart/form-data">
+                    @csrf
+                    <div class="input-group col-lg-12 col-sm-12" style="min-width: 150%; padding-left: 470px">
+                        <input id="key_publisher" name="key_publisher" class="form-control" type="search" placeholder="Nhập vào tên nhà xuất bản cần tìm kiếm..." aria-label="Search">
+                        <div class="input-group-append" style="background-color:#007bff">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fas fa-search" style="color: #fff"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="row">
                 <a href="{{ route('publisher.create') }}" class="btn btn-primary">Thêm nhà xuất bản</a>
             </div>
             <br>

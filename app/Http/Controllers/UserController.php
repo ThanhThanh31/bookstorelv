@@ -7,6 +7,7 @@ use Auth;
 use Session;
 use Intervention\Image\Facades\Image as Image;
 use App\Model\Photo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -18,9 +19,10 @@ class UserController extends Controller
      */
     public function search(Request $request)
     {
+        $key = $request->key;
         $search_product = DB::table('san_pham')
-        ->where('sp_ten','like','%'.$request->key.'%')
-        ->orWhere('sp_gia',$request->key)->orderby('sp_id','desc')->paginate(6);
+        ->where('sp_ten','like','%'.$key.'%')
+        ->orWhere('sp_gia',$key)->orderby('sp_id','desc')->paginate(9);
         $list_category = DB::table('the_loai')->orderby('tl_id','desc')->get();
         return view('client.user.search_product.index', compact('search_product', 'list_category'));
     }
@@ -31,7 +33,7 @@ class UserController extends Controller
         ->join('san_pham', 'san_pham.lv_id', 'linh_vuc.lv_id')
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
         ->where('linh_vuc.lv_id', $id)
-        ->orderby('sp_id','desc')->paginate(6);
+        ->orderby('sp_id','desc')->paginate(9);
         $array_field = DB::table('linh_vuc')
         ->join('the_loai', 'the_loai.tl_id', 'linh_vuc.tl_id')
         ->where('linh_vuc.lv_id', $id)
@@ -46,23 +48,23 @@ class UserController extends Controller
 
         if($request->id_city){
             $id_city = $request->id_city;
-            $product_field = DB::table('san_pham')->where('ttp_id', $id_city)->orderby('sp_id','desc')->paginate(6)->appends(request()->query());
+            $product_field = DB::table('san_pham')->where('ttp_id', $id_city)->orderby('sp_id','desc')->paginate(9)->appends(request()->query());
         }elseif(isset($_GET['sort_by'])){
             $sort_by = $_GET['sort_by'];
             if($sort_by=='prices_decrease'){
-                $product_field = DB::table('san_pham')->orderby('sp_gia','desc')->paginate(6)->appends(request()->query());
+                $product_field = DB::table('san_pham')->orderby('sp_gia','desc')->paginate(9)->appends(request()->query());
             }elseif($sort_by=='prices_increase'){
-                $product_field = DB::table('san_pham')->orderby('sp_gia','asc')->paginate(6)->appends(request()->query());
+                $product_field = DB::table('san_pham')->orderby('sp_gia','asc')->paginate(9)->appends(request()->query());
             }elseif($sort_by=='name_A_Z'){
-                $product_field = DB::table('san_pham')->orderby('sp_ten','asc')->paginate(6)->appends(request()->query());
+                $product_field = DB::table('san_pham')->orderby('sp_ten','asc')->paginate(9)->appends(request()->query());
             }elseif($sort_by=='name_Z_A'){
-                $product_field = DB::table('san_pham')->orderby('sp_ten','desc')->paginate(6)->appends(request()->query());
+                $product_field = DB::table('san_pham')->orderby('sp_ten','desc')->paginate(9)->appends(request()->query());
             }
         }elseif(isset($_GET['start_price']) && $_GET['end_price']){
             $min_price = $_GET['start_price'];
             $max_price = $_GET['end_price'];
             $product_field = DB::table('san_pham')->whereBetween('sp_gia',[$min_price,$max_price])
-            ->orderBy('sp_gia','ASC')->paginate(6)->appends(request()->query());
+            ->orderBy('sp_gia','ASC')->paginate(9)->appends(request()->query());
         }
         return view('client.user.product_field.index', compact('product_field', 'array_field', 'city', 'min_price', 'max_price', 'min_price_range', 'max_price_range'));
     }
@@ -83,7 +85,9 @@ class UserController extends Controller
 
     public function form_login()
     {
-        return view('client.user.account.login_client');
+        $tp = DB::table('tinh_thanhpho')
+        ->orderby('ttp_id','asc')->get();
+        return view('client.user.account.login_client', compact('tp'));
     }
 
     public function register(Request $request)
@@ -91,8 +95,10 @@ class UserController extends Controller
         $name = $request->name;
         $email = $request->email;
         $phone = $request->phone;
-        $diachi = $request->diachi;
         $password = $request->password;
+        $thanhpho = $request->thanhpho;
+        $quanhuyen = $request->quanhuyen;
+        $xaphuong = $request->xaphuong;
         $reset_password = $request->reset_password;
 
         if($name == "" || $name == null){
@@ -103,12 +109,20 @@ class UserController extends Controller
             Session::flash("error", "Email không được để trống !");
             return redirect()->back();
         }
-        if($diachi == "" || $diachi == null){
-            Session::flash("error", "Địa chỉ không được để trống !");
-            return redirect()->back();
-        }
         if($phone == "" || $phone == null){
             Session::flash("error", "Số điện thoại không được để trống !");
+            return redirect()->back();
+        }
+        if($thanhpho == "" || $thanhpho == null){
+            Session::flash("error", "Tỉnh thành phố không được để trống !");
+            return redirect()->back();
+        }
+        if($quanhuyen == "" || $quanhuyen == null){
+            Session::flash("error", "Quận huyện không được để trống !");
+            return redirect()->back();
+        }
+        if($xaphuong == "" || $xaphuong == null){
+            Session::flash("error", "Xã phường không được để trống !");
             return redirect()->back();
         }
         if($password == "" || $password == null){
@@ -132,9 +146,12 @@ class UserController extends Controller
                 [
                     'username' => $name,
                     'email' => $email,
-                    'nd_diachi' => $diachi,
                     'nd_sdt' => $phone,
+                    'ttp_id' => $thanhpho,
+                    'qh_id' => $quanhuyen,
+                    'xp_id' => $xaphuong,
                     'password' => $hashPassword,
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh')->toDateString()
                 ]
                 );
                 Session::flash("success", "Tạo tài khoản thành công !");
@@ -145,12 +162,21 @@ class UserController extends Controller
         }
     }
 
+    public function getProvinceByCity ($id){
+        $province = DB::table('quan_huyen')->where('ttp_id', $id)->orderby('qh_id','asc')->get();
+        return response()->json($province, 200);
+    }
+
+    public function getWardByProvince ($id){
+        $ward = DB::table('xa_phuong')->where('qh_id', $id)->orderby('xp_id','asc')->get();
+        return response()->json($ward, 200);
+    }
+
     public function login(Request $request){
         $arr = [
             'email' => $request->email,
             'password' => $request->password,
         ];
-        // dd($arr);
         if(Auth::guard('nguoi_dung')->attempt($arr)){
             Session::flash("prosper", "Đăng nhập tài khoản thành công !");
             return redirect()->route('user.edit');
@@ -181,8 +207,20 @@ class UserController extends Controller
 
     public function edit(){
         $id = Auth::guard('nguoi_dung')->user()->nd_id;
-        $user = DB::table('nguoi_dung')->where('nd_id', $id)->first();
-        return view('client.user.account.edit', compact('user'));
+        $user = DB::table('nguoi_dung')
+        ->join('quan_huyen', 'quan_huyen.qh_id', 'nguoi_dung.qh_id')
+        ->join('xa_phuong', 'xa_phuong.xp_id', 'nguoi_dung.xp_id')
+        ->where('nd_id', $id)->first();
+
+        $city = DB::table('tinh_thanhpho')
+        ->orderby('ttp_id','asc')->get();
+
+        $provin = DB::table('quan_huyen')
+        ->orderby('qh_id','asc')->get();
+
+        $wards = DB::table('xa_phuong')
+        ->orderby('xp_id','asc')->get();
+        return view('client.user.account.edit', compact('user', 'city', 'provin', 'wards'));
     }
 
     public function update(Request $request, $id)
@@ -190,7 +228,9 @@ class UserController extends Controller
         $name = $request->name;
         $email = $request->email;
         $phone = $request->phone;
-        $diachi = $request->diachi;
+        $thanhpho = $request->thanhpho;
+        $quanhuyen = $request->quanhuyen;
+        $xaphuong = $request->xaphuong;
 
         if($request->hasFile('avatar')){
             $avatar = $request->file('avatar')->getClientOriginalName();
@@ -207,8 +247,10 @@ class UserController extends Controller
             [
                 'username' => $name,
                 'email' => $email,
-                'nd_diachi' => $diachi,
                 'nd_sdt' => $phone,
+                'ttp_id' => $thanhpho,
+                'qh_id' => $quanhuyen,
+                'xp_id' => $xaphuong,
             ]
             );
             Session::flash("great", "Chỉnh sửa thông tin người dùng thành công !");
@@ -295,9 +337,20 @@ class UserController extends Controller
         $store = DB::table('san_pham')
         ->join('nguoi_dung', 'nguoi_dung.nd_id', 'san_pham.nd_id')
         ->select('nguoi_dung.*', 'san_pham.*')
-        ->where('nguoi_dung.nd_id', $id)->orderby('sp_id','desc')->paginate(8);
+        ->where('nguoi_dung.nd_id', $id)->orderby('sp_id','desc')->get();
+
+        $post = DB::table('bai_viet')
+        ->join('nguoi_dung', 'nguoi_dung.nd_id', 'bai_viet.nd_id')
+        ->select('nguoi_dung.*', 'bai_viet.*')
+        ->where('nguoi_dung.nd_id', $id)->orderby('bv_id','desc')->get();
+
         $nd = DB::table('nguoi_dung')
-        ->join('san_pham', 'san_pham.nd_id', 'nguoi_dung.nd_id')->where('nguoi_dung.nd_id', $id)->first();
-        return view('client.user.page.index', compact('store', 'nd'));
+        ->join('san_pham', 'san_pham.nd_id', 'nguoi_dung.nd_id')
+        ->join('tinh_thanhpho', 'tinh_thanhpho.ttp_id', 'nguoi_dung.ttp_id')
+        ->join('quan_huyen', 'quan_huyen.qh_id', 'nguoi_dung.qh_id')
+        ->join('xa_phuong', 'xa_phuong.xp_id', 'nguoi_dung.xp_id')
+        ->where('nguoi_dung.nd_id', $id)->first();
+
+        return view('client.user.page.index', compact('store', 'nd', 'post'));
     }
 }
