@@ -21,7 +21,9 @@ class DetailProductController extends Controller
 
     public function index(Request $request)
     {
-        $city = DB::table('tinh_thanhpho')->orderby('ttp_id','asc')->get();
+        $city = DB::table('san_pham')
+        ->join('tinh_thanhpho','tinh_thanhpho.ttp_id','san_pham.ttp_id')->groupBy('tinh_thanhpho.ttp_id')->get();
+
         $theloai = DB::table('the_loai')->orderby('tl_id','desc')->get();
         $sanpham = DB::table('san_pham')
         ->join('tinh_thanhpho', 'tinh_thanhpho.ttp_id', 'san_pham.ttp_id')
@@ -74,7 +76,8 @@ class DetailProductController extends Controller
         ->where('the_loai.tl_id', $id)
         ->get();
 
-        $city = DB::table('tinh_thanhpho')->orderby('ttp_id','asc')->get();
+        $city = DB::table('san_pham')
+        ->join('tinh_thanhpho','tinh_thanhpho.ttp_id','san_pham.ttp_id')->groupBy('tinh_thanhpho.ttp_id')->get();
         $min_price = DB::table('san_pham')->min('sp_gia');
         $max_price = DB::table('san_pham')->max('sp_gia');
 

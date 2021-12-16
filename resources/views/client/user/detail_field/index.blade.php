@@ -9,7 +9,7 @@
                         <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Trang chủ</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('detail.index') }}">Sản phẩm</a></li>
                         @foreach($name_Cate as $key)
-                        <li class="breadcrumb-item active">{{ $key->tl_ten }}</li>
+                        <li class="breadcrumb-item active">{{ $key->tl_ten }}</li> 
                         @endforeach
                     </ul>
                 </div>
